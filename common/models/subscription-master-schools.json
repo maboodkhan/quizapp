@@ -1,0 +1,58 @@
+{
+    "name": "subscription_master_schools",
+    "base": "Model",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "school_id": {
+        "type": "number"
+      },
+      "class_id": {
+        "type": "number"
+      },
+      "freq_type_id": {
+        "type": "number"
+      },
+      "amount": {
+        "type": "number"
+      },
+      "discount_amt": {
+        "type": "number"
+      },
+      "total_amount": {
+        "type": "number"
+      },
+       "status": {
+        "type": "number"
+      },
+      "created_on": {
+        "type": "date"
+      },
+      "modified_on": {
+        "type": "date"
+      }
+    },
+    "validations": [],
+    "relations": {
+        "school": {
+            "type": "belongsTo",
+            "model": "schools",
+            "foreignKey": "school_id"
+          },
+          "class": {
+            "type": "belongsTo",
+            "model": "classes",
+            "foreignKey": "class_id"
+          },
+          "subscription_freq_types": {
+            "type": "belongsTo",
+            "model": "subscription_freq_types",
+            "foreignKey": "freq_type_id"
+          }
+    },
+    "acls": [],
+    "methods": {}
+  }
+  

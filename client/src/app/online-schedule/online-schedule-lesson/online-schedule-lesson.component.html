@@ -1,0 +1,19 @@
+
+<h2>
+  Online Schedule Lessons
+</h2>
+  <!-- <div *ngFor="let lesson of scheduleLesson; let i=index">
+    <br>
+    {{i+1}}. {{lesson.lesson.lesson_name}}-{{lesson.lesson.lesson_num}}
+  </div> -->
+
+  <table>
+    <tr>
+      <th>S.No.</th>
+      <th>Lesson Name</th>
+    </tr>
+    <tr *ngFor="let lesson of scheduleLesson; let i=index">
+      <td>{{i+1}}.</td>
+      <td>{{lesson.lesson.lesson_name}} - {{lesson.lesson.lesson_num}}</td>
+    </tr>
+  </table>

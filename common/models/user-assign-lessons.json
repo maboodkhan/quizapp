@@ -1,0 +1,44 @@
+{
+  "name": "user_assign_lessons",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "assigned_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "lesson": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "assignByUser": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "assigned_by"
+    },
+    "users": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

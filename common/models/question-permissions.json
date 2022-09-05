@@ -1,0 +1,35 @@
+{
+  "name": "question_permissions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "topic_id": {
+      "type": "number",
+      "required": true
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "user_id"
+    },
+    "topics": {
+      "type": "belongsTo",
+      "model": "topics",
+      "foreignKey": "topic_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

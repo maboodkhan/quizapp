@@ -1,0 +1,42 @@
+{
+  "name": "question_qc_logs",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "action": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "questions": {
+      "type": "belongsTo",
+      "model": "questions",
+      "foreignKey": "question_id"
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

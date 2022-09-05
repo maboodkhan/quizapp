@@ -1,0 +1,8 @@
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 50px !important;
+}
+
+.mat-checkbox-inner-container {
+    height: 21px!important;
+    width: 21px!important;
+  }

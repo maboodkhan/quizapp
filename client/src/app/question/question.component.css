@@ -1,0 +1,38 @@
+.btn {
+    margin-right:10px;
+    background-color:darkgray;
+    color:#fff;
+}
+
+.previewBtn {
+    margin-left: 5px;
+    background-color:darkgray;
+    color:#fff;
+}
+
+.infoBtn {
+    margin-left: 5px;
+    background-color:cadetblue;
+    color:#fff;
+}
+
+.listPreviewBtn {
+    background-color:darkgray;
+    color:#fff;
+}
+
+.mat-column-status {
+    max-width: 80px;
+}
+
+.mat-column-S_No{
+    max-width: 500px;
+}
+
+.mat-column-id{
+    max-width: 200px;
+}
+
+mat-table { 
+    border: 1px solid #000; 
+}

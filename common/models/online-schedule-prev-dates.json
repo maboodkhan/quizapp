@@ -1,0 +1,33 @@
+{
+  "name": "online_schedule_prev_dates",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "schedule_id": {
+      "type": "number",
+      "required": true
+    },
+    "start_date": {
+      "type": "DateString"
+    },
+    "end_date": {
+      "type": "DateString"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "schedule": {
+      "type": "belongsTo",
+      "model": "online_schedule",
+      "foreignKey": "schedule_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

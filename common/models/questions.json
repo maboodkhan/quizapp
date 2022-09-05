@@ -1,0 +1,97 @@
+{
+  "name": "questions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question": {
+      "type": "string",
+      "required": true
+    },
+    "solution": {
+      "type": "string"
+    },
+    "level_id": {
+      "type": "string",
+      "required": true
+    },
+    "question_type": {
+      "type": "string",
+      "required": true
+    },
+    "marks": {
+      "type": "number",
+      "required": true
+    },
+    "qc_done":{
+      "type": "number"
+    },
+    "qc_assigned_to":{
+      "type": "number"
+    },
+    "qc_assigned_by":{
+      "type": "number"
+    },
+    "reviewer_edit":{
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "syllabus_question": {
+      "type": "hasMany",
+      "model": "syllabus_questions",
+      "foreignKey": "question_id"
+    },
+    "ansoptions": {
+      "type": "hasMany",
+      "model": "answers",
+      "foreignKey": "question_id"
+    },
+    "rightansoption": {
+      "type": "hasMany",
+      "model": "ques_right_answer",
+      "foreignKey": "question_id"
+    },
+    "question_level": {
+      "type": "belongsTo",
+      "model": "levels",
+      "foreignKey": "level_id"
+    },
+    "que_assigned_to": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "qc_assigned_to"
+    },
+    "que_assigned_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "qc_assigned_by"
+    },
+    "question_issue": {
+      "type": "hasMany",
+      "model": "question_issues",
+      "foreignKey": "question_id"
+    },
+    "postAttemptQuizQues": {
+      "type": "hasMany",
+      "model": "post_attempted_quiz_questions",
+      "foreignKey": "question_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

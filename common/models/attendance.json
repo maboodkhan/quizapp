@@ -1,0 +1,93 @@
+{
+  "name": "attendance",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "studentUserId": {
+      "type": "number",
+      "required": true
+    },
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "section_id": {
+      "type": "number",
+      "required": true
+    },
+    "subject_id": {
+      "type": "number",
+      "required": true
+    },
+    "schedule_id": {
+      "type": "number"
+    },
+    "startTime": {
+      "type": "DateString"
+    },
+    "endTime": {
+      "type": "DateString"
+    },
+    "attendanceDate": {
+      "type": "DateString",
+      "required": true
+    },
+    "takenBy": {
+      "type": "number",
+      "required": true
+    },
+    "attendanceStatus":{
+      "type": "string"
+    },
+    "offlineAttendance":{
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "classSection": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    },
+    "subject": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    },
+    "studentusers": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "studentUserId"
+    },
+    "teacherusers": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "takenBy"
+    },
+    "onlineSchedule": {
+      "type": "belongsTo",
+      "model": "online_schedule",
+      "foreignKey": "schedule_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

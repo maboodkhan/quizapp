@@ -1,0 +1,46 @@
+{
+    "name": "subscriptions",
+    "base": "Model",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "user_id": {
+        "type": "number",
+        "required": true
+      },
+      "start_date": {
+        "type": "date"
+      },
+      "end_date": {
+        "type": "date"
+      },
+      "paid_amount": {
+        "type": "number"
+      },
+       "status": {
+        "type": "number"
+      },
+      "payment_response_id":{
+        "type": "string"        
+      },
+      "created_on": {
+        "type": "date"
+      },
+      "modified_on": {
+        "type": "date"
+      }
+    },
+    "validations": [],
+    "relations": { 
+      "subscription_details": {
+        "type": "belongsTo",
+        "model": "subscription_details",
+        "foreignKey": "id"
+      }  
+    },
+    "acls": [],
+    "methods": {}
+  }
+  

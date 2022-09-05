@@ -1,0 +1,69 @@
+{
+  "name": "paper_set",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "set_name": {
+      "type": "string",
+      "required": true
+    },
+    "quiz_syllabus_path": {
+      "type": "string",
+      "required": true
+    },
+    "num_ques": {
+      "type": "string",
+      "required": true
+    },
+    "duration": {
+      "type": "string",
+      "required": true
+    },
+    "multiple_attempts": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_by": {
+      "type": "number",
+      "required": true
+    },
+    "modified_by": {
+      "type": "number",
+      "required": true
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_syllabus": {
+      "type": "hasMany",
+      "model": "paper_syllabus_details",
+      "foreignKey": "paper_set_id"
+    },
+    "quiz_questions": {
+      "type": "hasMany",
+      "model": "paper_questions",
+      "foreignKey": "paper_set_id"
+    },
+    "quiz_schools": {
+      "type": "hasMany",
+      "model": "paper_set_schools",
+      "foreignKey": "paper_set_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,43 @@
+{
+  "name": "class_sections",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "section_id": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "class_section": {
+      "type": "belongsTo",
+      "model": "sections",
+      "foreignKey": "section_id"
+    },
+    "class_detail": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

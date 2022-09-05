@@ -1,0 +1,162 @@
+{
+  "name": "user",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixin": {
+    "count": true
+  },
+  "properties": {
+    "quiz_user_id": {
+      "type": "number",
+      "default": "0"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "contactNumber": {
+      "type": "string"
+    },
+    "status": {
+      "type": "number",
+      "default": "1"
+    },
+    "user_type_id": {
+      "type": "number"
+    },
+    "assigned_to": {
+      "type": "number"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "modified_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user_class": {
+      "type": "hasMany",
+      "model": "user_classes",
+      "foreignKey": "user_id"
+    },
+    "user_Type": {
+      "type": "belongsTo",
+      "model": "user_types",
+      "foreignKey": "user_type_id"
+    },
+    "user_countries": {
+      "type": "hasMany",
+      "model": "user_countries",
+      "foreignKey": "user_id"
+    },
+    "assignedTo": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "assigned_to"
+    },
+    "quizUser": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "quiz_user_id"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "userlogin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "updateUser"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getAllUsers"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getUser"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "createUser"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getTypeUsers"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getAssignUsers"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "chkUser"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "appLogin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "chkAdminUser"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getClassStudents"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "classCodeMail"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "trialUserInfo"
+    }
+  ],
+  "methods": {}
+}

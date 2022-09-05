@@ -1,0 +1,41 @@
+{
+  "name": "post_quiz_set_schools",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "quiz_set_id": {
+      "type": "number",
+      "required": true
+    },
+    "publishDate": {
+      "type": "date"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_set_school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "school_quiz_set": {
+      "type": "belongsTo",
+      "model": "post_quiz_set",
+      "foreignKey": "quiz_set_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

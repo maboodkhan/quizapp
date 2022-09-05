@@ -1,0 +1,22 @@
+
+<h2 mat-dialog-title>Question's Previous Preview</h2>
+<mat-dialog-content class="mat-typography">
+  <div *ngIf="showData">
+ <b>Question 1</b>
+ <app-oldque-decode [question]="question"></app-oldque-decode>
+
+ <!-- <b>Right Answer:</b> -->
+ <p *ngFor='let ansoption of answerOption'> <app-oldque-decode [question]="ansoption"></app-oldque-decode>
+</p>
+
+ <b>Right Answer:</b>
+ <p *ngFor='let ansoption of rightanswer'> <app-oldque-decode [question]="ansoption"></app-oldque-decode>
+ </p>
+
+ <app-oldque-decode [question]="solution"></app-oldque-decode>
+
+
+ <!-- <app-ques-sol [question]="question"></app-ques-sol> -->
+
+</div>
+</mat-dialog-content>

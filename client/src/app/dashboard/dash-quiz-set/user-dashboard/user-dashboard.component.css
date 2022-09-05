@@ -1,0 +1,10 @@
+.mat-grid-tile .mat-grid-tile-header {
+    background-color: #22028661;
+}
+
+.btn {
+    height: 40px;
+    margin-right:35px;
+    background-color:darkgray;
+    color:#fff;
+}

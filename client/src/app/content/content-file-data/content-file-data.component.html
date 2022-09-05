@@ -1,0 +1,36 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span class="title-spacer"></span>
+    <div *ngIf="!prwCheck">
+      <button mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/editcontent', content_id]" queryParamsHandling="preserve">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="prwCheck">
+      <button mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/content']" queryParamsHandling="preserve">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div *ngIf="contentType==4">
+  <app-content-pdf [url]="path"></app-content-pdf>
+</div>
+
+<div *ngIf="contentType==5">
+  <app-content-image [url]="path"></app-content-image>
+</div>
+
+<div *ngIf="contentType==2">
+  <app-content-html [url]="path"></app-content-html>
+</div>
+
+<div *ngIf="contentType==3">
+  <app-content-mp4 [url]="path"></app-content-mp4>
+</div>
+
+<div *ngIf="contentType==7">
+  <app-content-youtube [url]="path"></app-content-youtube>
+</div>

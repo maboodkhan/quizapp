@@ -1,0 +1,71 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+
+  <form novalidate (ngSubmit)="saveSchool()" [formGroup]="userTypeForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <!-- <span class="view-card-title"> {{pageTitle}}</span> -->
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}"
+            type="submit" [disabled]='!userTypeForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/userType']">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="type_name" type="text" placeholder="Type Name (required)" formControlName="type_name" />
+        <mat-error *ngIf="displayMessage.type_name">
+          {{displayMessage.type_name}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="type_order" type="number" min="0" max="10" oninput="this.value = Math.abs(this.value)" placeholder="Type order (required)"
+          formControlName="type_order" />
+        <mat-error *ngIf="displayMessage.type_order">
+          {{displayMessage.type_order}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+
+        <mat-select id="status" placeholder="Status (required)" formControlName="status">
+          <mat-option *ngFor="let sVal of status | keyvalue" [value]="sVal.key">{{sVal.value}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.status">
+          {{displayMessage.status}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <!-- <mat-toolbar style="background-color: #FFF">
+    <mat-toolbar-row>
+      <span class="title-spacer"></span>
+
+      <mat-card-actions>
+          <button mat-mini-fab class="primary" [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit" [disabled]='!userTypeForm.valid'>
+              <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/school']">
+              <mat-icon>cancel</mat-icon>
+          </button>
+      </mat-card-actions>
+    </mat-toolbar-row>
+  </mat-toolbar> -->
+  </form>
+</mat-card>

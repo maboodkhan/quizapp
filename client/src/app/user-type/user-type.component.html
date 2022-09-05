@@ -1,0 +1,96 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <mat-form-field>
+        <mat-placeholder>
+          <mat-icon>subject</mat-icon>
+          <b> Filter</b>
+        </mat-placeholder>
+        <input matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addUserType']">
+        <mat-icon>add</mat-icon>
+      </button>
+      <!-- <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button> -->
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+        <mat-cell  *matCellDef="let i = index;">{{i + 1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type_name">
+        <mat-header-cell style="margin-inline-start: -250px;" *matHeaderCellDef mat-sort-header> Type Name </mat-header-cell>
+        <mat-cell style="margin-inline-start: -250px;" *matCellDef="let userType"> {{userType.type_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type_order">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type Order </mat-header-cell>
+        <mat-cell *matCellDef="let userType"> {{userType.type_order}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let userType"> {{userType.status==1?'Active':'Inactive'}} </mat-cell>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="address">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+        <mat-cell *matCellDef="let school"> {{school.address}} </mat-cell>
+      </ng-container> -->
+
+
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let userType" style="justify-content:center;">
+          <button mat-raised-button [ngClass]="{btn:true}" [routerLink]="['/permission_role', userType.id, 0]">Permission</button>
+          <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;" [routerLink]="['/editUserType', userType.id]">
+            <mat-icon>edit</mat-icon>
+          </button>        
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]=10 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+
+  <!-- <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <button mat-mini-fab (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
+        <mat-card-subtitle>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkgreen" (click)="searchSchool(searchFilter);sidenav.toggle()">
+            <mat-icon>search</mat-icon>Search </button>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkred" (click)="resetSearchFilter(sidenav)">
+            <mat-icon>refresh</mat-icon>Reset</button>
+                   
+        </mat-card-subtitle>
+      </mat-card-header>
+
+    </mat-card>
+    <mat-nav-list style="margin-left:20px;">      
+      <mat-form-field>
+        <input matInput type="text" placeholder="School Name" style="width:200px;" name="school_name" [(ngModel)]="searchFilter.school_name"
+          #school_name />
+      </mat-form-field>
+    </mat-nav-list>   
+  </mat-sidenav> -->

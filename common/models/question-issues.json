@@ -1,0 +1,115 @@
+{
+  "name": "question_issues",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "webapp_user_id": {
+      "type": "number",
+      "required": true
+    },
+    "clientapp_user_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "subject_id": {
+      "type": "number",
+      "required": true
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "topic_id":{
+      "type": "number",
+      "required": true
+    },
+    "screenshot_path":{
+      "type": "string"
+    },
+    "device_manufacturer": {
+      "type": "string"
+    },
+    "device_model": {
+      "type": "string"
+    },
+    "app_name": {
+      "type": "string"
+    },
+    "app_pkg": {
+      "type": "string"
+    },
+    "app_version": {
+      "type": "string"
+    },
+    "os": {
+      "type": "string"
+    },
+    "os_version": {
+      "type": "string"
+    },
+    "feedback_source_detail": {
+      "type": "string"
+    },
+    "feedback_from_user": {
+      "type": "string"
+    },
+    "issue_status": {
+      "type": "string"
+    },
+    "status": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "questions": {
+      "type": "belongsTo",
+      "model": "questions",
+      "foreignKey": "question_id"
+    },
+    "webUsers": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "webapp_user_id"
+    },
+    "class_id": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "subject_id": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    },
+    "lesson_id": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "topic_id": {
+      "type": "belongsTo",
+      "model": "topics",
+      "foreignKey": "topic_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

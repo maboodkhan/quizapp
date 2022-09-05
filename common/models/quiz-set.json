@@ -1,0 +1,73 @@
+{
+  "name": "quiz_set",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "set_name": {
+      "type": "string",
+      "required": true
+    },
+    "quiz_syllabus_path": {
+      "type": "string",
+      "required": true
+    },
+    "num_ques": {
+      "type": "string",
+      "required": true
+    },
+    "duration": {
+      "type": "string",
+      "required": true
+    },
+    "set_type": {
+      "type": "number",
+      "default": 0
+    },
+    "multiple_attempts": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_by": {
+      "type": "number",
+      "required": true
+    },
+    "modified_by": {
+      "type": "number",
+      "required": true
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_syllabus": {
+      "type": "hasMany",
+      "model": "quiz_syllabus_details",
+      "foreignKey": "quiz_set_id"
+    },
+    "quiz_questions": {
+      "type": "hasMany",
+      "model": "quiz_questions",
+      "foreignKey": "quiz_set_id"
+    },
+    "quiz_schools": {
+      "type": "hasMany",
+      "model": "quiz_set_schools",
+      "foreignKey": "quiz_set_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

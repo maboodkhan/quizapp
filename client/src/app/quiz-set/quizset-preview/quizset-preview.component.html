@@ -1,0 +1,26 @@
+<!-- <div *ngFor="let question of questionData; let i=index;">
+                
+  <input type="checkbox" mat-checkbox (click)="onQuesChange(question.question_id, $event.target.checked)" [checked]="question.isChecked" />&nbsp;&nbsp;<b>Question {{i+1}}</b>
+  <app-quiz-que-decode [question]="question"></app-quiz-que-decode>
+  <b>Right Answer:</b>
+   <p *ngFor='let ansoption of question.rightansoption'> <app-quiz-ans [answerOption]='ansoption.right_ans'></app-quiz-ans>
+  </p>            
+</div>    
+<button class="mat-raised-button mat-primary"(click)="close()">Close</button> -->
+
+
+<h2 mat-dialog-title>Selected Quiz Questions</h2>
+<mat-dialog-content class="mat-typography">
+  <div *ngFor="let question of questionData; let i=index;">
+ <b>Question {{i+1}}</b>
+ <app-quiz-que-decode [question]="question"></app-quiz-que-decode>
+
+ <b>Right Answer:</b>
+ <p *ngFor='let ansoption of question.rightansoption'> <app-quiz-ans [answerOption]='ansoption.right_ans'></app-quiz-ans>
+</p> 
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+</mat-dialog-actions>

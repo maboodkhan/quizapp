@@ -1,0 +1,70 @@
+{
+  "name": "school_user_data",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "studentName": {
+      "type": "string"
+    },
+    "studentContactNo": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "rollNumber": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "user_id":{
+      "type":"number"
+    },
+    "user_type": {
+      "type": "number"
+    },    
+    "status": {
+      "type": "number",
+      "default": "1"
+    },
+    "publishDate": {
+      "type": "date"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "modified_by": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_user_data": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "user_id"
+    },
+    "userAssignSub": {
+      "type": "belongsTo",
+      "model": "user_assigned_subjects",
+      "foreignKey": "user_id"
+    },
+    "userDataSchool": {
+      "type": "hasMany",
+      "model": "school_user_classes",
+      "foreignKey": "school_data_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

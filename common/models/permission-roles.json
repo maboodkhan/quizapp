@@ -1,0 +1,24 @@
+{
+  "name": "permission_roles",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "permission_id": {
+      "type": "number"
+    },
+    "user_type_id": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

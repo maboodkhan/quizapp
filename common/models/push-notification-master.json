@@ -1,0 +1,29 @@
+{
+  "name": "push_notification_master",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type_name": {
+      "type": "string"
+    },
+    "type_value": {
+      "type": "string"
+    },
+    "parent_id": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

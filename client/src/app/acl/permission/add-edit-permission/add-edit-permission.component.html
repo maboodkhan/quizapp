@@ -1,0 +1,132 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <form novalidate [formGroup]="permissionForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="savePermission()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!permissionForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/permission', parent_id]"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+    
+   <p>
+      <mat-form-field class="form-field">
+        <input matInput id="label" type="text" placeholder="Label"
+          formControlName="label" >
+          <mat-error *ngIf="displayMessage.label">
+            {{displayMessage.label}}
+          </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <textarea matInput id="description" type="text" placeholder="Description"
+          formControlName="description" ></textarea>
+        <mat-error *ngIf="displayMessage.description">
+          {{displayMessage.description}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="link" type="text" placeholder="Link"
+          formControlName="link" >
+        <mat-error *ngIf="displayMessage.link">
+          {{displayMessage.link}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="icon" type="text" placeholder="Material Icon"
+          formControlName="icon" >
+      </mat-form-field>
+    </p>
+
+
+ <!-- <label> Icon <sup style="color: red;">*</sup></label>
+      <br>
+      <input type="file" #ContentFile lable="Icon" id="icon" (change)="onFileChange($event)" />
+      <div style="font-weight:bold;padding-top:5px;">Only jpg, jpeg, png file are allowed
+      </div>
+      <div *ngIf="fileUploadProgress">
+        Upload progress: {{ fileUploadProgress }}
+      </div>
+      <br>
+      <div class='has-error' *ngIf='errorMessage'>{{errorMessage.icon}}</div>
+      <br> -->
+
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="menu_order" type="number" placeholder="Menu Order"
+          formControlName="menu_order" >
+        <mat-error *ngIf="displayMessage.menu_order">
+          {{displayMessage.menu_order}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <div>External Redirect:
+      <mat-radio-group name="externalRedirect" formControlName="externalRedirect" [(ngModel)]="checkCd" (change)="changeExRd(checkCd)">
+        <mat-radio-button  style="margin:5px;" [value]="1">Yes</mat-radio-button>
+        <mat-radio-button style="margin:5px;" [value]="0">No</mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngIf="displayMessage.externalRedirect">
+        {{displayMessage.externalRedirect}}
+      </mat-error>
+    </div>
+  
+    <p>
+      <mat-form-field class="form-field" *ngIf="checkCd == 1" >
+        <mat-label>Select Href Target Type<sup style="color: red;">*</sup></mat-label>
+        <mat-select formControlName="hrefTargetType">
+          <mat-option value="_blank">_blank</mat-option>
+          <mat-option value="_self">_self</mat-option>
+          <mat-option value="_parent">_parent</mat-option>
+          <mat-option value="_top">_top</mat-option>
+          <mat-option value="framename">framename</mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.hrefTargetType">
+          {{displayMessage.hrefTargetType}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+   <p>
+        <mat-slide-toggle formControlName="showStatus">Show Status</mat-slide-toggle>
+        <mat-error *ngIf="displayMessage.showStatus">
+            {{displayMessage.showStatus}}
+        </mat-error>
+      </p>
+      
+     <p>
+        <mat-form-field class="form-field">
+          <mat-select placeholder="Status" formControlName="status">
+            <mat-option [value]="1">Active</mat-option>
+            <mat-option [value]="2">Inactive</mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.status">
+            {{displayMessage.status}}
+          </mat-error>
+        </mat-form-field>
+      </p>  
+    </form>
+</mat-card>

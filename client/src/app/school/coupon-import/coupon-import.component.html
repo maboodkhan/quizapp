@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-error *ngIf="error" style="padding-bottom: 10px;">
+  {{ error.message }}
+</mat-error>
+
+<mat-error *ngIf="uploadResponse.message!=''" style="padding-bottom: 10px;">
+  {{ uploadResponse.message }}
+  <div>
+    <span (click)="getImportDetails(uploadResponse.file)" [ngStyle]="{'color':'blue'}">Click</span> here to see coupons which are not imported.    
+  </div>
+</mat-error>
+
+<mat-dialog-content>
+  <form [formGroup]="form" enctype="multipart/form-data">
+  <div class="form-card">
+    <input type="file" placeholder="Upload File" id="couponFile" name="couponFile" (change)="onFileChange($event)" />
+    <div style="font-weight:bold;padding-top:5px;">(Only .csv files are allowed)</div>
+    <div *ngIf="fileUploadProgress">
+      Upload progress: {{ fileUploadProgress }}
+    </div>
+    <p>
+      <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()">Close</button>
+        <button class="mat-raised-button mat-primary" (click)="onSubmit()">Save</button>
+      </mat-dialog-actions>
+    </p>
+  </div>
+</form>
+<mat-error style="padding-bottom: 10px;" *ngIf="uploadResponse.message!=''">    
+  <div [ngStyle]="{'padding-top':'5px'}">
+    <div *ngIf="importData">
+      <div><strong>Coupon Row Numbers are :</strong></div>
+      <div *ngFor="let data of couponValues">
+        {{data}}
+      </div>
+    </div>
+    {{this.showVal?'All coupon have been imported':''}}
+  </div>    
+</mat-error>
+</mat-dialog-content>

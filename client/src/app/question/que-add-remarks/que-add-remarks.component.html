@@ -1,0 +1,17 @@
+
+<h2 mat-dialog-title>Add Remarks</h2>
+<mat-error style="padding-bottom: 10px;">
+  {{ result.message }}
+</mat-error>
+<mat-dialog-content class="mat-typography">
+  <p>
+    <mat-form-field style="height:180px; width:400px !important">
+      <textarea matInput type="text" placeholder="Remarks" [(ngModel)]="remarks" name="remark"></textarea>
+    </mat-form-field>
+  </p>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button" mat-dialog-close>Cancel</button>
+  <button class="mat-raised-button mat-primary" (click)="remarksAdd()" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

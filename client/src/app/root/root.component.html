@@ -1,0 +1,297 @@
+<div *ngIf="!authService.isAuthenticated()">
+  <login (isAuth)="isAuth($even)"></login>
+</div>
+
+<!-- <div [hidden]="!authService.isAuthenticated() && currentUser!== null" (contextmenu)="onRightClick()"> -->
+<div [hidden]="!authService.isAuthenticated() && currentUser!== null">
+  <mat-sidenav-container class="app-container" autosize fullscreen>
+    <mat-sidenav dark #sidenav mode="over" [opened]="!isMobile">
+      <mat-card class="profile-card">
+        <mat-card-header>
+          <!--  -->
+          <!-- -->
+          <div mat-card-avatar class="avatar">
+          </div>
+
+          <mat-card-title style="padding:10px;">
+            <!-- <img src="/assets/img/avatar0.png" class="avatar"> -->
+            <!-- {{currentUser.name}} -->
+
+          </mat-card-title>
+
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="userDetail" (click)="close()">My Profile</button>
+            <button mat-menu-item (click)="logout()">Logout</button>
+            <!-- <button mat-menu-item>Change Password</button> -->
+          </mat-menu>
+        </mat-card-header>
+
+      </mat-card>
+      <mat-nav-list>
+        <a mat-list-item routerLink="dashboard" (click)="close()">
+          <mat-icon mat-list-icon>show_chart</mat-icon>
+          <span mat-line>Dashboard</span>
+        </a>
+
+        <a mat-list-item routerLink="quizset" (click)="close()" *ngIf="currentUser.userType!=='Teacher Jr.'">
+          <mat-icon mat-list-icon>account_box</mat-icon>
+          <span mat-line>Quiz Sets</span>
+        </a>
+
+
+        <a mat-list-item (click)="showContentBox()"
+        *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin' || currentUser.userType=='School Admin'">            
+        <mat-icon mat-list-icon>book</mat-icon>
+        <span mat-line>Content Management</span>           
+      </a>
+      <div *ngIf="showContent">
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}" 
+        *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin'"
+        (click)="boxClose('appcontent')">            
+          <mat-icon mat-list-icon>account_box</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">Marksharks Content</span>
+        </a>
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}"
+        *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin' || currentUser.userType=='School Admin'" 
+        (click)="boxClose('content')">            
+          <mat-icon mat-list-icon>account_box</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">School Content</span>
+        </a>        
+      </div>
+
+      <a mat-list-item (click)="showSyllabusBox()"
+      *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin'">            
+      <mat-icon mat-list-icon>book</mat-icon>
+      <span mat-line>Syllabus Management</span>           
+    </a>
+    <div *ngIf="showSyllabus">
+      <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}"
+      *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin'" 
+      (click)="boxClose('lesson')">            
+        <mat-icon mat-list-icon>account_box</mat-icon>
+        <span mat-line [@EnterLeave]="'flyInOut'">Lesson</span>
+      </a>
+      <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}" 
+      *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin'"
+      (click)="boxClose('topic')">            
+        <mat-icon mat-list-icon>account_box</mat-icon>
+        <span mat-line [@EnterLeave]="'flyInOut'">Topic</span>
+      </a>
+    </div>
+
+      <a mat-list-item routerLink="lesson" (click)="close()"
+          *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin' || showMenuItem">
+          <mat-icon mat-list-icon>question_answer</mat-icon>
+          <span mat-line>Lesson Management</span>
+        </a>
+
+        <a mat-list-item routerLink="question" (click)="close()"
+          *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin' || showMenuItem">
+          <mat-icon mat-list-icon>question_answer</mat-icon>
+          <span mat-line>Questions Management</span>
+        </a>
+
+        <a mat-list-item routerLink="questionAssign" (click)="close()"
+          *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin' || showMenuItem">
+          <mat-icon mat-list-icon>question_answer</mat-icon>
+          <span mat-line>Questions Assignment</span>
+        </a>
+
+        <a mat-list-item routerLink="permission/0" (click)="close()"
+          *ngIf="currentUser.userType=='admin'  || currentUser.userType=='superadmin' || showMenuItem">
+          <mat-icon mat-list-icon> keyboard_arrow_right</mat-icon>
+          <span mat-line>Permissions</span>
+        </a>
+        
+        <a mat-list-item routerLink="userLesson" (click)="close()" *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin' 
+            || (currentUser.userType!='teacher' && showMenuItem)">
+          <mat-icon mat-list-icon> keyboard_arrow_right </mat-icon>
+          <span mat-line>Lesson Assignment For Feedback</span>
+        </a>
+
+        <a mat-list-item routerLink="questionIssues" (click)="close()"
+          *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin' || currentUser.userType=='Teacher Jr.' || showMenuItem">
+          <mat-icon mat-list-icon> keyboard_arrow_right </mat-icon>
+          <span mat-line>Question Issues</span>
+        </a>
+
+        <a mat-list-item (click)="showUsers()" 
+        *ngIf="currentUser.userType=='admin' 
+        || currentUser.userType=='superadmin'
+        || currentUser.userType=='School Admin'">            
+        <mat-icon mat-list-icon>insert_chart</mat-icon>
+        <span mat-line>User Management</span>           
+      </a> 
+      <a [@EnterLeave]="'flyIn'" mat-list-item [ngStyle]="{'padding-left.px':'40'}" 
+         *ngIf="showUser" (click)="boxClose('user')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">Admin Users</span>
+        </a>
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngStyle]="{'padding-left.px':'40'}" 
+         *ngIf="showUser  && (currentUser.userType=='admin' 
+         || currentUser.userType=='superadmin')" (click)="boxClose('appUser')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">App Users</span>
+        </a>
+
+        <a mat-list-item routerLink="userData" (click)="close()"
+        *ngIf="currentUser.userType=='admin' 
+          || currentUser.userType=='superadmin'
+          || currentUser.userType=='School Admin'">
+          <mat-icon mat-list-icon> keyboard_arrow_right </mat-icon>
+          <span mat-line>Class Management</span>
+        </a>
+
+        <a mat-list-item (click)="showNotificationBox()"
+          *ngIf="(currentUser.userType=='admin' 
+          || currentUser.userType=='superadmin'
+          || currentUser.userType=='School Admin')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line>Notifications</span>           
+        </a>        
+        <div *ngIf="showNotifyBox">
+          <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}"
+          *ngIf="(currentUser.userType=='admin' 
+          || currentUser.userType=='superadmin')
+          || (currentUser.userType=='School Admin'
+          && showMenuItem)" (click)="boxClose('userNotification')">            
+            <mat-icon mat-list-icon>account_box</mat-icon>
+            <span mat-line [@EnterLeave]="'flyInOut'">User Notifications</span>
+          </a>        
+          <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}"
+            (click)="boxClose('userClassNotification')">            
+            <mat-icon mat-list-icon>account_box</mat-icon>
+            <span mat-line [@EnterLeave]="'flyInOut'">Class Notifications</span>
+          </a>
+          <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}" 
+          *ngIf="(currentUser.userType=='admin' 
+          || currentUser.userType=='superadmin')
+          || (currentUser.userType=='School Admin'
+          )" (click)="boxClose('scheduleNotifications')">            
+            <mat-icon mat-list-icon>account_box</mat-icon>
+            <span mat-line [@EnterLeave]="'flyInOut'">Schedule Notifications</span>
+          </a>
+          <a [@EnterLeave]="'flyIn'" mat-list-item [ngClass]="{'subMenu':true}" 
+          *ngIf="(currentUser.userType=='admin' 
+          || currentUser.userType=='superadmin')
+          || (currentUser.userType=='School Admin'
+          )" (click)="boxClose('scheduleSchoolNotify')">            
+            <mat-icon mat-list-icon>account_box</mat-icon>
+            <span mat-line [@EnterLeave]="'flyInOut'">Schedule School Notifications</span>
+          </a>
+        </div>
+
+        <a mat-list-item routerLink="onlineSchedule" (click)="close()"
+          *ngIf="currentUser.userType=='admin' 
+                || currentUser.userType=='superadmin'
+                || currentUser.userType=='School Admin'">
+          <mat-icon mat-list-icon> keyboard_arrow_right </mat-icon>
+          <span mat-line>Online Schedule</span>
+        </a>
+
+        <a mat-list-item routerLink="question" (click)="close()" routerLink="questionUpload"
+          *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin'">
+          <mat-icon mat-list-icon>cloud_upload</mat-icon>
+          <span mat-line>Questions Upload</span>
+        </a>
+
+        <a mat-list-item (click)="openUrl()" (click)="close()"
+          *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin'">
+          <mat-icon mat-list-icon> keyboard_arrow_right </mat-icon>
+          <span mat-line>CRM</span>
+        </a>
+
+        <a mat-list-item routerLink="school" (click)="close()"
+          *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin'">
+          <mat-icon mat-list-icon> school </mat-icon>
+          <span mat-line>Manage Schools</span>
+        </a>
+
+        <a mat-list-item routerLink="coupon" (click)="close()"
+          *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin' || currentUser.userType=='School Admin'">
+          <mat-icon mat-list-icon> school </mat-icon>
+          <span mat-line>Coupons</span>
+        </a>
+
+        <a mat-list-item routerLink="userType" (click)="close()" 
+        *ngIf="currentUser.userType=='superadmin'">
+          <mat-icon mat-list-icon> supervised_user_circle </mat-icon>
+          <span mat-line>User Type</span>
+        </a>
+
+        <a mat-list-item routerLink="appUserDetail" (click)="close()" 
+        *ngIf="(currentUser.userType=='admin' 
+        || currentUser.userType=='superadmin')
+        || (currentUser.userType=='School Admin'
+        && showMenuItem)">
+          <mat-icon mat-list-icon> supervised_user_circle </mat-icon>
+          <span mat-line>User Details</span>
+        </a>
+        
+        <!-- <a mat-list-item routerLink="studentAttendance" (click)="close()"
+          *ngIf="currentUser.userType=='admin' || currentUser.userType=='superadmin'">
+          <mat-icon mat-list-icon> keyboard_arrow_right </mat-icon>
+          <span mat-line>Student Attendance</span>
+        </a> -->
+
+        <a mat-list-item (click)="showReports()" 
+          *ngIf="currentUser.userType=='admin' 
+          || currentUser.userType=='superadmin'
+          || currentUser.userType=='School Admin'">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line>Reports</span>           
+        </a>        
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngStyle]="{'padding-left.px':'40'}" 
+         *ngIf="showReport" (click)="boxClose('pollReports')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">Poll Report</span>
+        </a>
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngStyle]="{'padding-left.px':'40'}" 
+         *ngIf="showReport && (showMenuItem || currentUser.userType=='admin' 
+         || currentUser.userType=='superadmin'
+         || currentUser.userType=='School Admin')" (click)="boxClose('notification-report')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">Notification Report</span>
+        </a>
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngStyle]="{'padding-left.px':'40'}" 
+         *ngIf="showReport" (click)="boxClose('teacherAttendanceReport')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">Teacher Attendance</span>
+        </a>
+        <a [@EnterLeave]="'flyIn'" mat-list-item [ngStyle]="{'padding-left.px':'40'}" 
+         *ngIf="showReport" (click)="boxClose('studentAttendanceReport')">            
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
+          <span mat-line [@EnterLeave]="'flyInOut'">Student Attendance</span>
+        </a>
+      </mat-nav-list>
+
+    </mat-sidenav>
+    <mat-sidenav-content [hidden]="!authService.isAuthenticated()">
+      <mat-toolbar dark style="background-color:rgb(228, 224, 224)">
+
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon mat-list-icon>list</mat-icon>
+        </button>
+
+        <span style="text-align: center;width:100%">
+          MarkSharks - LMS
+        </span>
+        <span style="float:right">
+          Welcome, {{currentUser.firstName==''?username:currentUser.firstName}}
+        </span>
+      </mat-toolbar>
+      <div class="main" [hidden]="!authService.isAuthenticated()">
+        <router-outlet></router-outlet>
+      </div>
+      <footer class="footer" [ngStyle]="{'position': 'fixed'}">
+        <span style="font-family:sans-serif">&copy; 2021 MarkSharks </span>
+      </footer>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+  <!-- </mat-sidenav-container> -->
+</div>

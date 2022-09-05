@@ -1,0 +1,15 @@
+.mat-grid-tile .mat-grid-tile-header {
+    background-color: #22028661;
+}
+
+.viewBtn {
+    height: 40px;
+    margin-right:35px;
+    color:#fff;
+}
+
+.btnAlign {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+

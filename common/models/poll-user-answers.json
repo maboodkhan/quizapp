@@ -1,0 +1,46 @@
+{
+  "name": "poll_user_answers",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "teacherUserId": {
+      "type": "number",
+      "required": true
+    },
+    "studentUserId": {
+      "type": "number",
+      "required": true
+    },
+    "poll_question_id": {
+      "type": "number",
+      "required": true
+    },
+    "poll_answer_id": {
+      "type": "number",
+      "required": true
+    },
+    "schedule_id": {
+      "type": "number",
+      "required": true
+    },
+    "comments": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "answer": {
+      "type": "belongsTo",
+      "model": "poll_answers",
+      "foreignKey": "poll_answer_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,33 @@
+{
+  "name": "boards",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "board_name": {
+      "type": "string",
+      "required": true
+    },
+    "non_academic": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

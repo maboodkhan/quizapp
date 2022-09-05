@@ -1,0 +1,27 @@
+{
+  "name": "user_attendance",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "popup_time": {
+      "type": "date"
+    },
+    "accept_time": {
+      "type": "date"
+    },
+    "inactive_time": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

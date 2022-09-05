@@ -1,0 +1,36 @@
+{
+  "name": "user_countries",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixin": {
+    "count": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number"
+    },
+    "country_id": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "default": "1"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "countries":{
+      "type": "belongsTo",
+      "model": "countries",
+      "foreignKey": "country_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

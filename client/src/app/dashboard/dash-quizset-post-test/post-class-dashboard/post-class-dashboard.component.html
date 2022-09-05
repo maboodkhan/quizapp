@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-toolbar-row>
+    <p style="font-size: 30px; color: green;">{{school_name}}</p>
+  </mat-toolbar-row>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <h1 *ngIf="heading">Class Wise Performance</h1>
+      <h1 *ngIf="!heading">Class Performance</h1>            
+      <span class="title-spacer"></span>
+      <button mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/dashboard']" [queryParams]="{tabType:1}">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <!-- queryParamsHandling="preserve" -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-grid-list [cols]="classLength" [rowHeight]="rowHeight" style="text-align: center;" *ngIf="classList">
+    <mat-grid-tile  *ngFor="let class of classList">
+      <mat-grid-tile-header>
+        {{class.class_name}}
+      </mat-grid-tile-header>
+      <app-post-quiz-chart [chartData]="{school_id: school_id,class_id : class.id, chartSize: classLength}"></app-post-quiz-chart>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-paginator #paginator [length]="total_class" [pageSize]="limit" [pageSizeOptions]="[6, 12, 18, 24]" showFirstLastButtons>
+  </mat-paginator>
+</mat-card>

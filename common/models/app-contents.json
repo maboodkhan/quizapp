@@ -1,0 +1,99 @@
+{
+  "name": "app_contents",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "board_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "default": 0
+    },
+    "subject_id": {
+      "type": "number",
+      "default": 0
+    },
+    "lesson_id": {
+      "type": "number",
+      "default": 0
+    },
+    "version": {
+      "type": "number",
+      "default": 0
+    },
+    "zipPath": {
+      "type": "string"
+    },
+    "appZipPath": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "encryptionKey": {
+      "type": "string"
+    },
+    "uploadStatus": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "modified_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "content_board": {
+      "type": "belongsTo",
+      "model": "boards",
+      "foreignKey": "board_id"
+    },
+    "content_class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "content_subject": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    },
+    "content_lesson": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "created_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "created_by"
+    },
+    "modified_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "modified_by"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

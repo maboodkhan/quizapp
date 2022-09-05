@@ -1,0 +1,243 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+
+  <form novalidate [formGroup]="scheduleForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="saveschedule()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!scheduleForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/onlineSchedule']"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+
+    <p>
+      <mat-form-field class="form-field">           
+        <mat-select formControlName="country_id" placeholder="Select Country"
+          (selectionChange)="changeCountry($event.source.triggerValue)" #countryVal>
+            <mat-option *ngFor="let country of countryList" [value]="country.countries.id">
+              {{country.countries.countryName}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.country_id">
+          {{displayMessage.country_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="school_id" placeholder="Select School" (selectionChange)="changeSchool($event.value)">
+          <mat-option *ngFor="let school of schoolList" [value]="school.id">
+            {{school.school_name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="displayMessage.school_id">
+          {{displayMessage.school_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="class_id" placeholder="Select Class" (selectionChange)="changeClass($event.value)">
+          <mat-option *ngFor="let class of classList" [value]="class.id">
+            {{class.class_name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="displayMessage.class_id">
+          {{displayMessage.class_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="section_id" placeholder="Select Section" (selectionChange)="changeSection()">
+          <!-- <mat-option #allSelectedSection [value]="0" (click)="selectAllSection();">All</mat-option> -->
+          <mat-option *ngFor="let section of sectionList" [value]="section.id">
+            {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="displayMessage.section_id">
+          {{displayMessage.section_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="user_id" placeholder="Select Teacher">
+          <mat-option *ngFor="let user of userList" [value]="user.user_id">
+            {{user.studentName}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="displayMessage.user_id">
+          {{displayMessage.user_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Subjects</mat-label>
+        <mat-select formControlName="subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)">
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.subject_id">
+          {{displayMessage.subject_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <div *ngIf="showCountryLesson else mainLessons">
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select Lesson</mat-label>
+          <mat-select formControlName="country_lesson_id" id="country_lesson_id"
+            (selectionChange)="getCountryMapLessons($event.value)">
+            <mat-option *ngFor="let lesson of countryLessonList" [value]="lesson.id"
+            title="{{lesson.country_lesson_name}} ({{lesson.lesson_num}})">
+              {{lesson.country_lesson_name}} ({{lesson.lesson_num}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+  
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select {{lessonType}}</mat-label>
+          <mat-select formControlName="lesson_id" id="lesson_id" multiple>
+            <mat-option *ngFor="let lesson of mapLessonList" [value]="lesson.country_lessons.id"
+            title="{{lesson.country_lessons ? lesson.country_lessons.lesson_name : ''}}
+            ({{lesson.country_lessons ? lesson.country_lessons.lesson_num : ''}})">
+              {{lesson.country_lessons ? lesson.country_lessons.lesson_name : ''}}
+              ({{lesson.country_lessons ? lesson.lesson_num : ''}})
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.lesson_id">
+            {{displayMessage.lesson_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+    </div>
+    
+    <ng-template #mainLessons>
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select {{lessonType}}</mat-label>
+          <mat-select formControlName="lesson_id" id="lesson_id" multiple>
+            <mat-option *ngFor="let lesson of lessonList" [value]="lesson.id"
+              title="{{lesson.lesson_name}} ({{lesson.lesson_num}})">
+              {{lesson.lesson_name}} ({{lesson.lesson_num}})
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.lesson_id">
+            {{displayMessage.lesson_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+    </ng-template>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Class Level</mat-label>
+        <mat-select formControlName="class_level" id="class_level">
+          <mat-option *ngFor="let classLevel of classLevelList" [value]="classLevel">
+            {{classLevel}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.class_level">
+          {{displayMessage.class_level}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Class Type</mat-label>
+        <mat-select formControlName="class_type" id="class_type">
+          <mat-option *ngFor="let classType of classTypeList" [value]="classType">
+            {{classType}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.class_type">
+          {{displayMessage.class_type}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>Choose start date</mat-label>
+        <input matInput [min]="startMin" formControlName="start_date" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
+        (ngModelChange)="changeStartDate($event)">
+        <owl-date-time #dt2></owl-date-time>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>Choose end date</mat-label>
+        <input matInput [min]="endMin" [max]="endMax" [disabled]="endDateDisable" formControlName="end_date" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" >
+        <owl-date-time [disabled]="endDateDisable" #dt1></owl-date-time>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select placeholder="Status" formControlName="status">
+          <mat-option [value]="1">Active</mat-option>
+          <mat-option [value]="2">Inactive</mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.status">
+          {{displayMessage.status}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="scheduleData">
+      <label> <b>Created By : </b>  {{scheduleData.created_by.firstName}}</label><br><br>
+      <label> <b>Last Modified By : </b>  {{scheduleData.modified_by.firstName}}</label><br><br>
+      <label> <b>Created At : </b>  {{scheduleData.created_on | date}}</label><br><br>
+      <label> <b>Last Modified At : </b>  {{scheduleData.modified_on | date}}</label><br><br>
+    </p>
+
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="saveschedule()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!scheduleForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/onlineSchedule']"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </form>
+</mat-card>

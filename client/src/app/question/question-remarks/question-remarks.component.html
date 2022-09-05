@@ -1,0 +1,35 @@
+
+<h2 mat-dialog-title>Remarks</h2>
+
+<mat-dialog-content class="mat-typography">
+  <mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="Sno">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+      <mat-cell  *matCellDef="let i = index;">{{i + 1}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="remarks">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Remarks </mat-header-cell>
+      <mat-cell *matCellDef="let remark"> {{remark.remarks}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="givenBy">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Given By </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.user.username}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="givenOn">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Given On </mat-header-cell>
+      <mat-cell *matCellDef="let remark"> {{remark.created_on | date:'dd-MM-yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+    <!-- {{question.created_on | date:'dd-MM-yyyy HH:mm:ss'}} -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]=10 [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+  </mat-paginator>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button" mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

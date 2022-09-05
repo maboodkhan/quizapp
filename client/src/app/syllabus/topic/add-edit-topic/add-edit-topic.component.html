@@ -1,0 +1,150 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <form novalidate [formGroup]="topicForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="saveLesson()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!topicForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/topic']"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+    
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Board<sup style="color: red;">*</sup></mat-label>
+        <mat-select formControlName="board_id" id="board_id" (selectionChange)="changeBoard($event.value)">
+          <mat-option *ngFor="let board of boards" [value]="board.id">
+            {{board.board_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.board_id">
+          {{displayMessage.board_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Class<sup style="color: red;">*</sup></mat-label>
+        <mat-select formControlName="class_id" (selectionChange)="changeClass($event.value)">
+          <mat-option *ngFor="let class of classList" [value]="class.id">
+            {{class.class_name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="displayMessage.class_id">
+          {{displayMessage.class_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Subjects<sup style="color: red;">*</sup></mat-label>
+        <mat-select formControlName="subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)">
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.subject_id">
+          {{displayMessage.subject_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Lesson<sup style="color: red;">*</sup></mat-label>
+        <mat-select formControlName="lesson_id" id="lesson_id">
+          <mat-option *ngFor="let lesson of lessonList" [value]="lesson.id"
+            title="{{lesson.lesson_name}} ({{lesson.lesson_num}})">
+            {{lesson.lesson_name}} ({{lesson.lesson_num}})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Topic Name<sup style="color: red;">*</sup></mat-label>
+        <input matInput id="topic_name" type="text"
+          formControlName="topic_name" >
+        <mat-error *ngIf="displayMessage.topic_name">
+          {{displayMessage.topic_name}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Topic Number<sup style="color: red;">*</sup></mat-label>
+        <input matInput id="topic_num" type="number"
+          formControlName="topic_num" >
+        <mat-error *ngIf="displayMessage.topic_num">
+          {{displayMessage.topic_num}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+
+    <p>                                                                    
+      <mat-form-field class="form-field">
+        <mat-label>Keywords<sup style="color: red;">*</sup></mat-label>
+        <textarea matInput id="keywords" formControlName="keywords" rows="3" cols="50" ></textarea>                                          
+      </mat-form-field>
+      <mat-error *ngIf="displayMessage.keywords">
+        {{displayMessage.keywords}}
+    </mat-error>
+    </p>
+
+
+     <p>
+        <mat-form-field class="form-field">
+          <mat-label>Status<sup style="color: red;">*</sup></mat-label>
+          <mat-select formControlName="status">
+            <mat-option [value]="1">Active</mat-option>
+            <mat-option [value]="2">Inactive</mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.status">
+            {{displayMessage.status}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+  
+      <mat-toolbar style="background-color: #FFF">
+        <mat-toolbar-row>
+          <span class="title-spacer"></span>
+  
+          <mat-card-actions>
+            <button mat-mini-fab class="primary" (click)="saveLesson()"
+              [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+              [disabled]='!topicForm.valid'>
+              <mat-icon>save</mat-icon>
+            </button>
+            <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/topic']"
+              queryParamsHandling="preserve">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-toolbar-row>
+      </mat-toolbar>
+  
+    
+    </form>
+</mat-card>

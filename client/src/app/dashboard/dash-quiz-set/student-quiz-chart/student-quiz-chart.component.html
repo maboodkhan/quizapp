@@ -1,0 +1,23 @@
+<!-- <p>
+  student-quiz-chart works!
+</p> -->
+
+<mat-card class="dash-card" class='light' [ngStyle]="{'width': chartGridWidth}">
+  <div [ngClass]="{'chart-tile':true}">Quiz Score</div>
+  <div>
+    <p>Score: {{percentage}}%</p>
+    <p>Total Questions: {{total_attempted}}</p>
+  </div>
+  <!-- <mat-toolbar>
+    <mat-toolbar-row>
+      <p>Score: {{percentage}}%</p>
+     </mat-toolbar-row>
+    <mat-toolbar-row>
+     <p>Total Questions: {{total_attempted}}</p>
+    </mat-toolbar-row>
+  </mat-toolbar>   -->
+  <div [ngStyle]="{'padding-top':'20px'}">
+    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" 
+      [options]="pieChartOptions" [colors]="pieChartColors" (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</mat-card>

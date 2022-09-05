@@ -1,0 +1,28 @@
+{
+  "name": "user_types",
+  "plural": "usertypes",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type_name": {
+      "type": "string",
+      "required": true
+    },
+    "type_order": {
+      "type": "string",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,40 @@
+{
+  "name": "post_quiz_questions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "quiz_set_id": {
+      "type": "number",
+      "required": true
+    },
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "ques_order": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_question": {
+      "type": "belongsTo",
+      "model": "questions",
+      "foreignKey": "question_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

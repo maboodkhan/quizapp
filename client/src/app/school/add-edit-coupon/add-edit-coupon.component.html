@@ -1,0 +1,118 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+
+  <form novalidate (ngSubmit)="saveSchool()" [formGroup]="couponForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <!-- <span class="view-card-title"> {{pageTitle}}</span> -->
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}"
+            type="submit" [disabled]='!couponForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/coupon']">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="couponCode" type="text" placeholder="Coupon Code (required)" formControlName="couponCode" />
+        <mat-error *ngIf="displayMessage.couponCode">
+          {{displayMessage.couponCode}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <!-- <p>
+      <mat-form-field class="form-field">                            
+          <input matInput id="school_id" type="school_id" placeholder="School Assign" (keyup)="schoolFilter($event.target.value)"
+          [matAutocomplete]="school_id" formControlName="school_id" autocomplete="off" />
+          <mat-error *ngIf="displayMessage.school_id">
+            {{displayMessage.school_id}}
+        </mat-error>
+        </mat-form-field>
+        <mat-autocomplete #school_id="matAutocomplete" multiple>
+          <mat-option *ngFor="let suggest of suggestSchool" (click)="fillData(suggest.id)" [value]="suggest.id">{{suggest.school_name}}</mat-option>
+        </mat-autocomplete>
+    </p> -->
+
+    <!-- <p>
+      <mat-form-field>
+        <input matInput type="text" placeholder="School Name" [matAutocomplete]="auto" 
+        formControlName="school_id" value="schoolValues" (keyup)=schoolFilter($event.target.value) #school_name />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let school of schoolList" [value]="school.id">
+            <div (click)="optionClicked($event, school)">
+              <mat-checkbox [checked]="school.selected" (change)="toggleSelection(school)" (click)="$event.stopPropagation()">
+                {{school.school_name}}
+              </mat-checkbox>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>  
+    </p> -->
+
+    <p (focusout)="onFocusOut()">
+      <mat-form-field class="form-field">
+        <mat-select formControlName="school_id" placeholder="Assign School" multiple>
+          <mat-option>
+            <ngx-mat-select-search (keyup)="schoolFilter($event.target.value)" placeholderLabel="Find school...">
+            </ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let school of schoolList" [value]="school.id">
+            {{school.school_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="expiration_type" placeholder="Expiration Type (required)"
+          (selectionChange)="chkExpireType($event.value)">
+          <mat-option [value]="1">Expiration Date</mat-option>
+          <mat-option [value]="2">Number of days</mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.expiration_type">
+          {{displayMessage.expiration_type}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="expireType==1">
+      <mat-form-field class="form-field">
+        <mat-label>Expiration Date</mat-label>
+        <input matInput formControlName="expiration_date" [min]="todayDate" [matDatepicker]="Datepicker">
+        <mat-datepicker-toggle matSuffix [for]="Datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #Datepicker></mat-datepicker>
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="expireType==2">
+      <mat-form-field class="form-field">
+        <input matInput id="num_days" min="1" type="number" placeholder="Number of days (required)"
+          formControlName="num_days" />
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="num_attempts" min="1" type="number" placeholder="Number of attempts (required)"
+          formControlName="num_attempts" />
+          <mat-error *ngIf="displayMessage.num_attempts">
+            {{displayMessage.num_attempts}}
+          </mat-error>
+      </mat-form-field>
+    </p>
+
+  </form>
+</mat-card>

@@ -1,0 +1,28 @@
+
+<h2 mat-dialog-title>Question Preview</h2>
+<mat-dialog-content class="mat-typography">
+  <div *ngFor="let question of questionData; let i=index;">
+ <b>Question {{i+1}}</b>
+ <app-que-decode [question]="question"></app-que-decode>
+
+ <b>Right Answer:</b>
+ <p *ngFor='let ansoption of question.rightansoption'> <app-right-ans [answerOption]='ansoption.right_ans'></app-right-ans>
+</p>
+
+ <app-ques-sol [question]="question"></app-ques-sol>
+
+ <!-- <div *ngIf="showButton">
+  <p>
+    <mat-form-field style="height:100px; width:400px !important">
+      <textarea matInput type="text" placeholder="Remark" [(ngModel)]="remarks" name="remark"></textarea>     
+    </mat-form-field>
+  </p>
+ </div> -->
+
+</div>
+</mat-dialog-content>
+<!-- <mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true"  *ngIf="showButton" (click)="QcDone(0)" cdkFocusInitial>Back to QC</button>
+  <button mat-button [mat-dialog-close]="true" class="primary" *ngIf="showButton" (click)="QcDone(1)" cdkFocusInitial>QC Done</button>
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions> -->

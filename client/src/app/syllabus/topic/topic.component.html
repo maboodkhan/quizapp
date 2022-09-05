@@ -1,0 +1,155 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+   
+  <mat-toolbar>
+     <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addedittopic']">
+        <mat-icon>add</mat-icon>
+      </button>
+
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+
+       <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar> 
+ 
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+        <mat-cell *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="board">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Board Name </mat-header-cell>
+        <mat-cell *matCellDef="let topic">
+            {{topic.board_name}} 
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Class </mat-header-cell>
+        <mat-cell *matCellDef="let topic"> {{topic.class_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subject">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Subject  </mat-header-cell>
+        <mat-cell *matCellDef="let topic"> {{topic.subject_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lesson">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Lesson Name </mat-header-cell>
+        <mat-cell *matCellDef="let topic"> {{topic.lesson_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="topic">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Topic Name </mat-header-cell>
+        <mat-cell *matCellDef="let topic"> {{topic.topic_name}} </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let topic" style="justify-content:center;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;" (click)="editTopic(topic.id)" >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+   
+  
+    <mat-paginator #paginator [length]="totalTopic" [pageIndex]="offset" [pageSize]="limit" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons>
+    </mat-paginator> 
+</mat-card> 
+
+
+<mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <button mat-mini-fab (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-card-subtitle>
+
+        <button mat-raised-button style="color:lightgrey;background-color:darkgreen"
+          (click)="searchUserData(searchFilter);sidenav.toggle()">
+          <mat-icon>search</mat-icon>Search
+        </button>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkred"
+          (click)="resetSearchFilter(sidenav)">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+
+      </mat-card-subtitle>
+    </mat-card-header>
+
+  </mat-card>
+  <mat-nav-list style="margin-left:20px;">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Topic Name" style="width:200px;"  [(ngModel)]="searchFilter.topic_name"
+       #topic_name  />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Board</mat-label>
+      <mat-select [(ngModel)]="searchFilter.board_id" (selectionChange)="changeBoard($event.value)" multiple>
+        <mat-option *ngFor="let board of boards" [value]="board.id">
+          {{board.board_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Class</mat-label>
+      <mat-select [(ngModel)]="searchFilter.class_id" 
+      placeholder="Select Class" (selectionChange)="changeClass($event.value)" multiple>
+         <mat-option *ngFor="let class of classList" [value]="class.id">
+          {{class.class_name}}
+        </mat-option> 
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Subjects</mat-label>
+        <mat-select [(ngModel)]="searchFilter.subject_id" (selectionChange)="changeSubject($event.value)" multiple>
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option> 
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Lessons</mat-label>
+      <mat-select [(ngModel)]="searchFilter.lesson_id" name="lesson_id"
+      (selectionChange)="changeLesson($event.value)" multiple>
+      <mat-option #allSelectedLessons [value]="0" (click)="selectAllLessons();">All</mat-option>
+        <mat-option *ngFor="let lesson of lessonList" [value]="lesson.id" (click)="tosslePerLesson()">
+          {{lessonList.length>2 ? 'Grade '+lesson.subject_lessons.class_id+' -> '+lesson.lesson_name + " (" +lesson.lesson_num + ")" : lesson.lesson_name + " (" + lesson.lesson_num + ")"}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="searchFilter.status">
+        <mat-option value=1>Active</mat-option>
+        <mat-option value=2>Inactive</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+  </mat-nav-list>
+</mat-sidenav>

@@ -1,0 +1,47 @@
+{
+  "name": "quiz_user_details",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "packageName": {
+      "type": "string",
+      "required": true
+    },
+    "appOpenedAt": {
+      "type": "string"
+    },
+    "appClosedAt": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "string",
+      "required": true,
+      "default": "0"
+    },
+    "deviceId": {
+      "type": "string"
+    },
+    "paidStatus":{
+      "type":"number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

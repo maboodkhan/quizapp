@@ -1,0 +1,62 @@
+{
+  "name": "user_classes",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "school_id": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "class_id": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "section_id": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "class_Section": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    },
+    "users": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,49 @@
+{
+  "name": "coupons",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "couponCode": {
+      "type": "string",
+      "required": true
+    },
+    "expiration_type": {
+      "type": "number"
+    },
+    "expiration_date": {
+      "type": "date"
+    },
+    "num_days": {
+      "type": "number"
+    },
+    "num_attempts": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "coupon_School": {
+      "type": "hasMany",
+      "model": "school_coupons",
+      "foreignKey": "coupon_id"
+    },
+    "coupon_detail": {
+      "type": "hasMany",
+      "model": "coupon_details",
+      "foreignKey": "coupon_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

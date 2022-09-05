@@ -1,0 +1,59 @@
+{
+    "name": "subscription_details",
+    "base": "Model",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "user_id": {
+        "type": "number",
+        "required": true
+      },
+      "subscription_id": {
+        "type": "number",
+        "required": true
+      },
+      "school_id": {
+        "type": "number",
+        "required": true
+      },
+      "class_id": {
+        "type": "number",
+        "required": true
+      },
+      "amount": {
+        "type": "number"
+      },
+      "discount_amt": {
+        "type": "number"
+      },
+      "total_amount": {
+        "type": "number"
+      },
+      "created_on": {
+        "type": "date"
+      }
+    },
+    "validations": [],
+    "relations": {
+      "school": {
+        "type": "belongsTo",
+        "model": "schools",
+        "foreignKey": "school_id"
+      },
+      "class": {
+        "type": "belongsTo",
+        "model": "classes",
+        "foreignKey": "class_id"
+      },
+      "subscription": {
+        "type": "belongsTo",
+        "model": "subscriptions",
+        "foreignKey": "subscription_id"
+      }
+    },
+    "acls": [],
+    "methods": {}
+  }
+  

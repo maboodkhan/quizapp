@@ -1,0 +1,33 @@
+{
+  "name": "question_remarks",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "created_by"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

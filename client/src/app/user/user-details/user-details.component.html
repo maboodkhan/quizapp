@@ -1,0 +1,60 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>My Profile</h1>
+      </mat-card-title>
+  </mat-card-header>
+
+  <form [formGroup]="userForm">
+    <p>
+        <mat-form-field class="form-field">                            
+            <input matInput id="name" type="text" formControlName="name" placeholder="Name" readonly/>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field class="form-field">                            
+            <input matInput id="email" type="email" formControlName="email" placeholder="Email" readonly/>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field class="form-field">
+            <input matInput id="contactNumber" type="text" formControlName="contactNumber" placeholder="Contact Number" readonly/>
+        </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">
+          <input matInput id="userType" type="text" formControlName="userType" placeholder="User Type" readonly/>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">           
+        <mat-select placeholder="User School" formControlName="school_id" multiple>
+            <mat-option *ngFor="let school of schoolList"
+            [disabled]="true" [value]="school.id">
+            {{school.school_name}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select placeholder="User class" formControlName="class_id" multiple>
+            <mat-option *ngFor="let class of classList"
+            [disabled]="true" [value]="class.id">
+            {{class.class_name}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select placeholder="User Section" formControlName="section_id" multiple>
+            <mat-option *ngFor="let section of sectionList" 
+            [disabled]="true"[value]="section.id">
+              {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+  </form>
+</mat-card>

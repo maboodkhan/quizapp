@@ -1,0 +1,25 @@
+<!-- <p>
+  post-school-dashboard works!
+</p>
+
+ -->
+
+<mat-card >
+  <mat-toolbar *ngIf="schoolList">
+    
+      <h1 *ngIf="heading">School Wise Performance</h1>
+      <h1 *ngIf="!heading">School Performance</h1>
+  </mat-toolbar>
+
+<mat-grid-list [cols]="schoolLength" [rowHeight]="rowHeight" style="text-align: center;">
+  <mat-grid-tile  *ngFor="let school of schoolList">
+    <mat-grid-tile-header>
+      {{school.school_name}}
+    </mat-grid-tile-header>
+    <app-post-quiz-chart [chartData]="{school_id: school.id, chartSize: schoolLength}"></app-post-quiz-chart>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-paginator #paginator [length]="total_school" [pageSize]="limit" [pageSizeOptions]="[6, 12, 18, 24]" showFirstLastButtons>
+</mat-paginator>  
+</mat-card>

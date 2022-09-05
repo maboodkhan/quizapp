@@ -1,0 +1,65 @@
+{
+  "name": "attempted_quiz_set",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "quiz_set_id": {
+      "type": "number",
+      "required": true
+    },
+    "total_attempted": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "total_correct": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "total_incorrect": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "total_skipped": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "time_spent": {
+      "type": "number",
+      "default": 0
+    },
+    "attempted_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "attempted_quiz_sets": {
+      "type": "belongsTo",
+      "model": "quiz_set",
+      "foreignKey": "quiz_set_id"
+    },
+    "attempted_quiz_questions": {
+      "type": "hasMany",
+      "model": "attempted_quiz_questions",
+      "foreignKey": "attempted_set_id"
+    },
+    "quiz_users": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

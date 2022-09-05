@@ -1,0 +1,117 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <!-- <h1> {{pageTitle}}</h1> -->
+
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="resetPage()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-raised-button [ngClass]="{button:true}" (click)="assignQues()" *ngIf="showAssign">Assign Edit
+        Permission</button>
+      <button mat-mini-fab class="" style="margin-right:10px;" (click)="backButton()" [routerLink]="['/question']"
+        queryParamsHandling="preserve">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="S_No">
+      <mat-header-cell *matHeaderCellDef> Issue ID </mat-header-cell>
+      <mat-cell *matCellDef="let question">
+        {{question.id}}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="question">
+      <mat-header-cell *matHeaderCellDef> Question </mat-header-cell>
+      <mat-cell *matCellDef="let question">
+        <app-decode-question [input]="question"></app-decode-question>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="issueBy">
+      <mat-header-cell *matHeaderCellDef> Issued By </mat-header-cell>
+      <mat-cell *matCellDef="let question">
+        {{question.webUsers.firstName}} {{question.webUsers.lastName}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="issueStatus">
+      <mat-header-cell *matHeaderCellDef> Issued Status </mat-header-cell>
+      <mat-cell *matCellDef="let question">
+        {{question.issue_status}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <mat-header-cell *matHeaderCellDef> Issued Date </mat-header-cell>
+      <mat-cell *matCellDef="let question">
+        {{question.created_on | date:'dd-MM-yyyy HH:mm:ss'}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="assignedTo">
+      <mat-header-cell *matHeaderCellDef> Assigned To </mat-header-cell>
+      <mat-cell *matCellDef="let question">
+        {{question.questions.que_assigned_to ? question.questions.que_assigned_to.firstName:''}}
+        {{question.questions.que_assigned_to ? question.questions.que_assigned_to.lastName: ''}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edit_id">
+      <mat-header-cell style="justify-content:right;" *matHeaderCellDef>
+        Action
+      </mat-header-cell>
+      <mat-cell *matCellDef="let question" style="justify-content:right;">
+        <button mat-mini-fab style="background-color:teal; min-height: 30px;"
+          [routerLink]="['/quesIssuesEdit/', question.id]" [queryParams]="{customFilters:customFilters | json }"
+          *ngIf="userId==question.webapp_user_id; else elseBlock">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <ng-template #elseBlock>
+          <button mat-raised-button [ngClass]="{btn:true}" [routerLink]="['/quesIssuesEdit/', question.id]"
+            queryParamsHandling="preserve">More</button>
+            <button *ngIf="question.webUsers.id == user_id" mat-mini-fab style="margin-right:10px; background-color:dimgray" (click)="deleteIssue(question.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="editQuestion">
+      <mat-header-cell *matHeaderCellDef style="justify-content:right;">Edit Question</mat-header-cell>
+      <mat-cell *matCellDef="let question" style="justify-content:right;">
+        <button *ngIf="question.questions.qc_done == 0 && user_id == question.questions.qc_assigned_to" mat-mini-fab
+          style="background-color:teal; min-height: 30px;   margin: 5px;" (click)="editQue(question.question_id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef style="justify-content:right;">
+        <mat-checkbox class="example-margin" [(ngModel)]="selectedAll" (change)="selectAll()" *ngIf="showAssign">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let question" style="justify-content:right;">
+        <mat-checkbox class="example-margin" [(ngModel)]="question.isSelected" (change)="checkIfAllSelected()"
+          *ngIf="showAssign && question.issue_status=='unresolved'"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [length]="totalIssue" [pageIndex]="offset" [pageSize]="limit"
+    [pageSizeOptions]="[10, 20, 30, 50, 100]" (page)="pageEvent = $event" showFirstLastButtons>
+  </mat-paginator>
+</mat-card>
+<!-- </mat-sidenav-container> -->

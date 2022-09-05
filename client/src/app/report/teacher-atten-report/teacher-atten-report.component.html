@@ -1,0 +1,202 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:royalblue" (click)="downloadAttendance()">
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="resetPage()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <!-- <div *ngIf="schedule_id">
+        <button mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/onlineSchedule']" 
+        [queryParams]="{customFilters:cstmFltr | json }">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div> -->
+      
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="S_No">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> S.No </mat-header-cell>
+        <mat-cell  *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let attendance"> 
+          {{attendance.quizUser.firstName}} {{attendance.quizUser.lastName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let attendance"> {{attendance.quizUser.email}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Class/Section </mat-header-cell>
+        <mat-cell *matCellDef="let attendance"> {{attendance.class.class_name}} - {{attendance.classSection.class_section.section_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subject">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Subject </mat-header-cell>
+        <mat-cell *matCellDef="let attendance"> {{attendance.subject.subject_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="attendanceDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Attendance Date </mat-header-cell>
+        <mat-cell *matCellDef="let attendance"> {{attendance.start_date | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="scheduleStart">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Schedule Start Time </mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+          {{attendance.start_date | date:'hh:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="scheduleEnd">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Schedule End Time </mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+          {{attendance.end_date | date:'hh:mm'}} 
+        </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="startTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Start Time </mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+          {{attendance.startTime==0?0: attendance.startTime | date:'hh:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="endTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> End Time </mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+          {{attendance.endTime==0?0: attendance.endTime | date:'hh:mm'}} 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="disconnect">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> No. of disconnect </mat-header-cell>
+        <mat-cell *matCellDef="let attendance"> {{attendance.noOfDisconnect}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="students">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> No. of students </mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+          <button mat-raised-button [ngClass]="{studentBtn:true}" (click)="studentList(attendance)">{{attendance.attendance.length}}</button>
+         </mat-cell>
+      </ng-container>
+      <!-- <app-class-section [school_data_id]="attendance.id"></app-class-section> -->
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="total_teacher" [pageIndex]="offset" [pageSize]="limit" [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+    <!-- <mat-paginator [length]="500" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100, 200]">
+</mat-paginator> -->
+
+  </mat-card>
+
+  <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+    <mat-card-header>
+      <button mat-mini-fab (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
+      <mat-card-subtitle>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkgreen" (click)="searchUserData(searchFilter);sidenav.toggle()">
+          <mat-icon>search</mat-icon>Search </button>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkred" (click)="resetSearchFilter(sidenav)">
+          <mat-icon>refresh</mat-icon>Reset</button>
+
+      </mat-card-subtitle>
+    </mat-card-header>
+
+  </mat-card>
+  <mat-nav-list style="margin-left:20px;">
+
+     <mat-form-field>
+      <mat-label>Teacher Name</mat-label>
+      <input matInput [(ngModel)]="searchFilter.teacherName">
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label>Choose from date</mat-label>
+      <input matInput [(ngModel)]="searchFilter.from_date" [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Choose To date</mat-label>
+      <input matInput [(ngModel)]="searchFilter.to_date" [matDatepicker]="Datepicker">
+      <mat-datepicker-toggle matSuffix [for]="Datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #Datepicker></mat-datepicker>      
+    </mat-form-field>
+
+    <mat-form-field>           
+      <mat-label>Select School</mat-label>
+      <mat-select  [(ngModel)]="searchFilter.school_id" multiple>
+          <mat-option *ngFor="let school of schoolList" [value]="school.id">
+          {{school.school_name}}
+          </mat-option>
+      </mat-select>
+    </mat-form-field> 
+
+    <mat-form-field>
+      <mat-label>Select Class</mat-label>
+      <mat-select (selectionChange)="changeClass($event.value)" [(ngModel)]="searchFilter.class_id" multiple>
+        <mat-option *ngFor="let class of classList" [value]="class.id" >
+          {{class.class_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Section</mat-label>
+      <mat-select [(ngModel)]="searchFilter.section_id" multiple>
+        <mat-option #allSelectedSection [value]="0" (click)="selectAllSection();">All</mat-option>
+        <mat-option *ngFor="let section of sectionList" [value]="section.id" (click)="tosslePerSection()">
+          {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select Subjects</mat-label>
+        <mat-select [(ngModel)]="searchFilter.subject_id" multiple>
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="searchFilter.status">
+          <mat-option value=1>Scheduled</mat-option>
+          <mat-option value=3>Rescheduled</mat-option>
+          <mat-option value=5>Deleted</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+  </mat-nav-list>
+</mat-sidenav>

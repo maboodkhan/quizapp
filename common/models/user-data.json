@@ -1,0 +1,73 @@
+{
+  "name": "user_data",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "studentName": {
+      "type": "string"
+    },
+    "studentContactNo": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "rollNumber": {
+      "type": "string"
+    },
+    "school_id": {
+      "type": "number"
+    },
+    "class_id": {
+      "type": "number"
+    },
+    "section_id": {
+      "type": "number"
+    },
+    "city": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "number"
+    },
+    "user_type": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_user_data": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "user_id"
+    },
+    "userAssignSub": {
+      "type": "belongsTo",
+      "model": "user_assigned_subjects",
+      "foreignKey": "user_id"
+    },
+    "school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "section": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,33 @@
+<p style="text-align: right;">
+  <button mat-raised-button class=" mat-primary" 
+      (click)="exportAsPDF()">Download As PDF</button>
+      <!-- <button mat-button (click)="close()">Close</button> -->
+</p>
+
+<div id="pdf" #pdf>
+  <h2 mat-dialog-title>Questions Export</h2>
+  <mat-dialog-content class="mat-typography">
+    <div *ngFor="let questionDetail of questionData; let index;">
+      <h2>
+        {{questionDetail[0].question_topic.lesson_topics.subject_lessons.class_subjects.class_name}} >>
+{{questionDetail[0].question_topic.lesson_topics.subject_lessons.subject_name}} >>
+{{questionDetail[0].question_topic.lesson_topics.lesson_name}} >>
+      {{questionDetail[0].question_topic.topic_name}} 
+      </h2>
+      <div *ngFor="let question of questionDetail; let j=index;">
+        <b>Question {{j+1}}</b>
+        <!-- <app-que-decode [question]="question"></app-que-decode> -->
+        <app-decode-question [input]="{questions:{question:question.syllabus_questions.question}}"></app-decode-question>
+        <p *ngFor="let ansoption of question.syllabus_questions.ansoptions">  
+         <app-ques-ans [answerOption]="ansoption"></app-ques-ans>
+       </p>
+        <b>Right Answer:</b>
+        <p *ngFor='let ansoption of question.syllabus_questions.rightansoption'> <app-right-ans [answerOption]='ansoption.right_ans'></app-right-ans>
+       </p>
+        <app-ques-sol [question]="question.syllabus_questions"></app-ques-sol>
+       </div>
+    </div>
+
+  </mat-dialog-content>
+
+</div>

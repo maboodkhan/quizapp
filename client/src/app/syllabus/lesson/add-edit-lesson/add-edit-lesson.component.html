@@ -1,0 +1,152 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <form novalidate [formGroup]="lessonForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="saveLesson()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!lessonForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/lesson']"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+    
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Board</mat-label>
+        <mat-select formControlName="board_id" id="board_id" (selectionChange)="changeBoard($event.value)">
+          <mat-option *ngFor="let board of boards" [value]="board.id">
+            {{board.board_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.board_id">
+          {{displayMessage.board_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="class_id" placeholder="Select Class" (selectionChange)="changeClass($event.value)">
+          <mat-option *ngFor="let class of classList" [value]="class.id">
+            {{class.class_name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="displayMessage.class_id">
+          {{displayMessage.class_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Subjects</mat-label>
+        <mat-select formControlName="subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)">
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.subject_id">
+          {{displayMessage.subject_id}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="lesson_name" type="text" placeholder="Lesson Name (required)"
+          formControlName="lesson_name" >
+        <mat-error *ngIf="displayMessage.lesson_name">
+          {{displayMessage.lesson_name}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="lesson_num" type="number" placeholder="Lesson Number (required)"
+          formControlName="lesson_num" >
+        <mat-error *ngIf="displayMessage.lesson_num">
+          {{displayMessage.lesson_num}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    
+    <!-- <p>
+      <mat-form-field class="form-field" appearance="outline">
+        <input matInput id="keywords" type="text" placeholder="Keywords (required)"
+         formControlName="keywords" >
+          <mat-hint>Please provide a keyword suitable to Lesson</mat-hint>
+        <mat-error *ngIf="displayMessage.keywords">
+          {{displayMessage.keywords}}
+        </mat-error>
+      </mat-form-field>
+    </p>  -->
+
+    <p>                                                                    
+      <mat-form-field class="form-field">               
+        <textarea matInput id="keywords" placeholder="Keywords" formControlName="keywords" rows="3" cols="50" ></textarea>                                          
+      </mat-form-field>
+    </p>
+
+
+ <label> Logo Upload<sup style="color: red;">*</sup></label>
+      <br>
+      <input type="file" #ContentFile lable="Icon" id="icon" (change)="onFileChange($event)" />
+      <div style="font-weight:bold;padding-top:5px;">Only jpg, jpeg, png file are allowed
+      </div>
+      <div *ngIf="fileUploadProgress">
+        Upload progress: {{ fileUploadProgress }}
+      </div>
+      <br>
+      <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+      <br>
+
+     <p>
+        <mat-form-field class="form-field">
+          <mat-select placeholder="Status" formControlName="status">
+            <mat-option [value]="1">Active</mat-option>
+            <mat-option [value]="2">Inactive</mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.status">
+            {{displayMessage.status}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+  
+      <mat-toolbar style="background-color: #FFF">
+        <mat-toolbar-row>
+          <span class="title-spacer"></span>
+  
+          <mat-card-actions>
+            <button mat-mini-fab class="primary" (click)="saveLesson()"
+              [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+              [disabled]='!lessonForm.valid'>
+              <mat-icon>save</mat-icon>
+            </button>
+            <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/lesson']"
+              queryParamsHandling="preserve">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-toolbar-row>
+      </mat-toolbar>
+  
+    
+    </form>
+</mat-card>

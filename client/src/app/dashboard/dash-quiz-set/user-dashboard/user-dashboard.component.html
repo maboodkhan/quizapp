@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <h1>Section {{section_name}} - Student Wise Performance</h1>
+      <!-- <h1>Section {{section_name}} - {{heading?'Student Wise Performance':'Student Performance'}}</h1> -->
+      <!-- <h1 *ngIf="!heading">Section {{section_name}} - Student Performance</h1> -->
+      <span class="title-spacer"></span>      
+      <button mat-mini-fab class="" style="margin-right:10px;"
+        [routerLink]="['/section_dashboard', school_id, class_id]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-grid-list [cols]="studentLength"  [rowHeight]="rowHeight" style="text-align: center;" *ngIf="studentList">
+    <mat-grid-tile *ngFor="let student of studentList">
+      <mat-grid-tile-header>
+        {{student.studentName}}
+      </mat-grid-tile-header>
+
+      <app-quiz-chart
+        [chartData]="{school_id: school_id,class_id : class_id, section_id: section_id, student_id: student.id, chartSize: studentLength}">
+      </app-quiz-chart>
+
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-paginator #paginator [length]="total_students" [pageSize]="limit" [pageSizeOptions]="[12, 18, 24]"
+    showFirstLastButtons>
+  </mat-paginator>
+</mat-card>

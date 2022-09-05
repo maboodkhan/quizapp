@@ -1,0 +1,13 @@
+
+
+<mat-card-header>
+  <mat-card-title class="view-card-title">
+  </mat-card-title>
+</mat-card-header>
+<div *ngIf="!isTeacher">
+  <app-post-school-dashboard></app-post-school-dashboard>
+</div>
+
+<div *ngIf="isTeacher">
+  <app-post-class-dashboard></app-post-class-dashboard>
+</div>

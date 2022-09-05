@@ -1,0 +1,32 @@
+<h2>
+  Quiz Detail
+</h2>
+
+
+<div>
+{{quizData.quiz_syllabus_path}}
+</div>
+<br>
+<div>
+  Number of question: {{quizData.num_ques}}
+</div>
+<br>
+<div>
+Duration: {{quizData.duration}}
+</div>
+<br>
+<div>
+  Created on: {{quizData.created_on | date}}
+  </div>
+  <br>
+  <b>Topics list</b>
+  <br>
+  <div *ngFor="let topic of topicData">
+    <br>
+    {{topic.topic_name}}
+  </div>
+
+
+<!-- <mat-list *ngFor="let topic of topicData">
+  <mat-list-item role="listitem">{{topic.topic_name}}</mat-list-item>
+</mat-list> -->

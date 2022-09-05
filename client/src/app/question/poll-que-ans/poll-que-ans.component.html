@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>Feedback</h1>
+    </mat-card-title>
+  </mat-card-header>    
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+  <mat-card-content>
+    <div *ngFor="let questions of pollQuestion; let i=index;">
+      <p><b>Question {{i+1}} :</b></p>
+      <div [ngClass]="{'question':true}">{{questions.question}}</div> 
+      <mat-radio-group>
+        <mat-radio-button *ngFor='let ansoption of questions.ansOptions' (click)="optionAns(ansoption.poll_ques_id, ansoption.id)" [value]="ansoption.id">
+          {{ansoption.answer}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <p></p>
+    <p></p>
+    <!-- <p>
+      <button class="mat-raised-button mat-primary" (click)="savepollAns()"
+        [ngStyle]="{'margin-right':'10px'}">
+        Submit
+      </button>
+    </p> -->
+  </mat-card-content>
+</mat-card>

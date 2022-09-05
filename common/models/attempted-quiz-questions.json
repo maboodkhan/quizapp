@@ -1,0 +1,45 @@
+{
+  "name": "attempted_quiz_questions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "attempted_set_id": {
+      "type": "number",
+      "required": true
+    },
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "answer_id": {
+      "type": "number",
+      "required": true
+    },
+    "attempt_status": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "attempted_quiz_question": {
+      "type": "belongsTo",
+      "model": "questions",
+      "foreignKey": "question_id"
+    },
+    "attempted_quiz_answer": {
+      "type": "belongsTo",
+      "model": "answers",
+      "foreignKey": "answer_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

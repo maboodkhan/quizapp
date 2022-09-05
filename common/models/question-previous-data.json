@@ -1,0 +1,27 @@
+{
+  "name": "question_previous_data",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "question_value": {
+      "type": "string"
+    },
+    "type_value": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

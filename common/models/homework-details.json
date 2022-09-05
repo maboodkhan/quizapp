@@ -1,0 +1,49 @@
+{
+  "name": "homework_details",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "homework_id": {
+      "type": "number",
+      "required": true
+    },
+    "user_id": {
+      "type": "number"
+    },
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "section_id": {
+      "type": "number",
+      "required": true
+    },
+    "subject_id": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

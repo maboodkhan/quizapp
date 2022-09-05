@@ -1,0 +1,151 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+   
+  <mat-toolbar>
+     <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addeditlesson']">
+        <mat-icon>add</mat-icon>
+      </button>
+
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+      <!-- <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e">
+        <mat-icon>search</mat-icon>
+      </button> -->
+       <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar> 
+ 
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+        <mat-cell *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lessonLogo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Lesson Logo </mat-header-cell>
+        <mat-cell *matCellDef="let lesson">
+          <img src="{{msUrl}}/{{lesson.bg_image}}" style="width: 50px;" alt="Lesson Logo" class="imageAlign" />
+        </mat-cell>
+      </ng-container>
+      <!-- subject_lessons:
+      class_id: 7
+      class_subjects:
+      board_classes: {board_name: 'CBSE', id: 1}
+      board_id: 1
+      class_name: "Grade 7"
+      id: 7
+      [[Prototype]]: Object
+      id: 2
+      subject_name: "Science" -->
+      <ng-container matColumnDef="class">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Class </mat-header-cell>
+        <mat-cell *matCellDef="let lesson"> {{lesson.class_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subject">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Subject  </mat-header-cell>
+        <mat-cell *matCellDef="let lesson"> {{lesson.subject_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lesson">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Lesson Name </mat-header-cell>
+        <mat-cell *matCellDef="let lesson"> {{lesson.lesson_name}} </mat-cell>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let lesson" style="justify-content:center;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;" (click)="editLesson(lesson.id)" >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+   
+  
+    <mat-paginator #paginator [length]="totalLesson" [pageIndex]="offset" [pageSize]="limit" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons>
+    </mat-paginator> 
+</mat-card> 
+
+<mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <button mat-mini-fab (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-card-subtitle>
+
+        <button mat-raised-button style="color:lightgrey; margin-right: 5px; background-color:darkgreen"
+          (click)="searchUserData(searchFilter);sidenav.toggle()">
+          <mat-icon>search</mat-icon>Search
+        </button>
+
+        <button mat-raised-button style="color:lightgrey;  background-color:darkred"
+          (click)="resetSearchFilter(sidenav)">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+
+      </mat-card-subtitle>
+    </mat-card-header>
+
+  </mat-card>
+  <mat-nav-list style="margin-left:20px;">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Lesson Name" style="width:200px;"  [(ngModel)]="searchFilter.lesson_name"
+        #lesson_name />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Board</mat-label>
+      <mat-select [(ngModel)]="searchFilter.board_id" (selectionChange)="changeBoard($event.value)" multiple>
+        <mat-option *ngFor="let board of boards" [value]="board.id">
+          {{board.board_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Class</mat-label>
+      <mat-select [(ngModel)]="searchFilter.class_id" 
+      placeholder="Select Class" (selectionChange)="changeClass($event.value)" multiple>
+        <mat-option *ngFor="let class of classList" [value]="class.id">
+          {{class.class_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Subjects</mat-label>
+        <mat-select [(ngModel)]="searchFilter.subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)" multiple>
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+  
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="searchFilter.status">
+        <mat-option value=1>Active</mat-option>
+        <mat-option value=2>Inactive</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+  </mat-nav-list>
+</mat-sidenav>

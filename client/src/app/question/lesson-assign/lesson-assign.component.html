@@ -1,0 +1,115 @@
+
+<mat-card class='light' style="height: 100%;">
+
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Lesson Assign</h1>
+    </mat-card-title>
+    <span class="title-spacer"></span>
+    <button mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/userLesson']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <form novalidate [formGroup]="lessonForm">
+    <div>
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select Board</mat-label>
+          <mat-select [(value)]="selBoard" formControlName="board_id" id="board_id" (selectionChange)="changeBoard($event.value)">
+            <mat-option *ngFor="let board of boards" [value]="board.id">
+              {{board.board_name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.board_id">
+            {{displayMessage.board_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select Class</mat-label>
+          <mat-select formControlName="class_id" id="class_id" (selectionChange)="changeClass($event.value)" multiple>
+            <mat-option *ngFor="let class of classes" [value]="class.id">
+              {{class.class_name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.class_id">
+            {{displayMessage.class_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select Subjects</mat-label>
+          <mat-select formControlName="subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)"
+            multiple>
+            <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+              {{subjects.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.subject_id">
+            {{displayMessage.subject_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="form-field">
+          <mat-label>Select Lessons</mat-label>
+          <mat-select formControlName="lesson_id" id="lesson_id" (selectionChange)="changeLesson($event.value)"
+            multiple>
+            <mat-option #allSelectedLessons [value]="0" (click)="selectAllLessons();">All</mat-option>
+            <mat-option *ngFor="let lesson of lessons" [value]="lesson.id">
+              {{lessons.length>2 ? 'Grade '+lesson.subject_lessons.class_id+' -> '+lesson.lesson_name + " (" +lesson.lesson_num + ")" : lesson.lesson_name + " (" + lesson.lesson_num + ")"}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.lesson_id">
+            {{displayMessage.lesson_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+    </div>
+    <!-- </mat-card-content> -->
+
+    <mat-toolbar *ngIf="dataSource">
+      <mat-toolbar-row>
+        
+        <mat-form-field>
+          <mat-placeholder>
+            <mat-icon>subject</mat-icon>
+            <b> Filter</b>
+          </mat-placeholder>
+          <input matInput (keyup)="applyFilter($event.target.value)">
+        </mat-form-field>
+        <span class="title-spacer"></span>
+
+        <button mat-raised-button [ngClass]="{btn:true}" (click)="assignChapter()">Assign</button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="S_No">
+        <mat-header-cell style="margin-inline-end: -35%;" *matHeaderCellDef> S.No </mat-header-cell>
+        <mat-cell style="margin-inline-end: -35%;" *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="UserName">
+        <mat-header-cell *matHeaderCellDef> Users </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.firstName}} {{user.lastName}} ({{user.user_Type.type_name}}) </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="assign">
+        <mat-header-cell *matHeaderCellDef> Assign </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <mat-checkbox (change)="onUserChange(user.id, $event.checked)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageSize]='pageSize' [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+
+  </form>
+</mat-card>

@@ -1,0 +1,86 @@
+
+<mat-card *ngIf="userData">
+  <form>
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <mat-card-title class="view-card-title">
+          <h1>Issue Details - {{class_name}} > {{subject_name}} > {{lesson_name}} > {{topic_name}} </h1>
+      </mat-card-title>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button *ngIf="readonly" mat-mini-fab class="primary" (click)="edit()" [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" >
+              <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" (click)="cancel()" [routerLink]="['/questionIssues']" queryParamsHandling="preserve">
+              <mat-icon>cancel</mat-icon>
+          </button>
+      </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- <md-input-container class="md-block">
+      <label>Address</label>
+      <input [value]="userData.device_manufacturer">
+    </md-input-container> -->
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Name" [value]="user_name" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <p>     
+      <label>Question</label> <br>
+      <app-decode-question [input]="userData"></app-decode-question>
+    </p>
+    <br> <br>
+
+    <p>     
+      <label>Screen Short</label> <br>
+      <img [src]="imgUrl+'/'+userData.screenshot_path" />
+    </p>
+    <br> <br>
+
+    <mat-form-field style="height:100px; width:400px !important">
+      <textarea matInput type="text" placeholder="Feedback From User" [(ngModel)]="feedback_from_user" name="feedback" [readonly]="!readonly"></textarea>     
+      <!-- <input matInput type="text" placeholder="Feedback From User" [(ngModel)]="feedback_from_user" name="feedback" style="width:200px;"> -->
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field style="height:100px; width:400px !important">
+      <textarea matInput type="text" placeholder="Source Detail" [value]="userData.feedback_source_detail" readonly></textarea>
+      <!-- <input matInput type="text" placeholder="Source Detail" [value]="userData.feedback_source_detail" readonly> -->
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Device Manufacturer" [value]="userData.device_manufacturer" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="Device Model" [value]="userData.device_model" style="width:200px;" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="App Name" [value]="userData.app_name" style="width:200px;" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="App Version" [value]="userData.app_version" style="width:200px;" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="Operating System" [value]="userData.os" style="width:200px;" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="OS Version" [value]="userData.os_version" style="width:200px;" readonly>
+    </mat-form-field>
+    <br> <br>
+  </form>
+</mat-card>

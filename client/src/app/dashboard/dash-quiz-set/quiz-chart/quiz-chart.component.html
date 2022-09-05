@@ -1,0 +1,34 @@
+<mat-card class="dash-card" class='light' [ngStyle]="{'width': chartGridWidth}">
+  <div [ngClass]="{'chart-tile':true}">Student Quiz Score</div>
+  <div *ngIf = "!student_id">
+    <div>
+      <p>{{chartTitle ? chartTitle : 'Average Percentage'}}: {{avgPercent}}</p>
+    </div>
+    <div *ngIf = "!quiz_set_id">
+      <div *ngIf = "!class_id">
+        <p>{{chartTitle ? chartTitle : 'Total Quiz'}}: {{totalQuiz}} 
+          / 
+          {{chartTitle ? chartTitle : 'Attempted Quiz'}}: {{totalQuizAttempt}}</p>
+      </div>
+      <div *ngIf = "class_id">
+        <p>{{chartTitle ? chartTitle : 'Total Quiz Assigned'}}: {{totalQuiz}} 
+          / 
+          {{chartTitle ? chartTitle : 'Attempted Quiz'}}: {{totalQuizAttempt}}</p>
+      </div>
+    </div>
+    <div>
+      <p>{{chartTitle ? chartTitle : 'Total  students'}}: {{totalStudent}}
+        /
+        {{chartTitle ? chartTitle : 'Students attempted'}}: {{total_quizSets}}
+      </p>   
+    </div>
+  </div>
+  <div *ngIf = "student_id">
+    <p>{{chartTitle ? chartTitle : 'Average Percentage'}}: {{avgPercent}}</p>
+    <p>{{chartTitle ? chartTitle : 'Attempted Quiz'}}: {{total_quizSets}}</p>
+  </div>
+  <div>
+    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" 
+      [options]="pieChartOptions" [colors]="pieChartColors" (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</mat-card>

@@ -1,0 +1,37 @@
+{
+    "name": "coupon_details",
+    "base": "Model",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "coupon_id": {
+        "type": "number",
+        "required": false
+      },
+      "class_id": {
+        "type": "number",
+        "required": false
+      },
+      "subject_id": {
+        "type": "number",
+        "required": false
+      },
+      "lesson_id": {
+        "type": "number",
+        "required": false
+      }
+    },
+    "validations": [],
+    "relations": {
+      "coupon": {
+        "type": "belongsTo",
+        "model": "coupons",
+        "foreignKey": "coupon_id"
+      }
+    },
+    "acls": [],
+    "methods": {}
+  }
+  

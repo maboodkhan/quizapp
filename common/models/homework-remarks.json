@@ -1,0 +1,57 @@
+{
+  "name": "homework_remarks",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "homework_id": {
+      "type": "number",
+      "required": true
+    },
+    "submission_id": {
+      "type": "number"
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "user_type": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "given_to": {
+      "type": "number"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "homeworkSubmission": {
+      "type": "belongsTo",
+      "model": "homework_submissions",
+      "foreignKey": "submission_id"
+    },
+    "homeworkFile": {
+      "type": "hasMany",
+      "model": "homework_files",
+      "foreignKey": "remark_id"
+    },
+    "quiz_user_data": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "created_by"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

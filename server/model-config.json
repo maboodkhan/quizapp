@@ -1,0 +1,375 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "answers": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "ques_right_answer": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "syllabus_questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "boards": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "classes": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "subjects": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "lessons": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "topics": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user_assign_lessons": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_set": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_syllabus_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "levels": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "attempted_quiz_set": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "attempted_quiz_questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "schools": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "school_coupons": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "coupon_users": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user_data": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_set_schools": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_user": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "coupons": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "coupon_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "sections": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user_types": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "class_sections": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user_classes": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "container": {
+    "dataSource": "fileUploadGoogle",
+    "public": true
+  },
+  "user_attendance": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "question_issues": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "question_remarks": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "question_permissions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "question_previous_data": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "zoom_class_meetings": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "attendance": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "question_qc_logs": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user_assigned_subjects": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_user_fcm": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "school_user_data": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "school_user_classes": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "post_quiz_set": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "post_quiz_syllabus_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "post_quiz_questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "post_quiz_set_schools": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "post_attempted_quiz_set": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "post_attempted_quiz_questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "online_schedule": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "poll_answers": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "poll_questions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "poll_user_answers": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "push_notification_logs": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "app_deep_links": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "push_notifications": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "push_notification_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "push_notification_master": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "homeworks": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "homework_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "homework_files": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "homework_submissions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "homework_remarks": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "countries": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "appUser": {
+    "dataSource": "mysql-liferay",
+    "public": true
+  },
+  "online_schedule_prev_dates": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "quiz_user_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "temp_user_ptest_ques": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "user_countries": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "country_lessons": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "country_lesson_mapping": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "contents": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "online_schedule_details": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "app_contents": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "syllabus_upload": {
+    "dataSource": "fileUploadGoogle",
+    "public": true
+  },
+  "permissions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "permission_roles": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "permission_users": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "textbook_contents": {
+    "dataSource": "mysql",
+    "public": true
+  },  
+  "wizenoze": {
+    "dataSource": "db",
+    "public": true
+  },  
+  "subscriptions": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "subscription_master_schools": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "subscription_master_users": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "subscription_freq_types": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "subscription_details": {
+    "dataSource": "mysql",
+    "public": true
+  }
+}

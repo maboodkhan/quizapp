@@ -1,0 +1,44 @@
+{
+  "name": "user_assigned_subjects",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number"
+    },
+    "subject_id": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number"
+    },
+    "paidStatus": {
+      "type": "number"
+    },
+    "validityStartDate": {
+      "type": "date"
+    },
+    "validityEndDate": {
+      "type": "date"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "subject":{
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

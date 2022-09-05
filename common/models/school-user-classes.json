@@ -1,0 +1,74 @@
+{
+  "name": "school_user_classes",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "school_data_id": {
+      "type": "number"
+    },
+    "user_id":{
+      "type":"number"
+    },
+    "school_id":{
+      "type":"number"
+    },
+    "class_id": {
+      "type": "number"
+    },
+    "section_id": {
+      "type": "number"
+    },
+    "subject_id": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_user_data": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "user_id"
+    },
+    "userAssignSub": {
+      "type": "belongsTo",
+      "model": "user_assigned_subjects",
+      "foreignKey": "user_id"
+    },
+    "school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "section": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    },
+    "userDataSchool": {
+      "type": "belongsTo",
+      "model": "school_user_data",
+      "foreignKey": "school_data_id"
+    },
+    "subject": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

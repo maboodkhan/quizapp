@@ -1,0 +1,213 @@
+{
+  "name": "quiz_user",
+  "plural": "quiz_users",
+  "base": "User",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "required": true
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "contactNumber": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "zoom_id": {
+      "type": "string"
+    },
+    "zoom_pass": {
+      "type": "string"
+    },
+    "status": {
+      "type": "number",
+      "default": "1"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "token":{
+      "type":"string"
+    },
+    "packageName":{
+      "type":"string"
+    },
+    "userType":{
+      "type": "number"
+    },
+    "userReferralCode":{
+      "type": "string"
+    },
+    "otp_received":{
+      "type": "number"
+    },
+    "referredBy":{
+      "type": "number"
+    }
+  },  
+  "validations": [],
+  "relations": {
+    "userData": {
+      "type": "hasMany",
+      "model": "user_data",
+      "foreignKey": "user_id"
+    },
+    "quiz_user_fcms": {
+      "type": "hasMany",
+      "model": "quiz_user_fcm",
+      "foreignKey": "user_id"
+    },
+    "user_assigned_subjects": {
+      "type": "hasMany",
+      "model": "user_assigned_subjects",
+      "foreignKey": "user_id"
+    },
+    "homeWorkSubmit": {
+      "type": "hasMany",
+      "model": "homework_submissions",
+      "foreignKey": "submitted_by"
+    },
+    "quiz_user_details": {
+      "type": "hasMany",
+      "model": "quiz_user_details",
+      "foreignKey": "user_id"
+    },
+    "attempted_quiz_set": {
+      "type": "hasMany",
+      "model": "attempted_quiz_set",
+      "foreignKey": "user_id"
+    },
+    "adminUser": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "quiz_user_id"
+    },
+    "schoolUserData": {
+      "type": "hasMany",
+      "model": "school_user_data",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "userlogin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "updateUser"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getStudentData"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getUserDetails"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getSuggestData"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "markAppLogin"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "chkUserToken"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "sendNotification"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getAppUser"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "deleteUser"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "appUserDetail"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "generateOtp"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "userVerification"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "markAppSignup"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "chkUserExists"
+    }
+  ],
+  "methods": {}
+}

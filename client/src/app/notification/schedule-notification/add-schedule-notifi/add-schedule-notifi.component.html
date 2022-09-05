@@ -1,0 +1,204 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>{{pageTitle}}</h1>
+      </mat-card-title>
+  </mat-card-header>
+  <form novalidate (ngSubmit)="sendNotification()" [formGroup]="userForm"> 
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="onFormSubmit()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!userForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/scheduleNotifications']">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>             
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="country_id" placeholder="Select Country" multiple>
+            <mat-option *ngFor="let countryData of countries" [value]="countryData.id">
+              ({{countryData.countryCode}}) - {{countryData.countryName}}
+            </mat-option>
+            <mat-error *ngIf="displayMessage.country_id">
+              {{displayMessage.country_id}}
+          </mat-error>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="class_id" placeholder="Select Grade" multiple>
+            <mat-option *ngFor="let classData of classNames" [value]="classData.class_id">
+              {{classData.className}}
+            </mat-option>
+            <mat-error *ngIf="displayMessage.class">
+              {{displayMessage.class}}
+          </mat-error>
+        </mat-select>
+      </mat-form-field>
+    </p>     
+    <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <input matInput id="title" type="title" placeholder="title" formControlName="title" />                                                          
+      </mat-form-field>
+      <mat-error *ngIf="displayMessage.title">
+        {{displayMessage.title}}
+    </mat-error>
+    </p>
+    <p>                                                                    
+      <mat-form-field class="form-field">               
+        <textarea matInput id="message" placeholder="Message" formControlName="message" rows="5" cols="50" ></textarea>                                          
+      </mat-form-field>
+      <mat-error *ngIf="displayMessage.message">
+        {{displayMessage.message}}
+    </mat-error>
+    </p>
+    <h4>Email Message</h4>
+      <ckeditor [editor]="Editor" formControlName="emailMessage"></ckeditor>
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="deep_link" placeholder="App Activity Page">
+          <mat-option value="">- - - - -Select Option- - - - -</mat-option>
+            <mat-option *ngFor="let DeepLink of deepLink" [value]="DeepLink.id">
+              {{DeepLink.mp_message}}
+            </mat-option>
+            <mat-error *ngIf="displayMessage.message">
+              {{displayMessage.message}}
+          </mat-error>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <input matInput id="image_url" type="image_url" placeholder="Image Url" formControlName="image_url" />                                                          
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="notificationTypeId" placeholder="Notifiation Type" (selectionChange)="changeNotifiType($event.value)">
+            <mat-option *ngFor="let notifiType of notificationType" [value]="notifiType.id">
+              {{notifiType.type_name}}
+            </mat-option>
+            <mat-error *ngIf="displayMessage.notificationTypeId">
+              {{displayMessage.notificationTypeId}}
+          </mat-error>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="subNotificationTypeId" placeholder="Lable Frequency" (selectionChange)="changeSubNotifiType($event.value)">
+            <mat-option *ngFor="let subNotiType of subNotifiType" [value]="subNotiType.id">
+              {{subNotiType.type_name}}
+            </mat-option>
+            <mat-error *ngIf="displayMessage.subNotificationTypeId">
+              {{displayMessage.subNotificationTypeId}}
+          </mat-error>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="scheduleDate">
+      <mat-form-field>
+        <mat-label>Notify Schedule Date</mat-label>
+        <input matInput formControlName="notifyScheduleDate" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1">
+        <owl-date-time #dt1></owl-date-time>
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="!scheduleDate">
+      <mat-form-field>
+        <mat-label>Notify time</mat-label>
+        <input matInput formControlName="dayHourMinuts" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2">
+        <owl-date-time #dt2 pickerType="timer"></owl-date-time>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>User Registration From Date</mat-label>
+        <input matInput formControlName="userRegFromDate" [matDatepicker]="Datepicker">
+        <mat-datepicker-toggle matSuffix [for]="Datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #Datepicker></mat-datepicker>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <mat-label>User Registration To Date</mat-label>
+        <input matInput formControlName="userRegToDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </p>
+
+    <!-- <p>
+      <mat-form-field>
+        <mat-label>User Registration From Date</mat-label>
+        <input matInput formControlName="userRegFromDate" [owlDateTime]="dt3" [owlDateTimeTrigger]="dt3">
+        <owl-date-time #dt3></owl-date-time>
+      </mat-form-field>
+    </p> -->
+
+    <!-- <p>
+      <mat-form-field>
+        <mat-label>User Registration To Date</mat-label>
+        <input matInput formControlName="userRegToDate" [owlDateTime]="dt4" [owlDateTimeTrigger]="dt4">
+        <owl-date-time #dt4></owl-date-time>
+      </mat-form-field>
+    </p> -->
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select placeholder="Status" formControlName="status">
+          <mat-option [value]="1">Active</mat-option>
+          <mat-option [value]="2">Inactive</mat-option>
+        </mat-select>
+        <mat-error *ngIf="displayMessage.status">
+          {{displayMessage.status}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <!-- <p>
+      <button mat-mini-fab class="primary" (click)="onFormSubmit()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!userForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+      <button mat-raised-button color="primary" (click)="onFormSubmit()" type="submit" [disabled]='!userForm.valid'>
+        Send
+     </button>
+    </p> -->
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-mini-fab class="primary" (click)="onFormSubmit()"
+            [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit"
+            [disabled]='!userForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/scheduleNotifications']">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </form>
+</mat-card>

@@ -1,0 +1,41 @@
+{
+  "name": "online_schedule_details",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "schedule_id": {
+      "type": "number",
+      "required": true
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "onlineSchedule": {
+      "type": "belongsTo",
+      "model": "online_schedule",
+      "foreignKey": "schedule_id"
+    },
+    "lesson": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

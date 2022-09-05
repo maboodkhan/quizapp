@@ -1,0 +1,44 @@
+{
+  "name": "country_lesson_mapping",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "country_lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "lesson_num": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "country_lessons": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "country_map_lessons": {
+      "type": "belongsTo",
+      "model": "country_lessons",
+      "foreignKey": "country_lesson_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

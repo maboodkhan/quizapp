@@ -1,0 +1,9 @@
+mat-cell a {
+    text-decoration: none;
+}
+
+.viewBtn {
+    margin-left: 5px;
+    background-color:darkgray;
+    color:#fff;
+}

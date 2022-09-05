@@ -1,0 +1,288 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+
+  <form novalidate [formGroup]="quizForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <!-- <span class="view-card-title"> {{pageTitle}}</span> -->
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-button style="margin-right:10px; background-color:darkgrey"
+            (click)="openDialog()">Preview</button>
+          <button mat-mini-fab class="primary" (click)="saveQuizSet()" *ngIf="!view"
+            style="margin-right:10px; background-color:darkgray" type="submit" [disabled]='!quizForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/quizset']"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+    <mat-tab-group color="primary" backgroundColor="primary">
+      <mat-tab label="Quiz Set Data">
+        <mat-card-content>
+          <!-- <mat-card-content> -->
+          <div class="form-card">
+            <p>
+              <mat-form-field class="form-field">
+                <input matInput id="set_name" type="text" placeholder="Quiz Set Name (required)"
+                  formControlName="set_name" />
+                <mat-error *ngIf="displayMessage.set_name">
+                  {{displayMessage.set_name}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+
+              <mat-form-field>
+                <input matInput type="text" formControlName="num_ques" [(ngModel)]="num_ques"
+                  placeholder="Number of questions selected" readonly />
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field class="form-field">
+                <mat-select [(ngModel)]="duration" placeholder="Duration (In minutes) (required)"
+                  formControlName="duration">
+                  <mat-option value="0">0</mat-option>
+                  <mat-option value="10">10</mat-option>
+                  <mat-option value="15">15</mat-option>
+                  <mat-option value="30">30</mat-option>
+                  <mat-option value="60">60</mat-option>
+                  <mat-option value="90">90</mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.duration">
+                  {{displayMessage.duration}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field class="form-field">
+                <mat-select placeholder="Status (required)" formControlName="status">
+                  <mat-option [value]="1">Active</mat-option>
+                  <mat-option [value]="2">Inactive</mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.status">
+                  {{displayMessage.status}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <!-- <p>
+              <mat-form-field>
+                  <input type="checkbox" mat-checkbox class="example-margin" formControlName="multiple_attempts"/>
+                  <span class="checkmark"></span>
+              </mat-form-field>
+            </p> -->
+            <p>
+              <mat-form-field class="form-field">
+                <mat-select placeholder="Set Type" formControlName="set_type"
+                  (selectionChange)="changeSetType($event.value)">
+                  <mat-option [value]="0">Academic</mat-option>
+                  <mat-option [value]="1" *ngIf="userType==='admin'">Non-academic</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field class="form-field">           
+                <mat-select formControlName="country_id" placeholder="Select Country"
+                  (selectionChange)="changeCountry($event.source.triggerValue)" #countryVal>
+                    <mat-option *ngFor="let country of countryList" [value]="country.countries.id">
+                      {{country.countries.countryName}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.country_id">
+                  {{displayMessage.country_id}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field class="form-field">           
+                <mat-select formControlName="school_id" placeholder="Select School" multiple>
+                    <mat-option *ngFor="let school of schoolList" [value]="school.id">
+                      {{school.school_name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.school_id">
+                  {{displayMessage.school_id}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <div>
+              <label class="container">
+                <input type="checkbox" class="example-margin" mat-checkbox formControlName="multiple_attempts"/>
+                <span class="checkmark"></span>
+                <span class="lbl-class">Allow multiple quiz attempts</span>
+              </label>
+              <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+              <br>
+            </div>
+            <p>
+              <mat-form-field>
+                <mat-label>Board</mat-label>
+                <mat-select formControlName="board_id" id="board_id" (selectionChange)="changeBoard($event.value)">
+                  <mat-option *ngFor="let board of boards" [value]="board.id">
+                    {{countryName == 'Indonesia' ? 'Indonesia Board' : board.board_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.board_id">
+                  {{displayMessage.board_id}}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Class</mat-label>
+                <mat-select formControlName="class_id" id="class_id" (selectionChange)="changeClass($event.value)"
+                  multiple>
+                  <mat-option *ngFor="let class of classes" [value]="class.id">
+                    {{class.class_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.class_id">
+                  {{displayMessage.class_id}}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Section</mat-label>
+                <mat-select formControlName="section_id" id="section_id" multiple>
+                  <mat-option #allSelectedSection [value]="0" (click)="selectAllSection();">All</mat-option>
+                  <mat-option *ngFor="let section of sections" [value]="section.id">
+                    <!-- {{section.section_name}} -->
+                    {{sections.length>2 ? 'Class '+section.class_id+' -> '+section.class_section.section_name : section.class_section.section_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.section_id">
+                  {{displayMessage.section_id}}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Subjects</mat-label>
+                <mat-select formControlName="subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)"
+                  multiple>
+                  <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+                    {{subjects.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.subject_id">
+                  {{displayMessage.subject_id}}
+                </mat-error>
+              </mat-form-field>
+              <span *ngIf="showCountryLesson else mainLessons">
+                <mat-form-field>
+                  <mat-label>Lessons</mat-label>
+                  <mat-select formControlName="country_lesson_id" id="country_lesson_id" 
+                    (selectionChange)="getCountryMapLessons($event.value)"
+                    multiple>
+                    <mat-option #allSelectedCountryLessons [value]="0" (click)="tosslePerCountryLesson();">All</mat-option>
+                    <mat-option *ngFor="let lesson of countryLessonList" [value]="lesson.id">
+                      {{countryLessonList.length>2 ? 'Grade '+lesson.subject_lessons.class_id+' -> '+lesson.country_lesson_name + " (" +lesson.lesson_num + ")" : lesson.country_lesson_name + " (" + lesson.lesson_num + ")"}}
+                      <!-- {{lesson.lesson_name}} ({{lesson.lesson_num}}) -->
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="displayMessage.lesson_id">
+                    {{displayMessage.lesson_id}}
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>{{lessonType}}</mat-label>
+                  <mat-select formControlName="lesson_id" id="lesson_id" (selectionChange)="changeLesson($event.value)"
+                    multiple>
+                    <mat-option #allSelectedLessons [value]="0" (click)="selectAllLessons();">All</mat-option>
+                    <mat-option *ngFor="let lesson of mapLessonList" [value]="lesson.lesson_id">
+                      {{mapLessonList.length>2 ? 'Grade '+lesson.country_map_lessons.class_id+' -> '+lesson.country_lessons.lesson_name + " (" +lesson.lesson_num + ")" : lesson.country_lessons.lesson_name + " (" + lesson.lesson_num + ")"}}
+                      <!-- {{lesson.lesson_name}} ({{lesson.lesson_num}}) -->
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="displayMessage.lesson_id">
+                    {{displayMessage.lesson_id}}
+                  </mat-error>
+                </mat-form-field>                
+              </span>
+              <ng-template #mainLessons>              
+                <mat-form-field>
+                  <mat-label>Lessons</mat-label>
+                  <mat-select formControlName="lesson_id" id="lesson_id" (selectionChange)="changeLesson($event.value)"
+                    multiple>
+                    <mat-option #allSelectedLessons [value]="0" (click)="selectAllLessons();">All</mat-option>
+                    <mat-option *ngFor="let lesson of lessons" [value]="lesson.id">
+                      {{lessons.length>2 ? 'Grade '+lesson.subject_lessons.class_id+' -> '+lesson.lesson_name + " (" +lesson.lesson_num + ")" : lesson.lesson_name + " (" + lesson.lesson_num + ")"}}
+                      <!-- {{lesson.lesson_name}} ({{lesson.lesson_num}}) -->
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="displayMessage.lesson_id">
+                    {{displayMessage.lesson_id}}
+                  </mat-error>
+                </mat-form-field>
+              </ng-template>
+              <mat-form-field>
+                <mat-label>Topic</mat-label>
+                <mat-select formControlName="topic_id" id="topic_id" (selectionChange)="getTopicQuestions($event.value)"
+                  multiple>
+                  <mat-option #allSelectedTopics [value]="0" (click)="selectAllTopics()">All</mat-option>
+                  <mat-option *ngFor="let topic of topics" [value]="topic.id">
+                    {{topic.topic_name}} ({{topic.topic_num}})
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="displayMessage.topic_id">
+                  {{displayMessage.topic_id}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <div *ngFor="let question of questionData; let i=index;">
+              <div *ngIf=question.syllabus_questions>
+                <label class="container">
+                  <input type="checkbox" class="example-margin" mat-checkbox (click)="onQuesChange(question.question_id, $event.target.checked)"
+                  [checked]="question.isChecked" />
+                  <span class="checkmark"></span>
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>Question {{i+1}}</b>
+                <app-quiz-question [question]="question"></app-quiz-question>
+                <b>Right Answer:</b>
+                <p *ngFor='let ansoption of question.syllabus_questions.rightansoption'>
+                  <app-quiz-ans [answerOption]='ansoption.right_ans'></app-quiz-ans>
+                </p>
+                <mat-error *ngIf="displayMessage.question_id">
+                  {{displayMessage.question_id}}
+                </mat-error>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <!-- <span class="view-card-title"> {{pageTitle}}</span> -->
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          <button mat-button style="margin-right:10px; background-color:darkgrey"
+            (click)="openDialog()">Preview</button>
+          <button mat-mini-fab class="primary" (click)="saveQuizSet()" style="margin-right:10px; background-color:darkgray" type="submit"
+            [disabled]='!quizForm.valid'>
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/quizset']"
+            queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </form>
+</mat-card>

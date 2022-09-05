@@ -1,0 +1,35 @@
+<mat-toolbar-row>
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']" [queryParams]="{tabType:1}"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_section_dashboard', school_id, class_id]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_quiz_dashboard', school_id, class_id, section_id]">{{student_name}} </a>
+    / Attempted Post Test
+  </p>  
+</mat-toolbar-row>
+
+  <mat-card>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <h1>{{student_name}} - Attempted Post Test</h1>
+        <span class="title-spacer"></span>
+        <button mat-mini-fab class="" style="margin-right:10px;"
+          [routerLink]="['/post_quiz_dashboard', school_id, class_id, section_id]">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-grid-list [cols]="quizSetLength" [rowHeight]="rowHeight" style="text-align: center;" *ngIf="quizSetData">
+      <mat-grid-tile *ngFor="let quizSet of quizSetData">
+        <mat-grid-tile-header>
+          {{quizSet.set_name}}
+        </mat-grid-tile-header>
+        <app-post-student-quiz-chat
+          [chartData]="{school_id: school_id, class_id: class_id, section_id: section_id, quiz_set_id: quizSet.quiz_set_id, student_id: student_id, chartSize: quizSetLength }">
+        </app-post-student-quiz-chat>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-paginator #paginator [length]="total_count" [pageSize]="limit" [pageSizeOptions]="[12, 18, 24]"
+      showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>

@@ -1,0 +1,46 @@
+<!-- <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Quiz Set">   <app-dash-quiz-set></app-dash-quiz-set> </mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+  </mat-tab-group> -->
+
+  <mat-card>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <h1 *ngIf="heading">Section {{section_name}} - Post Test Wise Performance</h1>
+        <h1 *ngIf="!heading">Section {{section_name}} - Post Test Performance</h1>
+        <span class="title-spacer"></span>
+        <button mat-mini-fab class="" style="margin-right:10px;"
+          [routerLink]="['/post_section_dashboard', school_id, class_id]">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  
+    <mat-grid-list [cols]="quizSetLength" [rowHeight]="rowHeight" style="text-align: center;" *ngIf="quizSetData">
+      <mat-grid-tile *ngFor="let quizSet of quizSetData">
+        <mat-grid-tile-header>
+          {{quizSet.set_name}}
+          <span class="title-spacer"></span>
+          <button mat-mini-fab title="Topic-wise Performance" color="accent" style="margin-right:10px;"
+            [routerLink]="['/post_topic_dashboard', school_id, class_id, section_id, quizSet.quiz_set_id]"
+            [queryParams]="{backTo: 'quiz'}">
+            <mat-icon>report</mat-icon>
+          </button>
+          <button mat-mini-fab title="Quiz Details" style="margin-right:10px;background-color:#22028661;" 
+            (click)="openDialog(quizSet.quiz_set_id)"> 
+            <mat-icon>info</mat-icon>
+          </button>
+        </mat-grid-tile-header>
+  
+        <app-post-quiz-chart [chartTitle]="chartTile"
+          [chartData]="{school_id: school_id, class_id: class_id, section_id: section_id, quiz_set_id: quizSet.quiz_set_id, chart_type: 'quizDash'}">
+        </app-post-quiz-chart>
+  
+      </mat-grid-tile>
+    </mat-grid-list>
+  
+    <mat-paginator #paginator [length]="total_count" [pageSize]="limit" [pageSizeOptions]="[12, 18, 24]"
+      showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>

@@ -1,0 +1,144 @@
+{
+  "name": "online_schedule",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "country_id": {
+      "type": "number",
+      "required": true
+    },
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "section_id": {
+      "type": "number",
+      "required": true
+    },
+    "subject_id": {
+      "type": "number",
+      "required": true
+    },
+    "country_lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_level": {
+      "type": "string",
+      "required": true
+    },
+    "class_type": {
+      "type": "string",
+      "required": true
+    },
+    "start_date": {
+      "type": "DateString"
+    },
+    "end_date": {
+      "type": "DateString"
+    },
+    "rescheduled": {
+      "type": "number"
+    },
+    "class_status": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "modified_by": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quizUser": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "user_id"
+    },
+    "school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "classSection": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    },
+    "subject": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    },
+    "lesson": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "created_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "created_by"
+    },
+    "modified_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "modified_by"
+    },
+    "zoomClass": {
+      "type": "hasMany",
+      "model": "zoom_class_meetings",
+      "foreignKey": "schedule_id"
+    },
+    "attendance": {
+      "type": "hasMany",
+      "model": "attendance",
+      "foreignKey": "schedule_id"
+    },
+    "country_lessons":{
+      "type": "belongsTo",
+      "model": "country_lessons",
+      "foreignKey": "country_lesson_id"
+    },
+    "scheduleDetail": {
+      "type": "hasMany",
+      "model": "online_schedule_details",
+      "foreignKey": "schedule_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

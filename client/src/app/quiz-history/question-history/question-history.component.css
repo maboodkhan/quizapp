@@ -1,0 +1,17 @@
+.error-message {
+    height: 300px;
+    color: green;
+    text-align: center;
+    font-size: 25px;
+}
+
+.text-message {
+    padding: 115px;
+}
+
+.btn {
+    height: 40px;
+    margin-right:10px;
+    background-color:darkgray;
+    color:#fff;
+}

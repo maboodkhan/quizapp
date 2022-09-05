@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>{{pageTitle}}</h1>
+      </mat-card-title>
+  </mat-card-header>
+  <form novalidate (ngSubmit)="sendNotification()" [formGroup]="reportForm"> 
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select placeholder="Notification Report" formControlName="notificationReport">
+          <mat-option [value]="1">User Notification</mat-option>
+          <mat-option [value]="2">Class Notification</mat-option>
+          <mat-option [value]="3">Schedule Notification</mat-option>
+          <mat-option [value]="4">Class Reschedule</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <!-- Schedule Notification -->
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select placeholder="Days" formControlName="day">
+          <mat-option [value]=1>Today</mat-option>
+          <mat-option [value]=2>Last 2 days</mat-option>
+          <mat-option [value]=3>Last 3 days</mat-option>
+          <mat-option [value]=4>One Week</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <button mat-raised-button color="primary" (click)="onFormSubmit()" type="submit" [disabled]='!reportForm.valid'>
+        Submit
+     </button>
+    </p>
+  </form>
+</mat-card>

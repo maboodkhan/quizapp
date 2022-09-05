@@ -1,0 +1,50 @@
+{
+  "name": "topics",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "topic_name": {
+      "type": "string",
+      "required": true
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "topic_num": {
+      "type": "number"
+    },
+    "keywords": {
+      "type": "string"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "lesson_topics": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "syllabus_question": {
+      "type": "hasMany",
+      "model": "syllabus_questions",
+      "foreignKey": "syllabus_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

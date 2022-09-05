@@ -1,0 +1,119 @@
+<mat-card>
+  <!-- <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}}</h1>
+    </mat-card-title>
+  </mat-card-header> -->
+
+  <form novalidate (ngSubmit)="getUser()" [formGroup]="userForm">
+    <p>
+      <mat-form-field class="form-field">
+        <input matInput id="email" type="email" placeholder="Email (required)" formControlName="email" />
+        <mat-error *ngIf="displayMessage.email">
+          {{displayMessage.email}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <button mat-raised-button [ngClass]="{btn:true}" type="submit" [disabled]='!userForm.valid'>submit</button>
+  </form>
+
+  <br>
+  <form *ngIf="!userData">
+    <h2>{{notFound}}</h2>
+  </form>
+
+  <form *ngIf="userData">
+    <mat-tab-group color="primary" backgroundColor="primary">
+      <mat-tab label="User Details">
+        <mat-card-content>
+          <mat-grid-list cols="12" rowHeight="40px">
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> User Name:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> {{userData.firstName}} {{userData.lastName}}</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Email:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> {{userData.email}}</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Contact Number:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> {{userData.contactNumber}}</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> User Type:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> {{userData.userType==0?'Student':'Teacher'}}</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> School:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <div class="view-data" *ngFor="let school of school_id"> {{school.school_name}}
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Class/Section:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <div class="view-data" *ngFor="let section of section_id">
+                Grade {{section.class_id}}-{{section.class_section.section_name}}
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Device Id:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <div class="view-data" *ngFor="let quizUser of quiz_user_details">
+                <!-- {{quizUser.deviceId?}} -->
+                {{quiz_user_details.length > 1 ? 'Grade' + quizUser.class_id + ' -' : ''}} 
+                {{quizUser.deviceId}}
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Paid Status:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <div class="view-data" *ngFor="let quizUser of quiz_user_details">
+                <!-- {{quizUser.deviceId?}} -->
+                {{quiz_user_details.length > 1 ? 'Grade' + quizUser.class_id + ' -': ''}} 
+                {{quizUser.paidStatus==0?'Unpaid':'Paid'}}
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Country:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> {{country}}</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> State:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> NA </span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> City:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <!-- {{attendance.studentusers ? attendance.studentusers.firstName : ''}} -->
+              <span class="view-data"> {{city?city:'N/A'}}</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+              <span class="view-label"> Validity Date:</span>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9" style="text-align: left">
+              <span class="view-data"> NA </span>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+  </form>
+</mat-card>

@@ -1,0 +1,135 @@
+<!-- <mat-sidenav-container> -->    
+  <mat-card class='light' style="height: 100%;">
+
+    <mat-card-header>
+      <mat-card-title class="view-card-title">
+        <h1>{{pageTitle }} - {{quizSetValue}}</h1>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-grid-list [cols]="colNum" [rowHeight]="rowHeight">
+      
+
+      <mat-grid-tile style="height: 100%">
+        <mat-card class="dash-card" style="width:45%">
+          <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" 
+            [options]="pieChartOptions" [colors]="pieChartColors" (chartClick)="chartClicked($event)"></canvas>
+        </mat-card>
+    
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div>
+          
+    </div>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <div>
+          <mat-form-field>
+            <mat-label>Select Class</mat-label>
+            <mat-select id="class_id" [(ngModel)]="filterClassId" (selectionChange)="changeClass($event.value)" multiple>
+              <mat-option *ngFor="let class of classArr" [value]="class.id" >
+                {{class.class_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Select Section</mat-label>
+            <mat-select id="section_id" [(ngModel)]="filterSectionId" (selectionChange)="changeSection($event.value)" multiple>
+              <mat-option *ngFor="let section of sectionArr" [value]="section.section_id">
+                {{section.class_name}} -> {{section.section_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <span class="title-spacer"></span>       
+        <!-- <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+          <mat-icon>search</mat-icon>
+        </button> -->
+        <!-- <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+          <mat-icon>refresh</mat-icon>
+        </button> -->
+        <button mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/quizset']" queryParamsHandling="preserve">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  
+    <mat-table #table [dataSource]="dataSource" matSort>            
+      <ng-container matColumnDef="userName">  
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let quizset"> <a [routerLink]="['/userQuizHistory/',quizset.quiz_set_id, quizset.id]">{{quizset.userName}}</a> </mat-cell>
+      </ng-container> 
+
+      <ng-container matColumnDef="class_section">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> class/section </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.class_name}} - {{quizset.section_name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="total_attempted">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Total Attempted </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.total_attempted}}</mat-cell>
+      </ng-container>       
+      <ng-container matColumnDef="total_correct">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Total Correct </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.total_correct}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="total_incorrect">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Total Incorrect </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.total_incorrect}}</mat-cell>
+      </ng-container>      
+      <ng-container matColumnDef="total_skipped">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Total Skipped </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.total_skipped}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="time_spent">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Time Spent (In minutes) </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.time_spent}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="percentage">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Score </mat-header-cell >
+        <mat-cell *matCellDef="let quizset">{{quizset.percentage | number:'1.0-0'}} %</mat-cell>
+
+      </ng-container>
+      <ng-container matColumnDef="attemptedOn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Attempted On </mat-header-cell>
+        <mat-cell *matCellDef="let quizset">{{quizset.attempted_on | date}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>    
+    </mat-table>    
+    
+    <mat-paginator #paginator [pageSize]=10 [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>
+  
+  
+  <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <button mat-mini-fab (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
+        <mat-card-subtitle>
+  
+          <!-- <button mat-raised-button style="color:lightgrey; background-color:darkgreen" (click)="searchCustomers(searchFilter);sidenav.toggle()">
+            <mat-icon>search</mat-icon>Search </button> -->
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkred" (click)="resetSearchFilter(sidenav)">
+            <mat-icon>refresh</mat-icon>Reset</button>
+  
+                   
+        </mat-card-subtitle>
+      </mat-card-header>
+  
+    </mat-card>
+    <mat-nav-list style="margin-left:20px;">      
+      <mat-form-field>
+        <input matInput type="text" placeholder="Quiz Set Name" style="width:200px;" name="setName" 
+          #setName />
+      </mat-form-field>
+      <!-- <mat-form-field>
+        <input matInput type="text" placeholder="Lead Date" ngxDaterangepickerMd showCancel="true" [locale]="{format: 'DD-MM-YYYY'}" style="width:200px;" name="createdDate" [(ngModel)]="searchFilter.createdDate"
+          #createdDate />
+      </mat-form-field> -->
+    </mat-nav-list>   
+  </mat-sidenav>
+  <!-- </mat-sidenav-container> -->

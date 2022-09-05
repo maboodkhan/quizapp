@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "jasmine",
+      "node",
+      "source-map",
+      "mathjax"]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "node_modules",
+    "dist"
+  ]
+}

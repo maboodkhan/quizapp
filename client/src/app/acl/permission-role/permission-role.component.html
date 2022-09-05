@@ -1,0 +1,82 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle}} to {{typeName}}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <mat-form-field>
+        <mat-placeholder>
+          <mat-icon>subject</mat-icon>
+          <b> Filter</b>
+        </mat-placeholder>
+        <input matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+      <span class="title-spacer"></span>
+      <button *ngIf="!showBack" mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/userType']">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <button *ngIf="showBack" mat-mini-fab class="" style="margin-right:10px;" (click)=parentPermision(prev_parent_id)>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource">
+
+      <div>
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef> Sno. </mat-header-cell>
+        <mat-cell  *matCellDef="let permission; let i = index;" (click)=parentPermision(permission.id)>{{i + 1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="label">
+        <mat-header-cell *matHeaderCellDef> Lable </mat-header-cell>
+        <mat-cell *matCellDef="let permission" (click)=parentPermision(permission.id)> {{permission.label}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="link">
+        <mat-header-cell *matHeaderCellDef> Link </mat-header-cell>
+        <mat-cell *matCellDef="let permission" (click)=parentPermision(permission.id)> {{permission.link}} </mat-cell>
+      </ng-container>
+    </div>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef style="justify-content:center;">
+          <mat-checkbox class="example-margin" [(ngModel)]="selectedAll" (change)="selectAll($event.checked)"></mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let permission" style="justify-content:center;">
+          <mat-checkbox [(ngModel)]="permission.isSelected" (change)="assignRole(permission.id, $event.checked)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]=10 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+
+  <!-- <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <button mat-mini-fab (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
+        <mat-card-subtitle>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkgreen" (click)="searchSchool(searchFilter);sidenav.toggle()">
+            <mat-icon>search</mat-icon>Search </button>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkred" (click)="resetSearchFilter(sidenav)">
+            <mat-icon>refresh</mat-icon>Reset</button>
+                   
+        </mat-card-subtitle>
+      </mat-card-header>
+
+    </mat-card>
+    <mat-nav-list style="margin-left:20px;">      
+      <mat-form-field>
+        <input matInput type="text" placeholder="School Name" style="width:200px;" name="school_name" [(ngModel)]="searchFilter.school_name"
+          #school_name />
+      </mat-form-field>
+    </mat-nav-list>   
+  </mat-sidenav> -->

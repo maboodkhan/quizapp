@@ -1,0 +1,79 @@
+
+<mat-card *ngIf="userData">
+  <form>
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <mat-card-title class="view-card-title">
+          <h1>Attendance Detail</h1>
+      </mat-card-title>
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+          
+          <button mat-mini-fab class="" *ngIf="!schedule_id" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/teacherAttendance']" queryParamsHandling="preserve">
+              <mat-icon>cancel</mat-icon>
+          </button>
+          <button mat-mini-fab class="" *ngIf="schedule_id" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/teacherAttendance/', schedule_id]" queryParamsHandling="preserve">
+            <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- <md-input-container class="md-block">
+      <label>Address</label>
+      <input [value]="userData.device_manufacturer">
+    </md-input-container> -->
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="First Name" [value]="userData.studentusers.firstName" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Last Name" [value]="userData.studentusers.lastName" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Email" [value]="userData.studentusers.email" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Class" [value]="userData.class.class_name" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Section" [value]="userData.classSection.class_section.section_name" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Subject" [value]="userData.subject.subject_name" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Start Time" [value]="userData.startTime | date: 'medium':'+0530'" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="End Time" [value]="userData.endTime | date: 'medium':'+0530'" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Attendance Date" [value]="userData.attendanceDate | date" readonly>
+    </mat-form-field>
+    <br> <br>
+
+    <mat-form-field>
+      <input matInput type="text" class="form-field" placeholder="Attendance Status" [value]="userData.attendanceStatus" readonly>
+    </mat-form-field>
+    <br> <br>
+
+  </form>
+</mat-card>

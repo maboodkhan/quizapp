@@ -1,0 +1,35 @@
+{
+  "name": "homework_submissions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "homework_id": {
+      "type": "number",
+      "required": true
+    },
+    "submitted_by": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "submitted_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "homeworkFiles": {
+      "type": "hasMany",
+      "model": "homework_files",
+      "foreignKey": "submission_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

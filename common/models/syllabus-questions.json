@@ -1,0 +1,48 @@
+{
+  "name": "syllabus_questions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "syllabus_id": {
+      "type": "number",
+      "required": true
+    },
+    "syllabus_type": {
+      "type": "string",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "syllabus_questions": {
+      "type": "belongsTo",
+      "model": "questions",
+      "foreignKey": "question_id"
+    },
+    "question_topic": {
+      "type": "belongsTo",
+      "model": "topics",
+      "foreignKey": "syllabus_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

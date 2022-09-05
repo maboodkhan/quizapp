@@ -1,0 +1,52 @@
+{
+  "name": "push_notification_logs",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "module": {
+      "type": "string"
+    },
+    "class_id": {
+      "type": "number"
+    },
+    "sent_to": {
+      "type": "number"
+    },
+    "notification_message": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "response": {
+      "type": "string"
+    },
+    "sent_by": {
+      "type": "number"
+    },
+    "sent_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "sendToUser": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "sent_to"
+    },
+    "sendByUser": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "sent_by"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

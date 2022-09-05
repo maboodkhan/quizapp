@@ -1,0 +1,37 @@
+{
+  "name": "ques_right_answer",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "question_id": {
+      "type": "number",
+      "required": true
+    },
+    "answer_id": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "right_ans": {
+      "type": "belongsTo",
+      "model": "answers",
+      "foreignKey": "answer_id"
+    },
+    "ques_right_ans": {
+      "type": "belongsTo",
+      "model": "questions",
+      "foreignKey": "question_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

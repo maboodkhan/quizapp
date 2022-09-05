@@ -1,0 +1,46 @@
+<!-- <mat-card> -->
+  <mat-toolbar-row>
+    <p>
+      <a style="text-decoration:none" [routerLink]="['/dashboard']" [queryParams]="{tabType:1}"> {{school_name}} </a> /
+      <a style="text-decoration:none" [routerLink]="['/post_class_dashboard', school_id]"> {{class_name}} </a> /
+      <a style="text-decoration:none" [routerLink]="['/post_section_dashboard', school_id, class_id]">Section {{section_name}} </a>
+      / Students
+    </p>
+    
+  </mat-toolbar-row>
+<!-- </mat-card> -->
+
+<mat-tab-group mat-align-tabs="start" *ngIf="section_name" [selectedIndex]="defaultTab">
+  
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <h2>
+        Students
+      </h2>
+    </ng-template>
+    <div align="right"[ngClass]="{btnAlign:true}">
+      <button mat-raised-button [ngClass]="{viewBtn:true}" color="primary"
+        (click)="changeView()" >{{listOpen?'Chart View':'List View'}}</button>
+    </div>
+   
+    <div *ngIf="listOpen">
+      <app-post-user-list-dash [inputData]="{section_name: section_name}"></app-post-user-list-dash>
+    </div>
+    <div *ngIf="!listOpen">
+      <app-post-user-dash [inputData]="{section_name: section_name}"></app-post-user-dash>
+    </div>
+    
+    
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <h2>
+        Quiz Sets
+      </h2>
+    </ng-template>
+    <app-post-quiz-dashboard [inputData]="{section_name: section_name}"></app-post-quiz-dashboard>
+  </mat-tab>
+
+</mat-tab-group>
+

@@ -1,0 +1,63 @@
+
+<mat-card class='light' style="height: 100%;">
+
+<mat-card-header>
+  <mat-card-title>
+    <h1>Move Question To:</h1>
+  </mat-card-title>
+</mat-card-header>
+
+
+  <div>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Class</mat-label>
+        <mat-select [(ngModel)]="class_id" id="class_id" (selectionChange)="changeClass($event.value)">
+          <mat-option *ngFor="let class of classes" [value]="class.id">
+            {{class.class_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Subjects</mat-label>
+        <mat-select [(ngModel)]="subject_id" id="subject_id" (selectionChange)="changeSubject($event.value)">
+          <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+            {{subjects.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Lessons</mat-label>
+        <mat-select [(ngModel)]="lesson_id" id="lesson_id" (selectionChange)="changeLesson($event.value)">
+          <mat-option *ngFor="let lesson of lessons" [value]="lesson.id">
+            {{lesson.lesson_name + " (" + lesson.lesson_num + ")"}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="form-field">
+        <mat-label>Select Topic</mat-label>
+        <mat-select [(ngModel)]="topic_id" id="topic_id" (selectionChange)="changeTopic()">
+          <mat-option *ngFor="let topic of topics" [value]="topic.id">
+            {{topic.topic_name}} ({{topic.topic_num}})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+  </div>
+
+</mat-card>
+<mat-dialog-actions align="end">
+  <button mat-button [disabled]="isDisabled" [ngClass]="{btn:true}" (click)="moveQues()" cdkFocusInitial>Submit</button>
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

@@ -1,0 +1,122 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>App User Detail</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      
+      <span class="title-spacer"></span>
+      <button mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/appUser']" queryParamsHandling="preserve">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+
+<form *ngIf="userData">
+      <mat-card-content>
+        <mat-grid-list cols="12" rowHeight="40px">
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> User ID:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <span class="view-data"> {{userData.id}} </span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> User Name:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <span class="view-data"> {{userData.firstName}} {{userData.lastName}}</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Email:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <span class="view-data"> {{userData.email}}</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Contact Number:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <span class="view-data"> {{userData.contactNumber}}</span>
+          </mat-grid-tile>
+          <!-- <mat-grid-tile colspan="3">
+            <span class="view-label"> User Type:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <span class="view-data"> {{userData.userType==0?'Student':'Teacher'}}</span>
+          </mat-grid-tile> -->
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Class:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <div class="view-data" *ngFor="let quizDetail of quiz_user_details"> 
+              Grade {{quizDetail.class_id}}
+            </div>
+            <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> App Open At:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+              <div class="view-data" *ngFor="let quizDetail of quiz_user_details">
+                <div *ngIf="quiz_user_details.length>1">Grade {{quizDetail.class_id}} - {{quizDetail.appOpenedAt? quizDetail.appOpenedAt: 'Not Available'}}</div>
+                <div *ngIf="quiz_user_details.length==1">{{quizDetail.appOpenedAt? quizDetail.appOpenedAt: 'Not Available'}}</div>
+              </div>
+            <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> App Close At:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <div class="view-data" *ngFor="let quizDetail of quiz_user_details">
+              <div *ngIf="quiz_user_details.length>1">Grade {{quizDetail.class_id}} - {{quizDetail.appClosedAt? quizDetail.appClosedAt: 'Not Available'}}</div>
+              <div *ngIf="quiz_user_details.length==1">{{quizDetail.appClosedAt? quizDetail.appClosedAt: 'Not Available'}}</div>
+            </div>
+          <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Duration:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <div class="view-data" *ngFor="let quizDetail of quiz_user_details">
+              Grade {{quizDetail.class_id}} - {{quizDetail.duration}} Minutes
+            </div>
+            <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Device Id:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <div class="view-data" *ngFor="let quizDetail of quiz_user_details">
+              <div *ngIf="quiz_user_details.length>1">Grade {{quizDetail.class_id}} - {{quizDetail.deviceId? quizDetail.deviceId: 'Not Available'}}</div>
+              <div *ngIf="quiz_user_details.length==1">{{quizDetail.deviceId? quizDetail.deviceId: 'Not Available'}}</div>
+            </div>
+          <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Paid Status:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <div class="view-data" *ngFor="let quizDetail of quiz_user_details">
+              <div *ngIf="quiz_user_details.length>1">Grade {{quizDetail.class_id}} - {{quizDetail.paidStatus==0?'Unpaid':'Paid'}}</div>
+              <div *ngIf="quiz_user_details.length==1">{{quizDetail.paidStatus==0?'Unpaid':'Paid'}}</div>
+            </div>
+          <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <span class="view-label"> Package Name:</span>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="9" style="text-align: left">
+            <div class="view-data" *ngFor="let quizDetail of quiz_user_details">
+              <div *ngIf="quiz_user_details.length>1">Grade {{quizDetail.class_id}} - {{quizDetail.packageName? quizDetail.packageName: 'Not Available'}}</div>
+              <div *ngIf="quiz_user_details.length==1">{{quizDetail.packageName? quizDetail.packageName: 'Not Available'}}</div>
+            </div>
+          <div class="view-data" *ngIf="quiz_user_details.length<1">Not Available</div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card-content>
+</form>
+</mat-card>

@@ -1,0 +1,43 @@
+
+{
+  "name": "homework_files",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "homework_id": {
+      "type": "number",
+      "required": true
+    },
+    "submission_id": {
+      "type": "number"
+    },
+    "remark_id": {
+      "type": "number"
+    },
+    "filepath": {
+      "type": "string"
+    },
+    "user_type": {
+      "type": "number"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

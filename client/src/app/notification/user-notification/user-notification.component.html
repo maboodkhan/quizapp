@@ -1,0 +1,71 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>{{pageTitle}}</h1>
+      </mat-card-title>
+  </mat-card-header>
+  <form novalidate (ngSubmit)="sendNotification()" [formGroup]="userForm"> 
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>         
+    
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="class_id" placeholder="Select Grade" multiple>
+            <mat-option *ngFor="let classData of classNames" [value]="classData.class_id">
+              {{classData.className}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p> 
+    <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <!-- <input matInput id="email" type="email" placeholder="Email" formControlName="email" />  -->
+          <textarea matInput id="email" placeholder="Email" formControlName="email" rows="5" cols="50" ></textarea>
+      </mat-form-field>
+    </p>    
+    <p>
+        <mat-form-field class="form-field">
+            <!-- <input matInput id="contactNumber" type="text" placeholder="Contact Number" formControlName="contactNumber" /> -->
+            <textarea matInput id="contactNumber" placeholder="Contact Number" formControlName="contactNumber" rows="5" cols="50" ></textarea>
+            <mat-error *ngIf="displayMessage.contactNumber">
+                {{displayMessage.contactNumber}}
+            </mat-error>
+        </mat-form-field>
+    </p>
+    <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <input matInput id="title" type="title" placeholder="title" formControlName="title" />                                                          
+      </mat-form-field>
+    </p>
+    <p>                                                                    
+      <mat-form-field class="form-field">               
+        <textarea matInput id="message" placeholder="Message" formControlName="message" rows="5" cols="50" ></textarea>                                          
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="form-field">
+        <mat-select formControlName="deep_link" placeholder="App Activity Page">
+          <mat-option value="">- - - - -Select Option- - - - -</mat-option>
+            <mat-option *ngFor="let DeepLink of deepLink" [value]="DeepLink.deep_link">
+              {{DeepLink.mp_message}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <!-- <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <input matInput id="deep_link" type="deep_link" placeholder="App Activity Page" formControlName="deep_link" />
+      </mat-form-field>
+    </p> -->
+    <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <input matInput id="image_url" type="image_url" placeholder="Image Url" formControlName="image_url" />                                                          
+      </mat-form-field>
+    </p>
+
+    <p>
+      <button mat-raised-button color="primary" (click)="onFormSubmit()" type="submit" [disabled]='!userForm.valid'>
+        Send
+     </button>
+    </p>
+  </form>
+</mat-card>

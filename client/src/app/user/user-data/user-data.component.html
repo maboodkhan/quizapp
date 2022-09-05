@@ -1,0 +1,226 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <!-- <mat-form-field>
+        <mat-placeholder>
+          <mat-icon>subject</mat-icon>
+          <b> Filter</b>
+        </mat-placeholder>
+        <input matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field> -->
+      <span class="title-spacer"></span>
+      <button mat-raised-button
+        [ngClass]="{activeBtn:true}" 
+        (click)="pendingReq(1)">Show allowed users list</button>
+      <button mat-raised-button 
+        [ngClass]="{deactiveBtn:true}" 
+        (click)="pendingReq(2)">Show disallowed users list</button>
+      <button mat-raised-button [ngClass]="{btn:true}" (click)="importDialog()">Import</button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="resetPage()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addUserData']"
+      [queryParams]="{customFilters:customFilters | json }">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="S_No">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> S.No </mat-header-cell>
+        <mat-cell  *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let userData"> {{userData.studentName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let userData"> {{userData.email}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Phone no. </mat-header-cell>
+        <mat-cell *matCellDef="let userData"> {{userData.studentContactNo}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="user_type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> User Type </mat-header-cell>
+        <mat-cell *matCellDef="let userData"> {{userData.user_type==0?'Student':'Teacher'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="school">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> School </mat-header-cell>
+        <mat-cell *matCellDef="let userData">
+          <p *ngIf="userData.user_type == 0; else elseBlock">
+          {{userData.school_name}} 
+        </p>
+        <ng-template #elseBlock>
+          <button mat-mini-fab [ngClass]="{infoBtn:true}" 
+          (click)="schoolInfo(userData.id)" title="assigned">
+            <mat-icon>information</mat-icon>
+          </button>
+        </ng-template>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="class_section">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Class/section </mat-header-cell>
+        <mat-cell *matCellDef="let userData">
+          <p *ngIf="userData.user_type == 0; else elseBlock">
+          {{userData.class_name}} - {{userData.section_name}} 
+        </p>
+        <ng-template #elseBlock>
+          <button mat-mini-fab [ngClass]="{infoBtn:true}" 
+          (click)="schoolInfo(userData.id)" title="assigned">
+            <mat-icon>information</mat-icon>
+          </button>
+        </ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="user_activate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+        <mat-cell *matCellDef="let userData"> 
+          <button *ngIf="userData.status==1; else elseBlock" mat-mini-fab
+            [ngClass]="{disAllowBtn:true}" (click)="allowDisAllowUser(userData.user_id, 2)"
+            title="Disallow">
+            <mat-icon>cancel</mat-icon>
+          </button>
+          <ng-template #elseBlock>
+            <button mat-mini-fab [ngClass]="{allowBtn:true}" 
+              (click)="allowDisAllowUser(userData.user_id, 1)"
+              title="Allow">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+          </ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <!-- <app-class-section [school_data_id]="userData.id"></app-class-section> -->
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let userData" style="justify-content:center;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;" 
+          [routerLink]="['/editUserData', userData.id]" [queryParams]="{customFilters:customFilters | json }">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab style="margin-right:10px; background-color:dimgray" (click)="deleteData(userData.id, userData.user_id,userData.email)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="total_students" [pageIndex]="offset" [pageSize]="limit" [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>
+
+  <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+    <mat-card-header>
+      <button mat-mini-fab (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
+      <mat-card-subtitle>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkgreen" (click)="searchUserData(searchFilter);sidenav.toggle()">
+          <mat-icon>search</mat-icon>Search </button>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkred" (click)="resetSearchFilter(sidenav)">
+          <mat-icon>refresh</mat-icon>Reset</button>
+
+      </mat-card-subtitle>
+    </mat-card-header>
+
+  </mat-card>
+  <mat-nav-list style="margin-left:20px;">
+
+    <mat-form-field>
+      <mat-label>Student Name</mat-label>
+      <input matInput [(ngModel)]="searchFilter.studentName">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Roll Number</mat-label>
+      <input matInput [(ngModel)]="searchFilter.rollNumber">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="searchFilter.email">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Student Contact Number</mat-label>
+      <input matInput [(ngModel)]="searchFilter.studentContactNo" type="number" maxlength="10" />
+    </mat-form-field>
+
+      <mat-form-field >
+        <mat-label>User Type</mat-label>
+        <mat-select [(ngModel)]="searchFilter.user_type" placeholder="Select Type (required)">
+          <mat-option value="0">Student</mat-option>
+          <mat-option value="1">Teacher</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <mat-form-field  *ngIf="schoolList.length > 1">           
+      <mat-label>Select School</mat-label>
+      <mat-select  [(ngModel)]="searchFilter.school_id" multiple>
+          <mat-option *ngFor="let school of schoolList" [value]="school.id">
+          {{school.school_name}}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Class</mat-label>
+      <mat-select (selectionChange)="changeClass($event.value)" [(ngModel)]="searchFilter.class_id" multiple>
+        <mat-option *ngFor="let class of classList" [value]="class.id" >
+          {{class.class_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Section</mat-label>
+      <mat-select [(ngModel)]="searchFilter.section_id" multiple>
+        <mat-option #allSelectedSection [value]="0" (click)="selectAllSection();">All</mat-option>
+        <mat-option *ngFor="let section of sectionList" [value]="section.id" (click)="tosslePerSection()">
+          <!-- {{section.class_section.section_name}} -->
+          {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select Subjects</mat-label>
+        <mat-select [(ngModel)]="searchFilter.subject_id" multiple>
+          <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="searchFilter.status">
+          <mat-option value=1>Allowed</mat-option>
+          <mat-option value=2>Disallowed</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+  </mat-nav-list>
+</mat-sidenav>

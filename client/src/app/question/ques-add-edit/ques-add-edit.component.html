@@ -1,0 +1,150 @@
+
+<mat-card class='light' style="height: 100%;">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>{{heading}} Question</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <form novalidate [formGroup]="questionForm">
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <mat-card-actions>
+          <mat-label *ngIf="board_name">{{board_name}} >> {{class_name}} >> {{subject_name}} >> {{lesson_name}} >> {{topic_name}}</mat-label>
+      </mat-card-actions>
+        <span class="title-spacer"></span>
+        <mat-card-actions>
+            <button mat-mini-fab class="primary"  style="margin-right:10px; background-color:darkgray" (click)="editQuestion()" [disabled]='!questionForm.valid'>
+                <mat-icon>save</mat-icon>
+            </button>
+            <button mat-mini-fab class="" style="margin-right:10px;"  (click)="cancelBtn()">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-tab-group color="primary" backgroundColor="primary">
+      <mat-tab label="Question Data">
+        <mat-card-content>
+          <div>
+            <h3>Question:</h3>
+            <ckeditor [editor]="Editor" formControlName="question"></ckeditor>            
+            <p>
+              <mat-form-field class="form-field">
+                <mat-label>Question</mat-label>
+                <textarea matInput placeholder="question" formControlName="question" rows="10" cols="100"></textarea>
+              </mat-form-field>
+            </p>
+            <p *ngIf="showStatus">
+              <mat-checkbox [checked]="qc_done" (change)="onQcDoneChange($event)">QC Done</mat-checkbox>
+            </p>
+            <p>
+              <mat-form-field >
+                <mat-label>Level</mat-label>
+                <mat-select formControlName="level_id">
+                  <mat-option *ngFor="let level of levels" [value]="level.id"> {{level.level_name}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field >
+                <mat-label>Marks</mat-label>
+
+                <input matInput placeholder="Marks" formControlName="marks">
+              </mat-form-field>
+            </p>              
+            <p>
+              <mat-form-field >
+                <mat-label>Question type</mat-label>
+                <mat-select formControlName="question_type">
+                  <mat-option value="Post-Test"> Post-Test </mat-option>
+                  <mat-option value="Pre-Test"> Pre-Test </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </p>              
+            <p *ngIf="showStatus">
+              <mat-form-field >
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="queStatus">
+                  <mat-option [value]="1"> Active </mat-option>
+                  <mat-option [value]="2"> Inactive </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </p>
+            <div *ngFor="let options of ansOption;let i=index;">              
+              <div [ngStyle]="{'border-top': '1px solid #000000'}">
+                <!-- <div style="width: 10%;">
+                  <h4>Option: {{i+1}}</h4>
+                </div> -->
+                <div style="padding: 10px;">
+                  <h4 style="display: inline-block;">Option: {{i+1}}</h4>
+                  <button style="float: right;" mat-mini-fab (click)="delOptn(i)">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <ckeditor [editor]="Editor" data="{{options.answer}}" (change)="onBlurAnswerEditor($event,i)"></ckeditor>
+              <p>
+                <mat-form-field class="form-field">
+                  <mat-label>Option: {{i+1}}</mat-label>
+                  <textarea matInput rows="7" cols="50" (blur)="onBlurAnswer($event.target.value, i)">{{options.answer}}</textarea>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field >
+                  <mat-label>Answer Order</mat-label>
+                  <input matInput placeholder="Input" (blur)="onBlurAnswer_Order($event.target.value, i)" value="{{options.answer_order}}">
+                </mat-form-field>
+              </p>
+              <p>  
+                <mat-form-field >
+                  <mat-label>Status</mat-label>
+                  <mat-select [value]="options.status" (selectionChange)="getStatus($event.value, i)">
+                    <mat-option [value]="1"> Active </mat-option>
+                    <mat-option [value]="2"> Inactive </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-checkbox  [checked]="options.correctAns" (change)="onAnsChange(i)">Right answer</mat-checkbox>
+                <!-- Right answer <input type="checkbox" [checked]="options.correctAns" mat-checkbox (click)="onAnsChange(i)"/> -->
+              </p>
+            </div>
+            <div>
+              <button mat-button style="color:white; background-color:darkgray;
+              margin-left: 80%;" (click)=addOption()>
+              <mat-icon>add</mat-icon>Add Option</button>
+              </div>
+            <div>
+              <h3>Solution:</h3>
+              <ckeditor [editor]="Editor" formControlName="solution" [config]="{height:'500px;'}"></ckeditor>
+              <p>
+                <mat-form-field class="form-field">
+                  <mat-label>Solution</mat-label>
+                  <textarea matInput placeholder="Solution" formControlName="solution" rows="10" cols="100"></textarea>
+                </mat-form-field>
+              </p>
+            </div>
+            <p>              
+              <mat-form-field style="height:100px; width:400px !important">
+                <h3>Remarks:</h3>
+                <textarea matInput type="text" formControlName="remarks"></textarea>
+              </mat-form-field>
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <mat-card-actions>
+            <button mat-mini-fab class="primary"  style="margin-right:10px; background-color:darkgray" (click)="editQuestion()" [disabled]='!questionForm.valid'>
+                <mat-icon>save</mat-icon>
+            </button>
+            <button mat-mini-fab class="" style="margin-right:10px;"  (click)="cancelBtn()">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </form>
+  </mat-card>

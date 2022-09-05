@@ -1,0 +1,38 @@
+{
+  "name": "quiz_user_fcm",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "packageName": {
+      "type": "string",
+      "required": true
+    },
+    "fcm_id": {
+      "type": "string",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "default":1
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,38 @@
+{
+  "name": "classes",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "class_name": {
+      "type": "string",
+      "required": true
+    },
+    "board_id": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "board_classes": {
+      "type": "belongsTo",
+      "model": "boards",
+      "foreignKey": "board_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

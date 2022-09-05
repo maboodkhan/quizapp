@@ -1,0 +1,31 @@
+{
+    "name": "subscription_freq_types",
+    "base": "Model",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "frequency": {
+        "type": "string"
+      },
+      "frequency_value": {
+        "type": "number"
+      },
+       "status": {
+        "type": "number"
+      },
+      "created_on": {
+        "type": "date"
+      },
+      "modified_on": {
+        "type": "date"
+      }
+    },
+    "validations": [],
+    "relations": {
+    },
+    "acls": [],
+    "methods": {}
+  }
+  

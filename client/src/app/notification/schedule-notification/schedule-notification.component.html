@@ -1,0 +1,88 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addScheduleNotify']">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+        <mat-cell  *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="notificationType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Notification Type </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.notificationType}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subNotificationType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Lable Frequency</mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.subNotificationType}} </mat-cell>
+      </ng-container>
+      <!-- {{notifi.notifyScheduleDate}} -->
+      <ng-container matColumnDef="scheduleDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Scheduled On </mat-header-cell>
+        <mat-cell *matCellDef="let notifi">
+          <div *ngIf="notifi.notifyScheduleDate; else editBlock">
+            {{notifi.notifyScheduleDate | date:'dd-MM-yyyy HH:mm'}}
+          </div>
+          <ng-template #editBlock>
+            <!-- <div *ngIf="notifi.dayHour.length == 1 && notifi.dayMinutes.length == 1; else anotherelse"> -->
+            <div *ngIf="notifi.dayHour">
+              {{notifi.dayHour.length<=1?'0'+notifi.dayHour:notifi.dayHour}}
+              :
+              {{notifi.dayMinutes.length<=1?'0'+notifi.dayMinutes:notifi.dayMinutes}}
+            </div>
+          </ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="created_by">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Created By </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.username}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.status=='1'?'Active':'Inactive'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let notifi" style="justify-content:center;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px; margin: 5px;" [routerLink]="['/editScheduleNotify', notifi.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab style="margin-right:10px; background-color:dimgray" (click)="deleteData(notifi.id, notifi.status)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="totalNotification" [pageIndex]="offset" [pageSize]="limit"
+    [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+  </mat-paginator>
+  </mat-card>

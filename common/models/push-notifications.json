@@ -1,0 +1,84 @@
+{
+  "name": "push_notifications",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "notificationTypeId": {
+      "type": "number"
+    },
+    "subNotificationTypeId": {
+      "type": "number"
+    },
+    "notifyScheduleDate": {
+      "type": "date"
+    },
+    "dayHour": {
+      "type": "string"
+    },
+    "dayMinutes": {
+      "type": "string"
+    },
+    "userRegFromDate": {
+      "type": "date"
+    },
+    "userRegToDate": {
+      "type": "date"
+    },
+    "title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "emailMessage": {
+      "type": "string"
+    },
+    "deep_link": {
+      "type": "number"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "staffOnly": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "modified_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "notifiationType": {
+      "type": "belongsTo",
+      "model": "push_notification_master",
+      "foreignKey": "notificationTypeId"
+    },
+    "subNotificationType": {
+      "type": "belongsTo",
+      "model": "push_notification_master",
+      "foreignKey": "subNotificationTypeId"
+    },
+    "notificationDetails": {
+      "type": "hasMany",
+      "model": "push_notification_details",
+      "foreignKey": "push_notification_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

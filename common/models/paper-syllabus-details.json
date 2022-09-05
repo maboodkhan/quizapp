@@ -1,0 +1,95 @@
+{
+  "name": "paper_syllabus_details",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "paper_set_id": {
+      "type": "number",
+      "required": true
+    },
+    "country_id": {
+      "type": "number",
+      "required": true
+    },
+    "board_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "section_id": {
+      "type": "number",
+      "required": true
+    },
+    "subject_id": {
+      "type": "number",
+      "required": true
+    },
+    "country_lesson_id": {
+      "type": "number"
+    },
+    "lesson_id": {
+      "type": "number",
+      "required": true
+    },
+    "topic_id": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz_syllabus": {
+      "type": "belongsTo",
+      "model": "quiz_set",
+      "foreignKey": "paper_set_id"
+    },
+    "quiz_questions": {
+      "type": "hasMany",
+      "model": "quiz_questions",
+      "foreignKey": "paper_set_id"
+    },
+    "quiz_class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "quiz_class_section": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    },
+    "quiz_subject": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    },
+    "quiz_lesson": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "quiz_topic": {
+      "type": "belongsTo",
+      "model": "topics",
+      "foreignKey": "topic_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

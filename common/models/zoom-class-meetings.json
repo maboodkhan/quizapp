@@ -1,0 +1,89 @@
+{
+  "name": "zoom_class_meetings",
+  "plural": "",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user_id": {
+      "type": "number",
+      "required": true
+    },
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "required": true
+    },
+    "section_id": {
+      "type": "number",
+      "required": true
+    },
+    "subject_id": {
+      "type": "number",
+      "required": true
+    },
+    "meeting_id": {
+      "type": "string",
+      "required": true
+    },
+    "meeting_password": {
+      "type": "string",
+      "required": true
+    },
+    "meeting_status": {
+      "type": "string",
+      "required": true
+    },
+    "message": {
+      "type": "string",
+      "required": true
+    },
+    "zoomUrl": {
+      "type": "string"
+    },
+    "localPhoneNo": {
+      "type": "string"
+    },
+    "schedule_id": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    } 
+  },
+  "validations": [],
+  "relations": {
+    "school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "class_Section": {
+      "type": "belongsTo",
+      "model": "class_sections",
+      "foreignKey": "section_id"
+    },
+    "users": {
+      "type": "belongsTo",
+      "model": "quiz_user",
+      "foreignKey": "user_id"
+    },
+    "onlineSchedule": {
+      "type": "belongsTo",
+      "model": "online_schedule",
+      "foreignKey": "schedule_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

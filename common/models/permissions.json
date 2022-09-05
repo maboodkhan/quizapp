@@ -1,0 +1,64 @@
+{
+  "name": "permissions",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "parent_id": {
+      "type": "number",
+      "required": true
+    },
+    "label": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "menu_order": {
+      "type" : "number"
+    },
+    "externalRedirect" : {
+      "type" : "number"
+    },
+    "hrefTargetType" : {
+      "type" : "string"
+    },
+    "showStatus": {
+      "type": "number",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "permissionRole": {
+      "type": "hasMany",
+      "model": "permission_roles",
+      "foreignKey": "permission_id"
+    },
+    "permissionUser": {
+      "type": "hasMany",
+      "model": "permission_users",
+      "foreignKey": "permission_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

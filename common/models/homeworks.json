@@ -1,0 +1,57 @@
+{
+  "name": "homeworks",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "submitted_on": {
+      "type": "date"
+    },
+    "expiration_date": {
+      "type": "date"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "homeworkDetails": {
+      "type": "hasMany",
+      "model": "homework_details",
+      "foreignKey": "homework_id"
+    },
+    "homeworkFiles": {
+      "type": "hasMany",
+      "model": "homework_files",
+      "foreignKey": "homework_id"
+    },
+    "homeworkRemarks": {
+      "type": "hasMany",
+      "model": "homework_remarks",
+      "foreignKey": "homework_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

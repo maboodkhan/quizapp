@@ -1,0 +1,45 @@
+<!-- <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Quiz Set">
+      <app-dash-quiz-set *ngIf="userType!='Teacher Jr.';else otherBlock"></app-dash-quiz-set>
+  <ng-template #otherBlock>Welcome !!!</ng-template>
+    </mat-tab>
+    <mat-tab label="Post Test">
+      <app-dash-quizset-post-test></app-dash-quizset-post-test>
+    </mat-tab>
+  </mat-tab-group> -->
+
+  <!-- <app-dash-quiz-set *ngIf="userType!='Teacher Jr.';else otherBlock"></app-dash-quiz-set>
+  <ng-template #otherBlock>Welcome !!!</ng-template> -->
+
+
+<mat-tab-group mat-align-tabs="start" [selectedIndex]="defaultTab">
+  
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <h2>
+        Quiz Set
+      </h2>
+    </ng-template>
+   
+    <div>
+      <app-dash-quiz-set *ngIf="userType!='Teacher Jr.';else otherBlock"></app-dash-quiz-set>
+  <ng-template #otherBlock>Welcome !!!</ng-template>
+    </div>
+    
+    
+    
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <h2>
+        Post Test
+      </h2>
+    </ng-template>
+    <app-dash-quizset-post-test *ngIf="userType!='Teacher Jr.';else elseBlock"></app-dash-quizset-post-test>
+  <ng-template #elseBlock>Welcome !!!</ng-template>
+    <!-- <app-dash-quizset-post-test></app-dash-quizset-post-test> -->
+  </mat-tab>
+
+</mat-tab-group>
+

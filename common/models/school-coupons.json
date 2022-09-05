@@ -1,0 +1,22 @@
+{
+  "name": "school_coupons",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "coupon_id": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

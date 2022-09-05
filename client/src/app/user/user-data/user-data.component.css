@@ -1,0 +1,41 @@
+.btn {
+    margin-right:10px;
+    background-color:darkgray;
+    color:#fff;
+}
+
+.infoBtn {
+    margin-left: 5px;
+    background-color:cadetblue;
+    color:#fff;
+}
+
+.deactiveBtn {
+    margin-right:10px;
+    background-color:red;
+    color:#fff;
+}
+
+.deactiveBtn:focus {
+    background-color: blue;
+}
+
+.activeBtn {
+    margin-right:10px;
+    background-color:green;
+    color: #fff;
+}
+
+.activeBtn:focus {
+    background-color: blue;
+}
+
+.allowBtn {
+    background-color:green;
+    color:#fff;
+}
+
+.disAllowBtn {
+    background-color:red;
+    color:#fff;
+}

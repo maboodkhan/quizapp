@@ -1,0 +1,115 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>{{pageTitle}}</h1>
+      </mat-card-title>
+  </mat-card-header>
+
+  <form novalidate [formGroup]="schoolForm">        
+    <mat-toolbar style="background-color: #FFF">
+      <mat-toolbar-row>
+        <!-- <span class="view-card-title"> {{pageTitle}}</span> -->
+        <span class="title-spacer"></span>
+
+        <mat-card-actions>
+            <button mat-mini-fab class="primary"  (click)="saveSchool()" [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit" [disabled]='!schoolForm.valid'>
+                <mat-icon>save</mat-icon>
+            </button>
+            <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/school']">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-card-actions>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <p>
+        <mat-form-field class="form-field">           
+          <mat-select formControlName="country_id" placeholder="Select Country">
+              <mat-option *ngFor="let country of countryList" [value]="country.id">
+                ({{country.countryCode}}) {{country.countryName}}
+              </mat-option>
+          </mat-select>
+          <mat-error *ngIf="displayMessage.country_id">
+            {{displayMessage.country_id}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+    <p>                                                                    
+      <mat-form-field class="form-field">                            
+          <input matInput id="school_name" type="text" placeholder="School Name (required)" formControlName="school_name" />
+          <mat-error *ngIf="displayMessage.school_name">
+            {{displayMessage.school_name}}
+        </mat-error>
+        </mat-form-field>
+    </p>           
+    <p>                                                                    
+        <mat-form-field class="form-field">                            
+            <input matInput id="address" type="text" placeholder="Address" formControlName="address" />
+            
+          </mat-form-field>
+      </p>
+    <p>
+        <mat-form-field class="form-field">                            
+            <input matInput id="school_code" type="text" placeholder="school code (required)" formControlName="school_code" />
+            <mat-error *ngIf="displayMessage.school_code">
+                {{displayMessage.school_code}}
+            </mat-error>
+        </mat-form-field>
+    </p>
+
+    <div>
+      <label> Add Logo</label>
+      <br>
+      <input type="file" #ContentFile lable="Icon" id="icon" (change)="onFileChange($event)" />
+      <div style="font-weight:bold;padding-top:5px;" *ngIf="!errorMessage">Only jpg, jpeg, ping file are allowed <p></p>
+      </div>
+      <div *ngIf="fileUploadProgress">
+        Upload progress: {{ fileUploadProgress }} 
+      </div>
+
+      <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}<p></p></div>
+    </div>
+    
+    <div *ngIf="schoolData && schoolData.school_logo && !fileUploadProgress" id="school_logo">
+        <button mat-raised-button class="mat-primary" (click)="previewFile()" >
+          Preview Logo
+        </button>
+    </div>
+
+    <div *ngIf="fileUploadProgress == '100%' "> 
+      <button  mat-raised-button class="mat-primary" (click)="checkLogo()"> Check Logo </button>
+    </div>
+    
+    <p>
+      <mat-slide-toggle formControlName="publish_status">White Label</mat-slide-toggle>
+      <mat-error *ngIf="displayMessage.status">
+          {{displayMessage.publish_status}}
+      </mat-error>
+    </p>
+    
+    <p>
+      <mat-form-field class="form-field">   
+         <mat-select  id="status" placeholder="Status (required)" formControlName="status">                                        
+          <mat-option *ngFor="let sVal of status | keyvalue" [value]="sVal.key">{{sVal.value}}</mat-option>
+          </mat-select>                          
+          <mat-error *ngIf="displayMessage.status">
+              {{displayMessage.status}}
+          </mat-error>
+      </mat-form-field>
+  </p>
+     
+  <!-- <mat-toolbar style="background-color: #FFF">
+    <mat-toolbar-row>
+      <span class="title-spacer"></span>
+
+      <mat-card-actions>
+          <button mat-mini-fab class="primary" [ngStyle]="{'margin-right':'10px','background-color':'darkgray'}" type="submit" [disabled]='!schoolForm.valid'>
+              <mat-icon>save</mat-icon>
+          </button>
+          <button mat-mini-fab class="" [ngStyle]="{'margin-right':'10px'}" [routerLink]="['/school']">
+              <mat-icon>cancel</mat-icon>
+          </button>
+      </mat-card-actions>
+    </mat-toolbar-row>
+  </mat-toolbar> -->
+  </form>
+</mat-card>

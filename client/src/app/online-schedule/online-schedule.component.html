@@ -1,0 +1,287 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>Online Schedule</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addSchedule']">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <p [ngClass]="{'rescheduleTxt':true}">
+    (
+      <span [ngClass]="{'rescheduled':true}">*</span>
+      Class Rescheduled
+    )
+  </p>
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="Sno">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> S.No </mat-header-cell>
+      <mat-cell *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="school">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> School </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.school.school_name}} </mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="class">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Class/Section </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.class.class_name}} -
+        {{schedule.classSection.class_section.section_name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Subject </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.subject.subject_name}} </mat-cell>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="lessonNum">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Lesson No. </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.lesson.lesson_num}} </mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="lesson">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Lesson/Lesson No. </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> 
+        <div *ngIf="schedule.scheduleDetail.length<=1 else elseBlock">
+          {{schedule.country_lessons ? schedule.country_lessons.country_lesson_name : schedule.lesson.lesson_name}} 
+          - 
+          {{schedule.country_lessons ? schedule.country_lessons.lesson_num : schedule.lesson.lesson_num}}
+        </div>
+        <ng-template #elseBlock>
+          <a (click)="lessonSchedule(schedule.id)" [ngClass]="{link:true}"
+            title="lessonSchedule(schedule.id)">Multiple Lessons &#9432;</a>
+          <!-- <a>Multiple Lessons</a> -->
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="classLevel">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Session </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.class_level}} </mat-cell>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="classType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Class Type </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.class_type}} </mat-cell>
+    </ng-container> -->
+
+    <!-- <ng-container matColumnDef="reschedule">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Reschedule </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+          {{schedule.rescheduled=='1'?'Yes':'No'}}
+        </mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="startDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Time </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        {{schedule.start_date | date:'hh:mm'}} - {{schedule.end_date | date:'hh:mm'}} {{schedule.ampm}}
+        <div *ngIf="schedule.rescheduled" [ngClass]="{'rescheduled':true}">
+          *
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Class Date </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.end_date | date }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="classStatus">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Class Status </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        <div *ngIf="schedule.zoomClass.length != 0 && schedule.zoomClass[0].meeting_status == 'false'">
+          Done
+        </div>
+        <div *ngIf="schedule.zoomClass.length != 0 && schedule.zoomClass[0].meeting_status == 'true'">
+          In Progress
+        </div>
+        <div *ngIf="schedule.zoomClass.length == 0">
+          To be taken
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="modified_by">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Scheduled By </mat-header-cell>
+      <mat-cell *matCellDef="let schedule"> {{schedule.modified_by.username }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="scheduletTo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Scheduled To </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        <div *ngIf="schedule.quizUser">
+          {{schedule.quizUser.firstName}} {{schedule.quizUser.lastName}}
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        {{schedule.status=='1'?'Active':'Inactive'}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="copy">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        <button mat-mini-fab (click)="addAutoFill(schedule.id)">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="report">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        <button mat-raised-button [ngClass]="{btn:true}" 
+        [routerLink]="['/pollReports', schedule.id]"
+        [queryParams]="{customFilters:customFilters | json }"
+        *ngIf="schedule.class_status>0">
+          Polls</button>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="attendance">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let schedule">
+        <button mat-raised-button [ngClass]="{btn:true}" 
+        [routerLink]="['/teacherAttendance', schedule.id]"
+        [queryParams]="{cstmFltr:customFilters | json }"
+        *ngIf="schedule.class_status>0">
+          Attendance</button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+      <mat-cell *matCellDef="let schedule" style="justify-content:center;">
+        
+        <button *ngIf="schedule.zoomClass.length == 0" mat-mini-fab
+          style="background-color:teal; min-height: 30px;   margin: 5px;" (click)="editSchedule(schedule.id)">
+          <!-- [routerLink]="['/editSchedule', schedule.id]" [queryParams]="{customFilters:customFilters | json}" -->
+          <mat-icon>edit</mat-icon>
+        </button> 
+        <button mat-mini-fab style="background-color:teal; min-height: 30px; margin: 5px;"
+          (click)="deleteSchedule(schedule.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [length]="total_schedule" [pageIndex]="offset" [pageSize]="limit"
+    [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+  </mat-paginator>
+</mat-card>
+
+<mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <button mat-mini-fab (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-card-subtitle>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkgreen"
+          (click)="searchUserData(searchFilter);sidenav.toggle()">
+          <mat-icon>search</mat-icon>Search
+        </button>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkred"
+          (click)="resetSearchFilter(sidenav)">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+
+      </mat-card-subtitle>
+    </mat-card-header>
+
+  </mat-card>
+  <mat-nav-list style="margin-left:20px;">
+
+    <mat-form-field>
+      <mat-label>Select start date</mat-label>
+      <input matInput [(ngModel)]="searchFilter.start_date" [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select end date</mat-label>
+      <input matInput [(ngModel)]="searchFilter.end_date" [matDatepicker]="Datepicker">
+      <mat-datepicker-toggle matSuffix [for]="Datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #Datepicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select School</mat-label>
+      <mat-select [(ngModel)]="searchFilter.school_id" (selectionChange)="changeSchool($event.value)" multiple>
+        <mat-option *ngFor="let school of schoolList" [value]="school.id">
+          {{school.school_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Class</mat-label>
+      <mat-select (selectionChange)="changeClass($event.value)" [(ngModel)]="searchFilter.class_id" multiple>
+        <mat-option *ngFor="let class of classList" [value]="class.id">
+          {{class.class_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Section</mat-label>
+      <mat-select [(ngModel)]="searchFilter.section_id" (selectionChange)="changeSection($event.value)" multiple>
+        <mat-option *ngFor="let section of sectionList" [value]="section.id">
+          {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Subjects</mat-label>
+      <mat-select [(ngModel)]="searchFilter.subject_id" multiple>
+        <mat-option *ngFor="let subject of subjectList" [value]="subject.id">
+          {{subjectList.length>2 ? 'Grade '+subject.class_id+' -> '+subject.subject_name : subject.subject_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Schedule To</mat-label>
+      <mat-select [(ngModel)]="searchFilter.schedule_to" multiple>
+        <mat-option *ngFor="let user of userList" [value]="user.user_id">
+          {{user.studentName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="searchFilter.status">
+        <mat-option value=1>Active</mat-option>
+        <mat-option value=2>Inactive</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-nav-list>
+</mat-sidenav>

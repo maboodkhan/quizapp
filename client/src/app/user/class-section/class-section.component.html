@@ -1,0 +1,62 @@
+
+<h2 mat-dialog-title>Users Schools</h2>
+
+<!-- <mat-error style="padding-bottom: 10px;font-weight:bold;color:blue">
+  Number of questions to be assigned : {{ questionIds.length }}
+</mat-error> -->
+<mat-dialog-content class="mat-typography">
+
+  <!-- <p>
+    <mat-form-field>
+      <mat-placeholder>
+        <mat-icon>subject</mat-icon>
+        <b> Filter</b>
+      </mat-placeholder>
+      <input matInput (keyup)="applyFilter($event.target.value)">
+    </mat-form-field>
+  </p> -->
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="S_No">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> S.No </mat-header-cell>
+      <mat-cell  *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="school">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> School </mat-header-cell>
+      <mat-cell *matCellDef="let userDataSchool"> {{userDataSchool.school.school_name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="class">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Class </mat-header-cell>
+      <mat-cell *matCellDef="let userDataSchool"> {{userDataSchool.class.class_name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="section">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Section </mat-header-cell>
+      <mat-cell *matCellDef="let userDataSchool"> {{userDataSchool.section.class_section.section_name}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <!-- <mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>
+        Assign
+      </mat-header-cell>
+    </ng-container>
+    
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table> -->
+  <mat-paginator #paginator [pageSize]=10 [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+  </mat-paginator>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button class="mat-raised-button" mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>

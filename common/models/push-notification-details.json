@@ -1,0 +1,35 @@
+{
+  "name": "push_notification_details",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "push_notification_id": {
+      "type": "number"
+    },
+    "school_id": {
+      "type": "number"
+    },
+    "class_id": {
+      "type": "number"
+    },
+    "section_id": {
+      "type": "number"
+    },
+    "country_id": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

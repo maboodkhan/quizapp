@@ -1,0 +1,74 @@
+<mat-toolbar-row *ngIf="!user_id">
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/section_dashboard', school_id, class_id]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/quiz_dashboard', school_id, class_id, section_id]" 
+    [queryParams]="{tabType:1}">{{set_name}} </a>
+    / Topic
+  </p>  
+</mat-toolbar-row>
+
+<mat-toolbar-row *ngIf="user_id">
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/section_dashboard', school_id, class_id]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/quiz_dashboard', school_id, class_id, section_id]">{{student_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/student_quiz_dash', school_id, class_id, section_id, user_id]">{{set_name}} </a>
+    / Quiz Result Details
+  </p>
+</mat-toolbar-row>
+
+<mat-card>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <h1>Quiz - Topic Performance</h1>
+      <span class="title-spacer"></span>
+      
+      <div *ngIf="backTo && !user_id">
+        <button mat-mini-fab class="" style="margin-right:10px;"
+        [routerLink]="['/quiz_dashboard', school_id, class_id, section_id]" 
+        [queryParams]="{tabType:1}">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+
+      <div *ngIf="!backTo && !user_id ">
+        <button mat-mini-fab class="" style="margin-right:10px;"
+        [routerLink]="['/questionHistory', quiz_set_id]" 
+        [queryParams]="{ school_id: school_id, class_id: class_id, section_id: section_id }">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+
+      <div *ngIf="!backTo && user_id">
+        <button mat-mini-fab class="" style="margin-right:10px;"
+        [routerLink]="['/userQuizHistory', school_id, class_id, section_id, user_id, quiz_set_id, attempted_set_id]">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-grid-list [cols]="quizSetLength" [rowHeight]="rowHeight" style="text-align: center;" *ngIf="topicData">
+    <mat-grid-tile *ngFor="let topic of topicData">
+      <mat-grid-tile-header>
+        {{topic.topic_name}}
+      </mat-grid-tile-header>
+
+      <app-topic-chart
+      [chartData]="{school_id: school_id, class_id: class_id, section_id: section_id, student_id: user_id, quiz_set_id: quiz_set_id, topic_id: topic.topic_id, chart_type: 'quizDash'}">
+      </app-topic-chart>
+
+      <!-- <app-quiz-chart [chartTitle]="chartTile"
+        [chartData]="{school_id: school_id, class_id: class_id, section_id: section_id, quiz_set_id: quiz_set_id, topic_id: topic.topic_id, chart_type: 'quizDash'}">
+      </app-quiz-chart> -->
+
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-paginator #paginator [length]="total_count" [pageSize]="limit" [pageSizeOptions]="[12, 18, 24]"
+    showFirstLastButtons>
+  </mat-paginator>
+</mat-card>

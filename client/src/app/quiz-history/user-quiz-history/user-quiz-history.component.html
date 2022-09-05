@@ -1,0 +1,70 @@
+<mat-toolbar-row *ngIf="isDashboard && !postTest">
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/section_dashboard', school_id, class_id]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/quiz_dashboard', school_id, class_id, section_id]">{{student_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/student_quiz_dash', school_id, class_id, section_id, student_id]">{{set_name}} </a>
+    / Quiz Result Details
+  </p>  
+</mat-toolbar-row>
+<mat-toolbar-row *ngIf="isDashboard && postTest">
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']" [queryParams]="{tabType:1}"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_section_dashboard', school_id, class_id]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_quiz_dashboard', school_id, class_id, section_id]">{{student_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_student_quiz_dash', school_id, class_id, section_id, student_id]">{{set_name}} </a>
+     / Post Test Result Details
+  </p>  
+</mat-toolbar-row>
+
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>{{pageTitle}}</h1>
+      </mat-card-title>
+      <span class="title-spacer"></span>
+      <div *ngIf="isDashboard && !postTest">
+        <button mat-raised-button [ngClass]="{btn:true}" [routerLink]="['/topic_dashboard', school_id, class_id, section_id, setId]"
+        [queryParams]="{user_id:student_id , attempted_set_id: attempted_set_id}">Topic Wise Report</button>
+      </div>
+      <div *ngIf="isDashboard && postTest">
+        <button mat-raised-button [ngClass]="{btn:true}" [routerLink]="['/post_topic_dashboard', school_id, class_id, section_id, setId]"
+        [queryParams]="{user_id:student_id , attempted_set_id: attempted_set_id, postTest:1}">Topic Wise Report</button>
+      </div>
+  </mat-card-header>
+
+  <mat-toolbar>
+      <mat-toolbar-row>
+        <span class="title-spacer"></span>       
+
+        <button *ngIf="!isDashboard" mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/quizSetHistory',setId]" queryParamsHandling="preserve">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <button  *ngIf="isDashboard && !postTest" mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/student_quiz_dash', school_id, class_id, section_id, student_id]" 
+        [queryParams]="{tabType:1}">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <button  *ngIf="isDashboard && postTest" mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/post_student_quiz_dash', school_id, class_id, section_id, student_id]" 
+        [queryParams]="{tabType:1}">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+  <mat-card-content>                
+    <!-- <mat-card-content> -->
+    <div class="form-card"> 
+        <div *ngFor="let question of quizData; let i=index;">          
+            <b>Question {{i+1}}:</b> <app-user-quiz-ques [question]="question"></app-user-quiz-ques>                                      
+        </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<script>
+var elem = document.getElementsByTagName("annotation");
+elem.remove();
+</script>

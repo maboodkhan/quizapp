@@ -1,0 +1,147 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      
+      <span class="title-spacer"></span>
+      <!-- <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/userEdit/', '']">
+        <mat-icon>add</mat-icon>
+      </button>      -->
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+    
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> S.No </mat-header-cell>
+        <mat-cell *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="userId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> User ID </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.firstName}} {{user.lastName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="contact">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Contact Number</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.contactNumber}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Class</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.quiz_user_details.length>0? 'Grade -' : 'NA'}}
+        <div *ngFor="let class of user.quiz_user_details;let i = index;">
+           {{class.class_id}} {{user.quiz_user_details.length>i+1 ? ',' : ''}}
+        </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let user" style="justify-content:right;">
+          <button mat-raised-button [ngClass]="{btn:true}"
+          [routerLink]="['/appUserMoreDetail', user.id]" [queryParams]="{customFilters:customFilters | json }">More</button>
+          <button mat-mini-fab style="margin-right:10px; background-color:dimgray"  (click)="deleteUser(user.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="totalUser" [pageIndex]="offset" [pageSize]="limit" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons>
+    </mat-paginator>
+    <!-- <mat-paginator [pageSize]=10 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+  </mat-card>
+
+  <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <button mat-mini-fab (click)="sidenav.toggle()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-card-subtitle>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkgreen"
+            (click)="searchUserData(searchFilter);sidenav.toggle()">
+            <mat-icon>search</mat-icon>Search
+          </button>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkred"
+            (click)="resetSearchFilter(sidenav)">
+            <mat-icon>refresh</mat-icon>Reset
+          </button>
+  
+        </mat-card-subtitle>
+      </mat-card-header>
+  
+    </mat-card>
+    <mat-nav-list style="margin-left:20px;">
+  
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="searchFilter.name">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="searchFilter.email">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Contact Number</mat-label>
+        <input matInput [(ngModel)]="searchFilter.contactNumber" type="number" maxlength="10" />
+      </mat-form-field>
+
+      <!-- <mat-form-field>           
+        <mat-label>Select School</mat-label>
+        <mat-select  [(ngModel)]="searchFilter.school_id" multiple>
+            <mat-option *ngFor="let school of schoolList" [value]="school.id">
+            {{school.school_name}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Select Class</mat-label>
+        <mat-select (selectionChange)="changeClass($event.value)" [(ngModel)]="searchFilter.class_id" multiple>
+          <mat-option *ngFor="let class of classList" [value]="class.id">
+            {{class.class_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Select Section</mat-label>
+        <mat-select [(ngModel)]="searchFilter.section_id" multiple>
+          <mat-option *ngFor="let section of sectionList" [value]="section.id">
+            {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+  
+    </mat-nav-list>
+  </mat-sidenav>

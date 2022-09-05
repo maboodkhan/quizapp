@@ -1,0 +1,9 @@
+.infoBtn {
+    margin-left: 5px;
+    background-color:cadetblue;
+    color:#fff;
+}
+.mat-row:hover {
+    background-color: #E8EAF6;
+    cursor: pointer;
+  }

@@ -1,0 +1,112 @@
+
+<mat-card >
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>Poll Report</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="resetPage()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+<mat-grid-list [cols]="2" [rowHeight]="rowHeight" style="text-align: center;">
+  <mat-grid-tile  *ngFor="let questions of questionList">
+    <mat-grid-tile-header>
+      {{questions.question}}
+    </mat-grid-tile-header>
+    <app-poll-chart 
+    [chartData]="{poll_question_id: questions.id, ansOptions: questions.ansOptions, school_id: schoolArr, class_id: classArr, section_id: sectionArr, teacherUserId: teacherArr, startDate: startDate, endDate: endDate}">
+  </app-poll-chart>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-paginator #paginator [pageSize]="limit" [pageSizeOptions]="[6, 12, 18, 24]" showFirstLastButtons>
+</mat-paginator>  
+</mat-card>
+
+<mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <button mat-mini-fab (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-card-subtitle>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkgreen"
+          (click)="searchUserData(searchFilter);sidenav.toggle()">
+          <mat-icon>search</mat-icon>Search
+        </button>
+
+        <button mat-raised-button style="color:lightgrey; background-color:darkred"
+          (click)="resetSearchFilter(sidenav)">
+          <mat-icon>refresh</mat-icon>Reset
+        </button>
+
+      </mat-card-subtitle>
+    </mat-card-header>
+
+  </mat-card>
+  <mat-nav-list style="margin-left:20px;">
+
+    <mat-form-field>
+      <mat-label>Select start date</mat-label>
+      <input matInput [(ngModel)]="searchFilter.start_date" [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select end date</mat-label>
+      <input matInput [(ngModel)]="searchFilter.end_date" [matDatepicker]="Datepicker">
+      <mat-datepicker-toggle matSuffix [for]="Datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #Datepicker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- <p > -->
+      <mat-form-field *ngIf="schoolList.length > 1">
+        <mat-label>Select School</mat-label>
+        <mat-select  [(ngModel)]="searchFilter.school_id" (selectionChange)="changeSchool($event.value)" multiple>
+            <mat-option *ngFor="let school of schoolList" [value]="school.id">
+            {{school.school_name}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    <!-- </p> -->
+
+    <mat-form-field>
+      <mat-label>Select Class</mat-label>
+      <mat-select (selectionChange)="changeClass($event.value)" [(ngModel)]="searchFilter.class_id" multiple>
+        <mat-option *ngFor="let class of classList" [value]="class.id">
+          {{class.class_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Section</mat-label>
+      <mat-select [(ngModel)]="searchFilter.section_id" (selectionChange)="changeSection($event.value)" multiple>
+        <mat-option *ngFor="let section of sectionList" [value]="section.id">
+          {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select Schedule To</mat-label>
+      <mat-select [(ngModel)]="searchFilter.teacherUserId" multiple>
+        <mat-option *ngFor="let user of userList" [value]="user.user_id">
+          {{user.studentName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-nav-list>
+</mat-sidenav>

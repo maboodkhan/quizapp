@@ -1,0 +1,29 @@
+<mat-error>
+  {{ result.message }}
+</mat-error>
+<mat-error style="padding-bottom: 10px;font-weight:bold;color:blue">
+  Number of questions to be assigned : {{ questionIds.length }}
+</mat-error>
+<table>
+  <tr>
+    <td >
+      <app-question-assign (assignValue)="onassignValue($event)"></app-question-assign>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>
+      <app-question-reviewer (reviewValue)="onreviewValue($event)"></app-question-reviewer>
+    </td>
+  </tr>
+</table>
+<div>
+  <mat-form-field style="height:100px; width:400px !important">
+    <textarea matInput type="text" placeholder="Remarks" [(ngModel)]="remarks" name="remark"></textarea>     
+  </mat-form-field>
+  </div>
+  <div>
+  <mat-checkbox (change)="editPermissionChange(reviewerEdit)">Reviewer Edit Permission</mat-checkbox>
+</div>
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button" (click)="closeDialog()">Cancel</button>
+  <button class="mat-raised-button mat-primary" (click)="assignQuestion()" cdkFocusInitial>Assign</button>
+</mat-dialog-actions>

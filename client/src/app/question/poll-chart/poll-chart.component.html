@@ -1,0 +1,11 @@
+<mat-card class="dash-card" class='light' [ngStyle]="{'width': chartGridWidth}">
+  <div [ngClass]="{'chart-tile':true}">Question Chart</div>
+
+  <div>
+    <p>{{'Total Answer'}}: {{totalAnswer}}</p>
+  </div>
+  <div>
+    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" 
+      [options]="pieChartOptions" [colors]="pieChartColors"></canvas>
+  </div>
+</mat-card>

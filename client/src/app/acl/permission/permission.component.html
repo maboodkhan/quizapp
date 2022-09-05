@@ -1,0 +1,73 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+   
+  <mat-toolbar>
+     <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button *ngIf="showBack" mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/permission', prev_parent_id]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" (click)="addPermission(parent_id)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class='has-error' *ngIf='errorMessage'>{{errorMessage.message}}</div>
+ 
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+        <mat-cell *matCellDef="let i = index; let permission" (click)="openPermission(permission.id)">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="label">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Label </mat-header-cell>
+        <mat-cell *matCellDef="let permission" >
+        <div (click)="openPermission(permission.id)">{{permission.label }}</div>
+        <div>
+          <button mat-mini-fab [ngClass]="{infoBtn:true}"
+          title="{{permission.description}}">
+          <mat-icon>information</mat-icon>
+          </button>
+        </div>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="link">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Link  </mat-header-cell>
+        <mat-cell *matCellDef="let permission" (click)="openPermission(permission.id)">{{permission.link}}  </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="menu_order">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Menu Order  </mat-header-cell>
+        <mat-cell *matCellDef="let permission"><textarea (keyup)="onChange($event, permission.id)">{{permission.menu_order}}</textarea></mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let permission" (click)="openPermission(permission.id)"> {{permission.status=='1'?'Active':'Inactive'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let permission" style="justify-content:center;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;" (click)="editPermission(permission.id)" >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+   
+  
+    <mat-paginator #paginator [length]="totalPermission" [pageIndex]="offset" [pageSize]="limit" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons>
+    </mat-paginator> 
+</mat-card> 

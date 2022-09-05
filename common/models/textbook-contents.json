@@ -1,0 +1,123 @@
+{
+  "name": "textbook_contents",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "country_id": {
+      "type": "number",
+      "required": true
+    },
+    "country_lesson_id": {
+      "type": "number"
+    },
+    "school_id": {
+      "type": "number",
+      "required": true
+    },
+    "board_id": {
+      "type": "number",
+      "required": true
+    },
+    "class_id": {
+      "type": "number",
+      "default": 0
+    },
+    "subject_id": {
+      "type": "number",
+      "default": 0
+    },
+    "lesson_id": {
+      "type": "number",
+      "default": 0
+    },
+    "topic_id": {
+      "type": "number",
+      "default": 0
+    },
+    "title": {
+      "type":"string"
+    },
+    "version": {
+      "type": "number",
+      "default": 0
+    },
+    "path": {
+      "type": "string"
+    },
+    "status": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "created_by": {
+      "type": "number"
+    },
+    "modified_by": {
+      "type": "number"
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "content_country": {
+      "type": "belongsTo",
+      "model": "countries",
+      "foreignKey": "country_id"
+    },
+    "content_board": {
+      "type": "belongsTo",
+      "model": "boards",
+      "foreignKey": "board_id"
+    },
+    "content_school": {
+      "type": "belongsTo",
+      "model": "schools",
+      "foreignKey": "school_id"
+    },
+    "content_class": {
+      "type": "belongsTo",
+      "model": "classes",
+      "foreignKey": "class_id"
+    },
+    "content_subject": {
+      "type": "belongsTo",
+      "model": "subjects",
+      "foreignKey": "subject_id"
+    },
+    "content_lesson": {
+      "type": "belongsTo",
+      "model": "lessons",
+      "foreignKey": "lesson_id"
+    },
+    "content_topic": {
+      "type": "belongsTo",
+      "model": "topics",
+      "foreignKey": "topic_id"
+    },
+    "created_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "created_by"
+    },
+    "modified_by": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "modified_by"
+    },
+    "country_lessons":{
+      "type": "belongsTo",
+      "model": "country_lessons",
+      "foreignKey": "country_lesson_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

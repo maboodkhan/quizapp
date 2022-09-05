@@ -1,0 +1,112 @@
+
+<!-- <div class="ui four column grid">
+  <div class="ten wide column centered">
+    <div class="ui fluid action input">
+      <input (keyup)="searchVideo($event.target.value)" type="text" placeholder="Search for a video...">
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="videoUrl == '';else showVideo;">
+  <mat-toolbar>
+    <mat-toolbar-row>
+        <input matInput type="text"  [(ngModel)]="search"
+         [ngModelOptions]="{standalone: true}" placeholder="Search Video" (keyup.enter)="searchVideo()" />
+        <span class="title-spacer"></span>
+        <mat-card-actions>
+          <button mat-mini-fab  style="margin-top: 15px;" (click)="searchVideo()">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button mat-mini-fab  style="margin: 5px 5px;" (click)="cancel()">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <!-- <table>
+    <tr *ngFor="let video of videos">
+      <td><img [src]="video.thumbnail"></td>
+      <td>watch</td>
+    </tr>
+  </table> -->
+  <mat-grid-list
+    cols="3" rowHeight="100px"
+    *ngFor="let video of videos"
+    style="border: 2px solid #73AD21;border-radius: 20px;margin-top:5px;">
+    <mat-grid-tile [colspan]="1" [rowspan]="2">
+        <img style="width: 60%;" [src]="video.thumbnail">
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <mat-grid-tile-header class="pad-top brd-radius">
+        <div [innerHtml]="video.title"></div>
+      </mat-grid-tile-header>
+      <mat-grid-tile-footer class="pad-top brd-radius">
+        <span>
+          <label>Published On</label>
+          {{ video.publishedAt | date:'mediumDate' }}
+        </span>
+      </mat-grid-tile-footer>
+    </mat-grid-tile> 
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+        {{ video.description?.slice(0,50)}}...
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <button mat-raised-button class="mat-primary"
+        (click)="watchVideo(video.videoUrl)">
+        Watch
+      </button>
+      <button mat-raised-button class="mat-primary btn-left" 
+        (click)="closeDialog(video.videoUrl)">
+        Add Video
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<div style="margin-right:10px; text-align: right; margin-top: 10px;">
+  <button mat-stroked-button color="accent" class="mat-primary" 
+  (click)="changePage(prevPageToken)" [disabled]='!prevPageToken'>
+  Previous
+</button>
+<button mat-stroked-button color="primary" class="mat-primary btn-left"
+(click)="changePage(nextPageToken)">
+  Next
+</button>
+
+</div>
+<ng-template #showVideo>
+  <div style="text-align: right;">
+    <button mat-mini-fab class="" style="margin-right:10px;"
+    (click)="closeVideo()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  </div>
+  <div style="margin-top:5px;">
+    <app-content-youtube [url]="videoUrl"></app-content-youtube>
+  </div>
+  
+</ng-template>
+<!-- <div class="ui four column grid container">
+  <div class="column" *ngFor="let video of videos">
+    <div class="ui card">
+      <div class="image">
+        <img style="width: 30%;" [src]="video.thumbnail">
+      </div>
+      <span class="title-spacer"></span>
+      <div class="content" style="float:left">
+        <a class="header" style="margin: 1em 0 1em 0;">{{ video.title }}</a>
+        <div class="meta">
+          <span class="date" style="font-weight: bolder;">
+            <a [href]="video.channelUrl" target="_blank">{{ video.channelTitle }}</a>
+          </span>
+          <span class="ui right floated date" style="font-weight: bolder;">{{ video.publishedAt | date:'mediumDate' }}</span>
+        </div>
+        <div class="description">
+          {{ video.description?.slice(0,50) }}...
+        </div>
+      </div>
+      
+    </div>
+    <br> <br>
+  </div>
+</div> -->

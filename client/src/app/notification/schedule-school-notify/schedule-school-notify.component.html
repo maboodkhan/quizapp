@@ -1,0 +1,146 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/addSclScheduleNotify']">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+
+      <ng-container matColumnDef="Sno">
+        <mat-header-cell  *matHeaderCellDef mat-sort-header> Sno. </mat-header-cell>
+        <mat-cell  *matCellDef="let i = index;">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="notificationType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Notification Type </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.notificationType}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subNotificationType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Lable Frequency</mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.subNotificationType}} </mat-cell>
+      </ng-container>
+      <!-- {{notifi.notifyScheduleDate}} -->
+      <ng-container matColumnDef="scheduleDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Scheduled On </mat-header-cell>
+        <mat-cell *matCellDef="let notifi">
+          <div *ngIf="notifi.notifyScheduleDate; else editBlock">
+            {{notifi.notifyScheduleDate | date:'dd-MM-yyyy HH:mm'}}
+          </div>
+          <ng-template #editBlock>
+            <!-- <div *ngIf="notifi.dayHour.length == 1 && notifi.dayMinutes.length == 1; else anotherelse"> -->
+            <div *ngIf="notifi.dayHour">
+              {{notifi.dayHour.length<=1?'0'+notifi.dayHour:notifi.dayHour}}
+              :
+              {{notifi.dayMinutes.length<=1?'0'+notifi.dayMinutes:notifi.dayMinutes}}
+            </div>
+          </ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="created_by">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Created By </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.username}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let notifi"> {{notifi.status=='1'?'Active':'Inactive'}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="id">      
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;"></mat-header-cell>
+        <mat-cell *matCellDef="let notifi" style="justify-content:center;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px; margin: 5px;" [routerLink]="['/editSclScheduleNotify', notifi.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab style="margin-right:10px; background-color:dimgray" (click)="deleteData(notifi.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="totalNotification" [pageIndex]="offset" [pageSize]="limit"
+    [pageSizeOptions]="[10, 20, 30, 50, 100]" showFirstLastButtons>
+  </mat-paginator>
+  </mat-card>
+
+  <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <button mat-mini-fab (click)="sidenav.toggle()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-card-subtitle>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkgreen"
+            (click)="searchUserData(searchFilter);sidenav.toggle()">
+            <mat-icon>search</mat-icon>Search
+          </button>
+  
+          <button mat-raised-button style="color:lightgrey; background-color:darkred"
+            (click)="resetSearchFilter(sidenav)">
+            <mat-icon>refresh</mat-icon>Reset
+          </button>
+  
+        </mat-card-subtitle>
+      </mat-card-header>
+  
+    </mat-card>
+    <mat-nav-list style="margin-left:20px;">
+
+      <mat-form-field>           
+        <mat-label>Select School</mat-label>
+        <mat-select  [(ngModel)]="searchFilter.school_id" multiple>
+            <mat-option *ngFor="let school of schoolList" [value]="school.id">
+            {{school.school_name}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Select Class</mat-label>
+        <mat-select (selectionChange)="changeClass($event.value)" [(ngModel)]="searchFilter.class_id" multiple>
+          <mat-option *ngFor="let class of classList" [value]="class.id">
+            {{class.class_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Select Section</mat-label>
+        <mat-select [(ngModel)]="searchFilter.section_id" multiple>
+          <mat-option *ngFor="let section of sectionList" [value]="section.id">
+            {{section.class_detail.class_name}} - {{section.class_section.section_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+    </mat-nav-list>
+  </mat-sidenav>

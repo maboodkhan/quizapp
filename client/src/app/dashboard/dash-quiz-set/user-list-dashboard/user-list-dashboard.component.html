@@ -1,0 +1,50 @@
+
+  <mat-card>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <h1>Section {{section_name}} - Student Wise Performance</h1>
+        <span class="title-spacer"></span>
+        <!-- <button mat-raised-button [ngClass]="{btn:true}" (click)="graphView()">Graph View</button> -->
+        <button mat-mini-fab class="" style="margin-right:10px;"
+          [routerLink]="['/section_dashboard', school_id, class_id]">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+  <mat-table #table [dataSource]="dataSource" matSort>            
+    <ng-container matColumnDef="userName">  
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let quizset">{{quizset.studentName}} </mat-cell>
+    </ng-container> 
+    <ng-container matColumnDef="total_quiz_attempt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Total Quiz Attempted </mat-header-cell>
+      <mat-cell *matCellDef="let quizset">{{quizset.total_quiz_attempt}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="total_attempted">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Total Question </mat-header-cell>
+      <mat-cell *matCellDef="let quizset">{{quizset.total_attempted}}</mat-cell>
+    </ng-container>       
+    <ng-container matColumnDef="total_correct">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Total Correct </mat-header-cell>
+      <mat-cell *matCellDef="let quizset">{{quizset.total_correct}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="total_incorrect">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Total Incorrect </mat-header-cell>
+      <mat-cell *matCellDef="let quizset">{{quizset.total_incorrect}}</mat-cell>
+    </ng-container>      
+    <ng-container matColumnDef="total_skipped">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Total Skipped </mat-header-cell>
+      <mat-cell *matCellDef="let quizset">{{quizset.total_skipped}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="percentage">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Score </mat-header-cell >
+      <mat-cell *matCellDef="let quizset">{{quizset.percentage | number:'1.0-0'}} %</mat-cell>
+
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>    
+  </mat-table>  
+  <mat-paginator [pageSize]=10 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</mat-card>

@@ -1,0 +1,55 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>{{pageTitle }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <!-- <h1> {{pageTitle}}</h1> -->
+      <!-- <mat-form-field>
+        <mat-placeholder>
+          <mat-icon>subject</mat-icon>
+          <b> Filter</b>
+        </mat-placeholder>
+        <input matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field> -->
+      <span class="title-spacer"></span>
+      <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/lessonAssign']">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let userLesson"> {{userLesson.users.firstName}} {{userLesson.users.lastName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lessonName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Lesson Name </mat-header-cell>
+        <mat-cell *matCellDef="let userLesson"> {{userLesson.lesson.lesson_name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="assignedBy">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned By </mat-header-cell>
+        <mat-cell *matCellDef="let userLesson"> {{userLesson.assignByUser.firstName}} {{userLesson.assignByUser.lastName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let userLesson">
+          <!-- <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;">
+            <mat-icon>edit</mat-icon>
+          </button> -->
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]=10 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>

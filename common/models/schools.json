@@ -1,0 +1,60 @@
+{
+  "name": "schools",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "country_id": {
+      "type": "number",
+      "required": true
+    },
+    "school_name": {
+      "type": "string",
+      "required": true
+    },
+    "school_code": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "school_logo": {
+      "type":"string"
+    },
+    "publish_status": {
+      "type": "number"
+    },
+    "status": {
+      "type": "number",
+      "required": true
+    },
+    "created_on": {
+      "type": "date"
+    },
+    "modified_on": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "schoolCountry": {
+      "type": "belongsTo",
+      "model": "countries",
+      "foreignKey": "country_id"
+    },
+    "user_data": {
+      "type": "hasMany",
+      "model": "user_data",
+      "foreignKey": "school_id"
+    },
+    "quiz_set_schools": {
+      "type": "hasMany",
+      "model": "quiz_set_schools",
+      "foreignKey": "school_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

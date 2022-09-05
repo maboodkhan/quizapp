@@ -1,0 +1,48 @@
+{
+  "name": "coupon_users",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "school_id": {
+      "type": "number",
+      "required": false
+    },
+    "user_id": {
+      "type": "number",
+      "required": false
+    },
+    "coupon_id": {
+      "type": "number",
+      "required": false
+    },
+    "email": {
+      "type": "String",
+      "required": false
+    },
+    "phone": {
+      "type": "String",
+      "required": false
+    },
+    "couponCode": {
+      "type": "String",
+      "required": true
+    },
+    "noOfAttempt": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "coupon_detail": {
+      "type": "belongsTo",
+      "model": "coupons",
+      "foreignKey": "coupon_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

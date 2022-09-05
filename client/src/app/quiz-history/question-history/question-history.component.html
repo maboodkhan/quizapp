@@ -1,0 +1,100 @@
+<mat-toolbar-row *ngIf="isDashboard && !postTest">
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/section_dashboard', school_id, class_id[0]]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/quiz_dashboard', school_id, class_id[0], section_id[0]]" 
+    [queryParams]="{tabType:1}">{{set_name}} </a>
+    / Quiz Questions
+  </p>  
+</mat-toolbar-row>
+<mat-toolbar-row *ngIf="isDashboard && postTest">
+  <p>
+    <a style="text-decoration:none" [routerLink]="['/dashboard']" [queryParams]="{tabType:1}"> {{school_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_class_dashboard', school_id]"> {{class_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_section_dashboard', school_id, class_id[0]]">Section {{section_name}} </a> /
+    <a style="text-decoration:none" [routerLink]="['/post_quiz_dashboard', school_id, class_id[0], section_id[0]]" 
+    [queryParams]="{tabType:1}">{{set_name}} </a>
+    / Quiz Questions
+  </p>  
+</mat-toolbar-row>
+
+<mat-card>
+  <mat-card-header>
+      <mat-card-title class="view-card-title">
+          <h1>{{pageTitle}}</h1>
+      </mat-card-title>
+      <span class="title-spacer"></span>
+      <div *ngIf="isDashboard && !postTest">
+        <button mat-raised-button [ngClass]="{btn:true}" [routerLink]="['/topic_dashboard', school_id, class_id[0], section_id[0], setId]">Topic Wise Report</button>
+      </div>
+      <div *ngIf="isDashboard && postTest">
+        <button mat-raised-button [ngClass]="{btn:true}" [routerLink]="['/post_topic_dashboard', school_id, class_id[0], section_id[0], setId]">Topic Wise Report</button>
+      </div>
+      
+  </mat-card-header>
+
+  <mat-toolbar>
+      <mat-toolbar-row>
+        <div>
+          <mat-form-field>
+            <mat-label>Select Class</mat-label>
+            <mat-select id="class_id" [(ngModel)]="filterClassId" (selectionChange)="changeClass($event.value)" multiple>
+              <mat-option *ngFor="let class of classArr" [value]="class.id" >
+                {{class.class_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Select Section</mat-label>
+            <mat-select id="section_id" [(ngModel)]="filterSectionId" (selectionChange)="changeSection($event.value)" multiple>
+              <mat-option *ngFor="let section of sectionArr" [value]="section.section_id">
+                {{section.class_name}} -> {{section.section_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- <div  *ngIf="!isDashboard">
+          <div *ngFor="let section of sectionArr" [value]="section.section_id">
+
+          </div>
+          <label for=""></label>
+        </div> -->
+        
+        <span class="title-spacer"></span>    
+        <button  *ngIf="!isDashboard" mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/quizSetHistory',setId]" queryParamsHandling="preserve">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <button  *ngIf="isDashboard && !postTest" mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/quiz_dashboard', school_id, class_id[0], section_id[0]]" 
+        [queryParams]="{tabType:1}">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        
+        <button  *ngIf="isDashboard && postTest" mat-mini-fab class="" style="margin-right:10px; " [routerLink]="['/post_quiz_dashboard', school_id, class_id[0], section_id[0]]" 
+        [queryParams]="{tabType:1}">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  <mat-card-content>                
+    <!-- <mat-card-content> -->
+      <div *ngIf="message != ''" [ngClass]="{'error-message': true}">
+        <div [ngClass]="{'text-message': true}">
+          {{message}}
+        </div>
+      </div>
+    <div class="form-card"> 
+        <div *ngFor="let question of quizData; let i=index;">          
+            <b>Question {{i+1}}:</b> <app-ques-data [question]="question"></app-ques-data>              
+            <app-ques-chart-data [questionId]="question.question_id" [quesData]="quizValues"></app-ques-chart-data>
+        </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<script>
+var elem = document.getElementsByTagName("annotation");
+elem.remove();
+</script>

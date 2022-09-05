@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-toolbar-row>
+    <p>
+      <a style="text-decoration:none" [routerLink]="['/dashboard']"> {{school_name}} </a> /
+      <a style="text-decoration:none" [routerLink]="['/class_dashboard', school_id]"> {{class_name}} </a>
+      / Sections
+    </p>
+    
+    <!-- <p style="font-size: 15px; color: green;">{{school_name}} >> {{class_name}}</p> -->
+  </mat-toolbar-row>
+
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <h1>{{class_name}} - Section Wise Performance</h1>
+      <!-- <h1 *ngIf="!heading">{{class_name}} - Section Performance</h1> -->
+      <span class="title-spacer"></span>
+      <button mat-mini-fab class="" style="margin-right:10px;" [routerLink]="['/class_dashboard', school_id]"
+        queryParamsHandling="preserve">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-grid-list [cols]="sectionLength" [rowHeight]="rowHeight" style="text-align: center;" *ngIf="sectionList">
+    <mat-grid-tile *ngFor="let section of sectionList">
+      <mat-grid-tile-header>
+        Section {{section.class_section.section_name}}
+      </mat-grid-tile-header>
+
+      <app-quiz-chart
+        [chartData]="{school_id: school_id,class_id : class_id, section_id: section.id, chartSize: sectionLength}">
+      </app-quiz-chart>
+
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
+
+  <mat-paginator #paginator [length]="total_section" [pageSize]="limit" [pageSizeOptions]="[12, 18, 24]"
+    showFirstLastButtons>
+  </mat-paginator>
+</mat-card>
